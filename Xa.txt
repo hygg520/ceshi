@@ -19,9 +19,9 @@ local LocalPlayer = Players.LocalPlayer
 local Camera = workspace.CurrentCamera
 local Mouse = LocalPlayer:GetMouse()
 
-local ESPLibrary = loadstring(game:HttpGet("https://raw.githubusercontent.com/Xingtaiduan/Script/refs/heads/main/ESPLibrary.lua"))()
-local UI = loadstring(game:HttpGet("https://raw.githubusercontent.com/Xingtaiduan/Script/refs/heads/main/Library/Lua_Ware.lua"))()
-local Notify = loadstring(game:HttpGet("https://raw.githubusercontent.com/Xingtaiduan/Script/refs/heads/main/Library/Notification.lua"))()
+local ESPLibrary = loadstring(game:HttpGet("https://raw.githubusercontent.com/hygg520/ceshi/refs/heads/main/Xa-ESP.lua"))()
+local UI = loadstring(game:HttpGet("https://raw.githubusercontent.com/hygg520/ceshi/refs/heads/main/Xa-UI.lua"))()
+local Notify = loadstring(game:HttpGet("https://raw.githubusercontent.com/hygg520/ceshi/refs/heads/main/Xa-通知.lua"))()
 
 local flags = UI.flags
 local connections = {}
