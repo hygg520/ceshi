@@ -1,4 +1,43 @@
-local httpService = game:GetService("HttpService") local players = game:GetService("Players") local coreGui = game:GetService("CoreGui") local lighting = game:GetService("Lighting") local starterGui = game:GetService("StarterGui") local runService = game:GetService("RunService") local virtualUser = game:GetService("VirtualUser") local soundService = game:GetService("SoundService") local tweenService = game:GetService("TweenService") local teleportService = game:GetService("TeleportService") local textChatService = game:GetService("TextChatService") local userInputService = game:GetService("UserInputService") local replicatedStorage = game:GetService("ReplicatedStorage") local marketplaceService = game:GetService("MarketplaceService") local proximityPromptService = game:GetService("ProximityPromptService") local statsService = game:GetService("Stats") local AUTH = { XAHub = { ver = "Alpha-3.3.9", status = "working" }, Whitelist = { status = false } } if not game:IsLoaded() then game.Loaded:Wait() end if not isfolder("XA-Hub") then makefolder("XA-Hub") end if not isfolder("XA-Hub/Music") then makefolder("XA-Hub/Music") end if not TimeStart then TimeStart = tick() end local espLibrary = loadstring([==[
+local httpService = game:GetService("HttpService")
+local players = game:GetService("Players")
+local coreGui = game:GetService("CoreGui")
+local lighting = game:GetService("Lighting")
+local starterGui = game:GetService("StarterGui")
+local runService = game:GetService("RunService")
+local virtualUser = game:GetService("VirtualUser")
+local soundService = game:GetService("SoundService")
+local tweenService = game:GetService("TweenService")
+local teleportService = game:GetService("TeleportService")
+local textChatService = game:GetService("TextChatService")
+local userInputService = game:GetService("UserInputService")
+local replicatedStorage = game:GetService("ReplicatedStorage")
+local marketplaceService = game:GetService("MarketplaceService")
+local proximityPromptService = game:GetService("ProximityPromptService")
+local statsService = game:GetService("Stats")
+
+-- === 内嵌认证（原 httpGet 改为直接 table） ===
+local AUTH = {
+    XAHub = { ver = "Alpha-3.3.9", status = "working" },
+    Whitelist = { status = false }
+}
+
+if not game:IsLoaded() then
+    game.Loaded:Wait()
+end
+if not isfolder("XA-Hub") then
+    makefolder("XA-Hub")
+end
+if not isfolder("XA-Hub/Music") then
+    makefolder("XA-Hub/Music")
+end
+if not TimeStart then
+    TimeStart = tick()
+end
+
+-- ============================================================
+-- ============ 内嵌 ESPLibrary ============
+-- ============================================================
+local espLibrary = loadstring([==[
 if getgenv().ESPLibrary then
     return getgenv().ESPLibrary
 end
@@ -263,7 +302,12 @@ end))
 
 getgenv().ESPLibrary = Library
 return Library
-]==])() local luaWare = loadstring([==[
+]==])()
+
+-- ============================================================
+-- ============ 内嵌 Lua_Ware ============
+-- ============================================================
+local luaWare = loadstring([==[
 repeat task.wait() until game:IsLoaded()
 local Library = {}
 Library.currentTab = nil
@@ -1217,7 +1261,14 @@ function Library.new(Library, name)
     return window
 end
 return Library
-]==])() local flags = luaWare.flags local notification = loadstring([==[
+]==])()
+
+local flags = luaWare.flags
+
+-- ============================================================
+-- ============ 内嵌 Notification ============
+-- ============================================================
+local notification = loadstring([==[
 local gethui = gethui or function()
     return cloneref(game:GetService("CoreGui"))
 end
@@ -1387,7 +1438,12 @@ end
 
 getgenv().notify = notify
 return notify
-]==])() local esp = loadstring([==[
+]==])()
+
+-- ============================================================
+-- ============ 内嵌 ESP（你给的第4个文件） ============
+-- ============================================================
+local esp = loadstring([==[
 local Players = game:GetService("Players")
 local RunService = game:GetService("RunService")
 local localPlayer = Players.LocalPlayer
@@ -1587,4 +1643,24 @@ end)
 RunService.RenderStepped:Connect(updateEsp)
 
 return ESP_SETTINGS
-]==])() local v1 = cloneref(players) local v2 = cloneref(coreGui) local v3 = cloneref(lighting) local v4 = cloneref(starterGui) local v5 = cloneref(runService) local v6 = cloneref(virtualUser) local v7 = cloneref(httpService) local v8 = cloneref(soundService) cloneref(tweenService) local v9 = cloneref(teleportService) local v10 = cloneref(textChatService) local v11 = cloneref(userInputService) local v12 = cloneref(replicatedStorage) local v13 = cloneref(marketplaceService) local v14 = cloneref(proximityPromptService)
+]==])()
+
+-- ============================================================
+-- ============ 库内嵌结束，下面继续原脚本剩余部分 ============
+-- ============================================================
+
+local v1 = cloneref(players)
+local v2 = cloneref(coreGui)
+local v3 = cloneref(lighting)
+local v4 = cloneref(starterGui)
+local v5 = cloneref(runService)
+local v6 = cloneref(virtualUser)
+local v7 = cloneref(httpService)
+local v8 = cloneref(soundService)
+cloneref(tweenService)
+local v9 = cloneref(teleportService)
+local v10 = cloneref(textChatService)
+local v11 = cloneref(userInputService)
+local v12 = cloneref(replicatedStorage)
+local v13 = cloneref(marketplaceService)
+local v14 = cloneref(proximityPromptService)
