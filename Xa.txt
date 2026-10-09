@@ -1,1 +1,1590 @@
-local httpService = game:GetService("HttpService") local players = game:GetService("Players") local coreGui = game:GetService("CoreGui") local lighting = game:GetService("Lighting") local starterGui = game:GetService("StarterGui") local runService = game:GetService("RunService") local virtualUser = game:GetService("VirtualUser") local soundService = game:GetService("SoundService") local tweenService = game:GetService("TweenService") local teleportService = game:GetService("TeleportService") local textChatService = game:GetService("TextChatService") local userInputService = game:GetService("UserInputService") local replicatedStorage = game:GetService("ReplicatedStorage") local marketplaceService = game:GetService("MarketplaceService") local proximityPromptService = game:GetService("ProximityPromptService") local statsService = game:GetService("Stats") httpService:JSONDecode(game:HttpGet("https://raw.githubusercontent.com/IlIlIlIlIlIlIlIlIlIlIlIlIlIlIlIl/Script/main/Authentication.json")) if not game:IsLoaded() then game.Loaded:Wait() end if not isfolder("XA-Hub") then makefolder("XA-Hub") end if not isfolder("XA-Hub/Music") then makefolder("XA-Hub/Music") end if not TimeStart then TimeStart = tick() end local espLibrary = loadstring(game:HttpGet("https://raw.githubusercontent.com/tbhhhhh/Script/refs/heads/main/ESPLibrary.lua"))() local luaWare = loadstring(game:HttpGet("https://raw.githubusercontent.com/tbhhhhh/Script/refs/heads/main/Library/Lua_Ware.lua"))() local flags = luaWare.flags local notification = loadstring(game:HttpGet("https://raw.githubusercontent.com/tbhhhhh/Script/refs/heads/main/Library/Notification.lua"))() local esp = loadstring(game:HttpGet("https://raw.githubusercontent.com/tbhhhhh/Script/main/ESP.lua"))() local v1 = cloneref(players) local v2 = cloneref(coreGui) local v3 = cloneref(lighting) local v4 = cloneref(starterGui) local v5 = cloneref(runService) local v6 = cloneref(virtualUser) local v7 = cloneref(httpService) local v8 = cloneref(soundService) cloneref(tweenService) local v9 = cloneref(teleportService) local v10 = cloneref(textChatService) local v11 = cloneref(userInputService) local v12 = cloneref(replicatedStorage) local v13 = cloneref(marketplaceService) local v14 = cloneref(proximityPromptService) local localPlayer = v1.LocalPlayer local character = localPlayer.Character local humanoid if character then humanoid = character:WaitForChild("Humanoid") else humanoid = character end local humanoidRootPart if character then humanoidRootPart = character:WaitForChild("HumanoidRootPart") else humanoidRootPart = character end local getMouse = localPlayer:GetMouse() local currentCamera = workspace.CurrentCamera local v15, v16 = pcall(function() return v13:GetProductInfo(game.PlaceId).Name end) local v17 = not v15 and "无法获取" or v16 local bindableFunction = Instance.new("BindableFunction") local v18 = "用户名(UserName)" local v19 = {} local v20 = "后" local v21 = 0 local v22 = 0.5 local v23 = false local v24 = { Size = 15, Transparency = 0.8, TeamCheck = false, FriendCheck = false, Color = Color3.fromRGB(0, 0, 0), Collide = false, } local v25 = {} local v26 = {} local function f1(p1) local model = p1:IsA("Humanoid") and p1.Parent and p1.Parent:IsA("Model") if model then model = not v1:GetPlayerFromCharacter(p1.Parent) end return model end task.spawn(function() local v27, v28, v29 = pairs(workspace:GetDescendants()) while true do local v30 v29, v30 = v27(v28, v29) if v29 == nil then break elseif f1(v30) then v26[v30.Parent] = true end end end) workspace.DescendantAdded:Connect(function(descendant) if f1(descendant) then v26[descendant.Parent] = true end end) workspace.DescendantRemoving:Connect(function(descendant2) if descendant2:IsA("Humanoid") then v26[descendant2.Parent] = nil end end) local v31 = false local character2 if not localPlayer.Character then local v32 = tick() if not localPlayer.Character then tick() end repeat task.wait() character2 = localPlayer.Character or tick() - v32 > 5 until character2 if localPlayer.Character then character = localPlayer.Character humanoid = character:WaitForChild("Humanoid") humanoidRootPart = character:WaitForChild("HumanoidRootPart") else v4:SetCore("SendNotification", { Title = "XA：提示", Text = "等待角色加载超时，是否继续等待？", Duration = 10, Button1 = "是", Button2 = "否", Callback = bindableFunction, }) function bindableFunction.OnInvoke(p2) if p2 == "是" then character = localPlayer.Character or localPlayer.CharacterAdded:Wait() humanoid = character:WaitForChild("Humanoid") humanoidRootPart = character:WaitForChild("HumanoidRootPart") elseif not humanoid then humanoid = Instance.new("Humanoid") end v31 = true end end repeat task.wait() until v31 end local v33 local function f2() v33 = { "All" } if v18 ~= "用户名(UserName)" then if v18 == "昵称(DisplayName)" then local v34 = next local v35, v36 = v1:GetChildren() while true do local v37 v36, v37 = v34(v35, v36) if v36 == nil then break end table.insert(v33, v37.DisplayName) end end else local v38 = next local v39, v40 = v1:GetChildren() while true do local v41 v40, v41 = v38(v39, v40) if v40 == nil then break end table.insert(v33, v41.Name) end end task.wait() table.sort(v33, function(p3, p4) return p3:lower() < p4:lower() end) end local function f3(p5, p6) local gsub = p5:gsub("%s+", "") local v42, v43, v44 = pairs(v1:GetPlayers()) while true do local v45 v44, v45 = v42(v43, v44) if v44 == nil then break end if v45.Name:lower():match("^" .. gsub:lower()) or v45.DisplayName:lower():match("^" .. gsub:lower()) then return v45 end end if not p6 then v4:SetCore("SendNotification", { Title = "XA：错误", Text = "未找到玩家" }) end return nil end local function f4() if type(v33) == "table" then notification("XA：错误", "请先选择玩家", 5) return true end if v33 == "All" or v1:FindFirstChild(v33) then return false end notification("XA：错误", "该玩家已离开", 5) return true end local function f5() local v46 = character local floatPart = Instance.new("Part") local rightLeg = v46:FindFirstChild("Right Leg") if rightLeg == nil then rightLeg = character:FindFirstChild("RightLowerLeg") end local new = Vector3.new local x = rightLeg.Position.X local y = rightLeg.Position.Y local z = rightLeg.Position.Z local position = new(x, y - 2, z) floatPart.Name = "FloatPart" floatPart.Color = Color3.new(0, 0, 0) floatPart.Material = Enum.Material.Plastic floatPart.Transparency = 1 floatPart.Position = position floatPart.Size = Vector3.new(10000000, 0.5, 10000000) floatPart.CastShadow = true floatPart.Anchored = true floatPart.CanCollide = true floatPart.Parent = workspace end f2() local function f6() local v47 = { v33 } local v48 = false local function f7(p7) local lower = p7:lower() if lower == "all" then v48 = true return else local v49 = next local v50, v51 = players:GetPlayers() while true do local v52 v51, v52 = v49(v50, v51) if v51 == nil then break elseif v52 ~= localPlayer then if v52.Name:lower():match("^" .. lower) then return v52 end if v52.DisplayName:lower():match("^" .. lower) then return v52 end end end return end end local function f8(title, text, duration) starterGui:SetCore("SendNotification", { Title = title, Text = text, Duration = duration }) end local function f9(p8) local character3 = localPlayer.Character local humanoid2 if character3 then humanoid2 = character3:FindFirstChildOfClass("Humanoid") else humanoid2 = character3 end local rootPart if humanoid2 then rootPart = humanoid2.RootPart else rootPart = humanoid2 end local character4 = p8.Character local humanoid3 if character4:FindFirstChildOfClass("Humanoid") then humanoid3 = character4:FindFirstChildOfClass("Humanoid") else humanoid3 = nil end local rootPart2 if humanoid3 and humanoid3.RootPart then rootPart2 = humanoid3.RootPart end local head if character4:FindFirstChild("Head") then head = character4.Head end local accessory if character4:FindFirstChildOfClass("Accessory") then accessory = character4:FindFirstChildOfClass("Accessory") end local accessoy = Accessoy local handle if accessoy and accessory:FindFirstChild("Handle") then handle = accessory.Handle end local v53 = character3 and humanoid2 and rootPart local magnitude, f10 if v53 then if rootPart.Velocity.Magnitude < 50 then getgenv().OldPos = rootPart.CFrame end if humanoid3 and humanoid3.Sit and not v48 then return f8("错误", "目标正在坐着", 5) end if head then currentCamera.CameraSubject = head elseif head or not handle then if humanoid3 and rootPart2 then currentCamera.CameraSubject = humanoid3 end else currentCamera.CameraSubject = handle end if not character4:FindFirstChildWhichIsA("BasePart") then return else function f10(p9, p10, p11) rootPart.CFrame = CFrame.new(p9.Position) * p10 * p11 character3:SetPrimaryPartCFrame(CFrame.new(p9.Position) * p10 * p11) rootPart.Velocity = Vector3.new(90000000, 900000000, 90000000) rootPart.RotVelocity = Vector3.new(900000000, 900000000, 900000000) end local function f11(p12) local v54 = tick() local total = 0 while rootPart and humanoid3 do if p12.Velocity.Magnitude >= 50 then f10( p12, CFrame.new(0, 1.5, humanoid3.WalkSpeed), CFrame.Angles(math.rad(90), 0, 0) ) task.wait() f10(p12, CFrame.new(0, -1.5, -humanoid3.WalkSpeed), CFrame.Angles(0, 0, 0)) task.wait() f10( p12, CFrame.new(0, 1.5, humanoid3.WalkSpeed), CFrame.Angles(math.rad(90), 0, 0) ) task.wait() f10( p12, CFrame.new(0, 1.5, rootPart2.Velocity.Magnitude / 1.25), CFrame.Angles(math.rad(90), 0, 0) ) task.wait() f10( p12, CFrame.new(0, -1.5, -rootPart2.Velocity.Magnitude / 1.25), CFrame.Angles(0, 0, 0) ) task.wait() f10( p12, CFrame.new(0, 1.5, rootPart2.Velocity.Magnitude / 1.25), CFrame.Angles(math.rad(90), 0, 0) ) task.wait() f10(p12, CFrame.new(0, -1.5, 0), CFrame.Angles(math.rad(90), 0, 0)) task.wait() f10(p12, CFrame.new(0, -1.5, 0), CFrame.Angles(0, 0, 0)) task.wait() f10(p12, CFrame.new(0, -1.5, 0), CFrame.Angles(math.rad(-90), 0, 0)) task.wait() f10(p12, CFrame.new(0, -1.5, 0), CFrame.Angles(0, 0, 0)) task.wait() else total = total + 100 f10( p12, CFrame.new(0, 1.5, 0) + humanoid3.MoveDirection * p12.Velocity.Magnitude / 1.25, CFrame.Angles(math.rad(total), 0, 0) ) task.wait() f10(p12, CFrame.new(0, -1.5, 0) + humanoid3.MoveDirection * p12.Velocity.Magnitude / 1.25, CFrame.Angles(math.rad(total), 0, 0)) task.wait() f10(p12, CFrame.new(2.25, 1.5, -2.25) + humanoid3.MoveDirection * p12.Velocity.Magnitude / 1.25, CFrame.Angles(math.rad(total), 0, 0)) task.wait() f10(p12, CFrame.new(-2.25, -1.5, 2.25) + humanoid3.MoveDirection * p12.Velocity.Magnitude / 1.25, CFrame.Angles(math.rad(total), 0, 0)) task.wait() f10( p12, CFrame.new(0, 1.5, 0) + humanoid3.MoveDirection, CFrame.Angles(math.rad(total), 0, 0) ) task.wait() f10( p12, CFrame.new(0, -1.5, 0) + humanoid3.MoveDirection, CFrame.Angles(math.rad(total), 0, 0) ) task.wait() end if p12.Velocity.Magnitude > 500 or p12.Parent ~= p8.Character or p8.Parent ~= players or not p8.Character == character4 or humanoid3.Sit or humanoid2.Health <= 0 or tick() > v54 + 2 then break end end end workspace.FallenPartsDestroyHeight = (0 / 0) local epixVel = Instance.new("BodyVelocity") epixVel.Name = "EpixVel" epixVel.Parent = rootPart epixVel.Velocity = Vector3.new(900000000, 900000000, 900000000) epixVel.MaxForce = Vector3.new(math.huge, math.huge, math.huge) humanoid2:SetStateEnabled(Enum.HumanoidStateType.Seated, false) if rootPart2 and head then if (rootPart2.CFrame.p - head.CFrame.p).Magnitude <= 5 then f11(rootPart2) else f11(head) end epixVel:Destroy() humanoid2:SetStateEnabled(Enum.HumanoidStateType.Seated, true) currentCamera.CameraSubject = humanoid2 magnitude = (rootPart.Position - getgenv().OldPos.p).Magnitude repeat rootPart.CFrame = getgenv().OldPos * CFrame.new(0, 0.5, 0) character3:SetPrimaryPartCFrame(getgenv().OldPos * CFrame.new(0, 0.5, 0)) humanoid2:ChangeState("GettingUp") table.foreach(character3:GetChildren(), function(p13, p14) if p14:IsA("BasePart") then local vector = Vector3.new() p14.RotVelocity = Vector3.new() p14.Velocity = vector end end) task.wait() until (rootPart.Position - getgenv().OldPos.p).Magnitude < 25 workspace.FallenPartsDestroyHeight = getgenv().FPDH return end if rootPart2 and not head then f11(rootPart2) epixVel:Destroy() humanoid2:SetStateEnabled(Enum.HumanoidStateType.Seated, true) currentCamera.CameraSubject = humanoid2 magnitude = (rootPart.Position - getgenv().OldPos.p).Magnitude repeat rootPart.CFrame = getgenv().OldPos * CFrame.new(0, 0.5, 0) character3:SetPrimaryPartCFrame(getgenv().OldPos * CFrame.new(0, 0.5, 0)) humanoid2:ChangeState("GettingUp") table.foreach(character3:GetChildren(), function(p15, p16) if p16:IsA("BasePart") then local vector2 = Vector3.new() p16.RotVelocity = Vector3.new() p16.Velocity = vector2 end end) task.wait() until (rootPart.Position - getgenv().OldPos.p).Magnitude < 25 workspace.FallenPartsDestroyHeight = getgenv().FPDH return end if rootPart2 or not head then if rootPart2 or head or not (accessory and handle) then return f8("错误", "目标没有任何部位", 5) end f11(handle) epixVel:Destroy() humanoid2:SetStateEnabled(Enum.HumanoidStateType.Seated, true) currentCamera.CameraSubject = humanoid2 magnitude = (rootPart.Position - getgenv().OldPos.p).Magnitude repeat rootPart.CFrame = getgenv().OldPos * CFrame.new(0, 0.5, 0) character3:SetPrimaryPartCFrame(getgenv().OldPos * CFrame.new(0, 0.5, 0)) humanoid2:ChangeState("GettingUp") table.foreach(character3:GetChildren(), function(p17, p18) if p18:IsA("BasePart") then local vector3 = Vector3.new() p18.RotVelocity = Vector3.new() p18.Velocity = vector3 end end) task.wait() until (rootPart.Position - getgenv().OldPos.p).Magnitude < 25 workspace.FallenPartsDestroyHeight = getgenv().FPDH return end f11(head) epixVel:Destroy() humanoid2:SetStateEnabled(Enum.HumanoidStateType.Seated, true) currentCamera.CameraSubject = humanoid2 magnitude = (rootPart.Position - getgenv().OldPos.p).Magnitude repeat rootPart.CFrame = getgenv().OldPos * CFrame.new(0, 0.5, 0) character3:SetPrimaryPartCFrame(getgenv().OldPos * CFrame.new(0, 0.5, 0)) humanoid2:ChangeState("GettingUp") table.foreach(character3:GetChildren(), function(p19, p20) if p20:IsA("BasePart") then local vector4 = Vector3.new() p20.RotVelocity = Vector3.new() p20.Velocity = vector4 end end) task.wait() until (rootPart.Position - getgenv().OldPos.p).Magnitude < 25 workspace.FallenPartsDestroyHeight = getgenv().FPDH return end else return end end if v47[1] then local v55 = next local v56 = v48 local v57 = nil while true do local v58 v57, v58 = v55(v47, v57) if v57 == nil then break end f7(v58) end if v56 then local v59 = next local v60, v61 = players:GetPlayers() while true do local v62 v61, v62 = v59(v60, v61) if v61 == nil then break end f9(v62) end end local v63 = next local v64 = nil while true do local v65 v64, v65 = v63(v47, v64) if v64 == nil then break end if f7(v65) and f7(v65) ~= localPlayer then if f7(v65).UserId == 2235257491 then f8("错误", "该用户是作者", 5) else local v66 = f7(v65) if v66 then f9(v66) end end elseif not (f7(v65) or v56) then f8("错误", "用户名无效", 5) end end return true end end local f12 local function f13(p21, p22, p23) local name = p22 if not (p23 or name) then local gsub2 = p21:gsub("rbxassetid://", "") name = not pcall(function() name = v13:GetProductInfo(gsub2).Name end) and "无法获取名称" or name end local sound = Instance.new("Sound") sound.Name = name sound.SoundId = p21 sound.Volume = MusicVolume or 0.5 sound.Parent = v8 sound:Play() sound.Ended:Connect(function() sound:Destroy() end) sound.Loaded:Connect(function() v25.Self = sound local name2 = sound.Name v25.Name.Text = "当前正在播放：" .. name2:gsub(".mp3", "") notification("XA：提示", "当前正在播放音乐：" .. name:gsub(".mp3", "") .. "\n时长：" .. f12(sound.TimeLength), 5) end) end function f12(p24) local v67 = math.floor(p24 / 60) return string.format("%02d:%02d", v67, p24 % 60) end local function f14(p25, p26) local v68, v69 = pcall(function() return game:HttpGet(p25) end) if v68 then writefile("XA-Hub/Music/" .. p26, v69) task.wait() f13(getcustomasset("XA-Hub/Music/" .. p26), p26, true) else notification("XA：错误", "请求并未成功\n原因：" .. v69, 5) end end local function f15() character.Animate.Disabled = false local v70, v71, v72 = pairs((humanoid:GetPlayingAnimationTracks())) while true do local v73 v72, v73 = v70(v71, v72) if v72 == nil then break end v73:Stop() end end local function f16(p27) if v24.TeamCheck and p27.Team == localPlayer.Team then return false end return not (v24.FriendCheck and localPlayer:IsFriendsWith(p27.UserId)) end local cframe local function f17() task.spawn(function() if character:FindFirstChildOfClass("Humanoid") then character.Humanoid.Died:Connect(function() if character:FindFirstChild("HumanoidRootPart") then cframe = humanoidRootPart.CFrame end end) else wait(2) f17() end end) end f17() local function f18(p28, p29, p30) assert(p28, "没有消息") if p29 and p30 then local chatBar = localPlayer.PlayerGui.Chat.Frame.ChatBarParentFrame.Frame.BoxFrame.Frame.ChatBar chatBar:SetTextFromInput(p28, v6:CaptureController()) v6:TypeKey("0x0D", chatBar:CaptureFocus()) elseif p29 and not p30 then if v10:FindFirstChild("TextChannels") then v10.TextChannels.RBXGeneral:SendAsync(p28) else v12.DefaultChatSystemChatEvents.SayMessageRequest:FireServer(p28, "All") end elseif not p29 and p30 then v1:Chat(p28) end end local circle = Drawing.new("Circle") circle.Thickness = 2 circle.Color = Color3.fromRGB(255, 255, 255) circle.Filled = false circle.Radius = 60 circle.Position = currentCamera.ViewportSize / 2 circle.Visible = false local screenGui = Instance.new("ScreenGui") screenGui.Parent = v2 local frame = Instance.new("Frame") frame.Parent = screenGui frame.BackgroundColor3 = Color3.fromRGB(85, 170, 255) frame.Size = UDim2.new(0, 15, 0, 15) frame.Visible = false local uiCorner = Instance.new("UICorner") uiCorner.Parent = frame uiCorner.CornerRadius = UDim.new(0, 10) local uiStroke = Instance.new("UIStroke") uiStroke.Parent = frame uiStroke.Thickness = 1.5 uiStroke.Color = Color3.fromRGB(255, 255, 255) local line = Drawing.new("Line") line.Color = Color3.new(1, 1, 1) line.Thickness = 2 line.Visible = false local line2 = Drawing.new("Line") line2.Color = Color3.new(1, 1, 1) line2.Thickness = 2 line2.Visible = false local function f19() local vector5 = Vector2.new( currentCamera.ViewportSize.X / 2, currentCamera.ViewportSize.Y / 2 ) line.From = Vector2.new(vector5.X - 10, vector5.Y) line.To = Vector2.new(vector5.X + 10, vector5.Y) line2.From = Vector2.new(vector5.X, vector5.Y - 10) line2.To = Vector2.new(vector5.X, vector5.Y + 10) end f19() currentCamera:GetPropertyChangedSignal("ViewportSize"):Connect(function() f19() end) local v74 = { Enabled = false, Mode = "准星", LockMethod = "相机", AimPart = "Head", TeamCheck = false, WallCheck = false, AliveCheck = false, MaxDistance = 400, Smoothness = 0.6, Prediction = 0.165, Targets = { Players = false, NPCs = false }, } local v75 = { Enabled = false, Method = "Raycast", HitChance = 100, Wallbang = false, ShowTarget = false, } local function f20(p31) if p31 then local v76 = p31.Position + p31.AssemblyLinearVelocity * v74.Prediction if v74.LockMethod ~= "鼠标" then local cframe2 = CFrame.new(currentCamera.CFrame.Position, v76) if v74.Smoothness <= 0 then currentCamera.CFrame = cframe2 else currentCamera.CFrame = currentCamera.CFrame:Lerp(cframe2, v74.Smoothness) end else local getMouseLocation = v11:GetMouseLocation() local worldToViewportPoint = currentCamera:WorldToViewportPoint(v76) local v77 = Vector2.new(worldToViewportPoint.X, worldToViewportPoint.Y) - Vector2.new(getMouseLocation.X, getMouseLocation.Y) mousemoverel(v77.X * v74.Smoothness, v77.Y * v74.Smoothness) end end end local function f21(p32, p33) if not v74.WallCheck then return true else local p = currentCamera.CFrame.p return workspace:FindPartOnRayWithIgnoreList(Ray.new(p, p32.Position - p), p33) == nil end end local function f22() local huge = math.huge local v78 local function f23(p34) if p34 then local findFirstChild = p34:FindFirstChild(v74.AimPart) if findFirstChild and (humanoidRootPart.Position - findFirstChild.Position).Magnitude < v74.MaxDistance and (not v74.AliveCheck or p34:FindFirstChildOfClass("Humanoid").Health > 0) then local v79, v80 = currentCamera:WorldToViewportPoint(findFirstChild.Position) local v81 = (v74.Mode == "准星" and currentCamera.ViewportSize / 2 or v11:GetMouseLocation()) - Vector2.new(v79.X, v79.Y) local v82 = v80 local magnitude2 = v81.Magnitude if v80 then v82 = magnitude2 < huge and magnitude2 <= circle.Radius and f21(findFirstChild, { character, p34 }) end if v82 then v78 = findFirstChild huge = magnitude2 end end end end if v74.Targets.Players then local v83, v84, v85 = pairs(v1:GetPlayers()) while true do local v86 v85, v86 = v83(v84, v85) if v85 == nil then break end if v86 ~= localPlayer and (not v74.TeamCheck or v86.Team ~= localPlayer.Team) then f23(v86.Character) end end end if v74.Targets.NPCs then for key, value in pairs(v26) do f23(key) end end return v78 end local v87 v5.RenderStepped:Connect(function() v87 = f22() if v74.Enabled then f20(v87) end if circle.Visible then if v74.Mode ~= "准星" then circle.Position = v11:GetMouseLocation() else circle.Position = currentCamera.ViewportSize / 2 end end if v75.ShowTarget then if not v87 then frame.Visible = false return end local v88, v89 = currentCamera:WorldToScreenPoint(v87.Position) if v89 then frame.Position = UDim2.new( 0, v88.X - frame.AbsoluteSize.X / 2, 0, v88.Y - frame.AbsoluteSize.Y / 2 - 10 ) frame.Visible = true else frame.Visible = false end return end end) local function f24(p35) return p35:sub(1, 1):upper() .. p35:sub(2) end function v75.Init() local raycastParams = RaycastParams.new() raycastParams.FilterType = Enum.RaycastFilterType.Include local v90 v90 = hookmetamethod(game, "__namecall", newcclosure(function(p36, ...) local v91 = { ... } local v92 = f24(getnamecallmethod()) if not checkcaller() and v75.Enabled and v75.Method == v92 and math.random(1, 100) <= v75.HitChance then getcallingscript() if p36 == workspace and v92 == "Raycast" then local v93 = v91[1] local magnitude3 = flags.RayLength == "1000" and 1000 or v91[2].Magnitude if v87 then v91[2] = (v87.Position - v93).Unit * magnitude3 end if v75.Wallbang then raycastParams.FilterDescendantsInstances = { v87 } v91[3] = raycastParams end return v90(p36, unpack(v91)) end if p36 == workspace and v92:match("FindPartOnRay") then local origin = v91[1].Origin local magnitude4 = flags.RayLength == "1000" and 1000 or v91[1].Direction.Magnitude if v87 then v91[1] = Ray.new(origin, (v87.Position - origin).Unit * magnitude4) end if not v75.Wallbang then return v90(p36, unpack(v91)) end return workspace:FindPartOnRayWithWhitelist(v91[1], { v87 }) end if p36 == currentCamera and v92:match("PointToRay") then local v94 = getcallingscript() if table.find({ "ControlScript", "ControlModule" }, tostring(v94)) then return v90(p36, ...) else local position2 = currentCamera.CFrame.Position local unit = (v87.Position - position2).Unit return Ray.new(position2 + (v91[3] and unit * v91[3] or Vector3.zero), unit) end else return v90(p36, ...) end else return v90(p36, ...) end end)) local v95 v95 = hookmetamethod(game, "__index", newcclosure(function(p37, p38, ...) if not checkcaller() and p37 == getMouse and v75.Enabled and v75.Method == "Mouse.Hit/Target" and math.random(1, 100) <= v75.HitChance and v87 then local lower2 = p38:lower() if lower2 == "target" then return v87 end if lower2 == "hit" then return v87.CFrame + v87.Velocity * v74.Prediction end if lower2 == "x" or lower2 == "y" then return currentCamera:WorldToScreenPoint(v87.Position)[p38] end if lower2 == "unitray" then local origin2 = v95(p37, p38, ...).Origin return Ray.new(origin2, (v87.Position - origin2).Unit) end return v95(p37, p38, ...) end return v95(p37, p38, ...) end)) local v96 v96 = hookfunction(Ray.new, function(p39, p40, ...) if not checkcaller() and v75.Enabled and v75.Method == "Ray.new" and math.random(1, 100) <= v75.HitChance then getcallingscript() if v87 then local magnitude5 = flags.RayLength == "1000" and 1000 or p40.Magnitude return v96(p39, (v87.Position - p39).Unit * magnitude5) end return v96(p39, p40, ...) end return v96(p39, p40, ...) end) end local seatPart, cframe3 v5.RenderStepped:Connect(function() if flags.CurrentPlayers then local getPlayers = v1:GetPlayers() flags.CurrentPlayers.Text = "当前玩家数：" .. #getPlayers end if flags.RunTime then local v97 = math.floor(workspace.DistributedGameTime) local v98 = math.floor(workspace.DistributedGameTime / 60) local v99 = math.floor(workspace.DistributedGameTime / 60 / 60) local v100 = v97 - v98 * 60 local v101 = v98 - v99 * 60 if v99 < 1 then if v101 < 1 then flags.RunTime.Text = "运行时间：" .. v100 .. " 秒" else flags.RunTime.Text = "运行时间：" .. v101 .. " 分钟 " .. v100 .. " 秒" end else flags.RunTime.Text = "运行时间：" .. v99 .. " 小时 " .. v101 .. " 分钟 " .. v100 .. " 秒" end end if flags.CurrentPing then local ping = statsService:FindFirstChild("PerformanceStats").Ping flags.CurrentPing.Text = "延迟：" .. math.round(ping:GetValue()) end if flags.LoopSpeed and flags.LoopSpeedV then humanoid.WalkSpeed = flags.LoopSpeedV end if flags.SpeedBoost and character then character:TranslateBy(humanoid.MoveDirection * flags.SpeedBoost / 10) end if flags.LoopJump and flags.LoopJumpV then humanoid.JumpPower = flags.LoopJumpV end if flags.UseJumpPower then humanoid.UseJumpPower = true end if flags.LoopFov and flags.LoopFovV then currentCamera.FieldOfView = flags.LoopFovV end if flags.LoopTeleport then if f4() then flags.LoopTeleport = false return elseif v20 ~= "前" then if v20 ~= "后" then if v20 ~= "左" then if v20 ~= "右" then if v20 ~= "上" then if v20 == "下" then character:PivotTo(v1[v33].Character.HumanoidRootPart.CFrame * CFrame.new(0, -v21, 0)) end else character:PivotTo(v1[v33].Character.HumanoidRootPart.CFrame * CFrame.new(0, v21, 0)) end else character:PivotTo(v1[v33].Character.HumanoidRootPart.CFrame * CFrame.new(v21, 0, 0)) end else character:PivotTo(v1[v33].Character.HumanoidRootPart.CFrame * CFrame.new(-v21, 0, 0)) end else character:PivotTo(v1[v33].Character.HumanoidRootPart.CFrame * CFrame.new(0, 0, v21)) end else character:PivotTo(v1[v33].Character.HumanoidRootPart.CFrame * CFrame.new(0, 0, -v21)) end end if flags.BringPlayer then if f4() then flags.BringPlayer = false return end if v1[v33].Character.Humanoid.SeatPart then seatPart = v1[v33].Character.Humanoid.SeatPart if not v23 then v23 = true cframe3 = v1[v33].Character.Humanoid.SeatPart.CFrame end end if v20 ~= "前" then if v20 ~= "后" then if v20 ~= "左" then if v20 ~= "右" then if v20 ~= "上" then if v20 == "下" then v1[v33].Character:PivotTo(humanoidRootPart.CFrame * CFrame.new(0, -v21, 0)) end else v1[v33].Character:PivotTo(humanoidRootPart.CFrame * CFrame.new(0, v21, 0)) end else v1[v33].Character:PivotTo(humanoidRootPart.CFrame * CFrame.new(v21, 0, 0)) end else v1[v33].Character:PivotTo(humanoidRootPart.CFrame * CFrame.new(-v21, 0, 0)) end else v1[v33].Character:PivotTo(humanoidRootPart.CFrame * CFrame.new(0, 0, v21)) end else v1[v33].Character:PivotTo(humanoidRootPart.CFrame * CFrame.new(0, 0, -v21)) end end if flags.NoTouch then local v102, v103, v104 = pairs(character:GetDescendants()) while true do local v105 v104, v105 = v102(v103, v104) if v104 == nil then break elseif v105:IsA("BasePart") then v105.CanTouch = false end end end if flags.Noclip then local v106, v107, v108 = pairs(character:GetDescendants()) while true do local v109 v108, v109 = v106(v107, v108) if v108 == nil then break elseif v109:IsA("BasePart") then v109.CanCollide = false end end end if flags.Fullbright then v3.Ambient = Color3.new(1, 1, 1) end if flags.NoFog then v3.FogStart = 0 v3.FogEnd = 100000 end if v25.Self then local v110 = v25.Self v25.TimePosition.Text = "进度条：" .. f12(v110.TimePosition) .. "/" .. f12(v110.TimeLength) end end) localPlayer.CharacterAdded:Connect(function(character5) character = character5 humanoid = character:WaitForChild("Humanoid") humanoidRootPart = character:WaitForChild("HumanoidRootPart") repeat wait() until humanoidRootPart f17() if flags.AutoRespawn then task.wait(flags.ARWaitTime) character:PivotTo(cframe) currentCamera.CameraType = Enum.CameraType.Attach task.wait(0.5) currentCamera.CameraType = Enum.CameraType.Custom end end) v11.JumpRequest:Connect(function() if flags.InfiniteJump then localPlayer.Character:FindFirstChildOfClass("Humanoid"):ChangeState("Jumping") end end) local xaHub = luaWare:new("XA Hub") local tab = xaHub:Tab("通用", "6035145364") local section = tab:Section("信息", false) section:Label("您的用户名：" .. localPlayer.Name) section:Label("您的昵称：" .. localPlayer.DisplayName) section:Label("UserId：" .. localPlayer.UserId) section:Label("账号年龄：" .. localPlayer.AccountAge) section:Label("注入器名称：" .. identifyexecutor()) section:Label("注入器等级：" .. getthreadidentity()) section:Label("服务器：" .. v17) flags.CurrentPlayers = section:Label("当前玩家数：加载中") section:Label("最大玩家数：" .. v1.MaxPlayers) flags.RunTime = section:Label("运行时间：加载中") section:Label("GameId：" .. game.GameId) section:Label("PlaceId：" .. game.PlaceId) section:Label("JobId：" .. game.JobId) flags.CurrentPing = section:Label("延迟：加载中") tick() flags.CurrentPing:GetPropertyChangedSignal("Text"):Connect(function() tick() end) local section2 = tab:Section("选择玩家", false) section2:Dropdown("名称类型", "Dropdown", { "昵称(DisplayName)", "用户名(UserName)" }, 2, function(p41) v18 = p41 f2() dropdown:SetOptions(v33) v33 = v19 end) local v111 dropdown = section2:Dropdown("选择玩家", "Dropdown", v33, function(p42) local name3 = p42 if name3 == "All" then v111.Visible = true else v111.Visible = false end if v18 == "昵称(DisplayName)" then local v112 = next local v113, v114 = v1:GetChildren() while true do local v115 v114, v115 = v112(v113, v114) if v114 == nil then break elseif v115.DisplayName == name3 then name3 = v115.Name end end end v33 = name3 v19 = name3 end) section2:Button("传送", function() if not f4() then if v33 ~= "All" then character:MoveTo(v1[v33].Character.Head.Position) else local v116, v117, v118 = pairs(v1:GetPlayers()) while true do local v119 v118, v119 = v116(v117, v118) if v118 == nil then break end if v119.Character and v119.Character:FindFirstChild("Head") then character:MoveTo(v119.Character.Head.Position) task.wait(v22) end end end end end) local v120 v120, v111 = section2:Slider("传送延迟", "Slider", 0.5, 0, 5, true, function(p43) v22 = p43 end) _ = v120 v111.Visible = false section2:Button("甩飞", function() if not f4() then f6() end end) section2:Toggle("循环甩飞", "LoopFling", false, function(p44) if p44 then if f4() then return end while f6() == true and flags.LoopFling do task.wait(0.5) end return end end) section2:Toggle("锁定传送玩家", "LoopTeleport", false, function(p45) if p45 then if f4() then return end if v33 == "All" then notification("XA：错误", "暂不支持用All", 5) return end return end end) section2:Toggle("吸取该玩家", "BringPlayer", false, function(p46) if p46 then if f4() then return end if v33 == "All" then notification("XA：错误", "暂不支持用All", 5) return end return end v23 = false if seatPart then seatPart.CFrame = cframe3 end end) section2:Dropdown("方向", "Dropdown", { "前", "后", "左", "右", "上", "下" }, 2, function(p47) v20 = p47 end) section2:Slider("距离", "Slider", 0, 0, 30, false, function(p48) v21 = p48 end) section2:Toggle("观看玩家", "Toggle", false, function(p49) if p49 then if f4() then return end if v33 == "All" then notification("XA：错误", "暂不支持用All", 5) return end currentCamera.CameraSubject = v1[v33].Character:FindFirstChildOfClass("Humanoid") return end workspace.Camera.CameraSubject = humanoid end) section2:Button("刷新列表", function() f2() dropdown:SetOptions(v33) v33 = v19 end) section2:Toggle("自动刷新列表", "Toggle", false, function(p50) if p50 then f2() dropdown:SetOptions(v33) v33 = v19 PlayerAdded = v1.PlayerAdded:Connect(function(player) f2() dropdown:SetOptions(v33) v33 = v19 end) PlayerRemoving = v1.PlayerRemoving:Connect(function(player2) f2() dropdown:SetOptions(v33) if v18 ~= "用户名(UserName)" then if v18 == "昵称(DisplayName)" then dropdown:RemoveOption(player2.DisplayName) end else dropdown:RemoveOption(player2.Name) end v33 = v19 end) else pcall(function() PlayerAdded:Disconnect() PlayerRemoving:Disconnect() end) end end) local section3 = tab:Section("本地玩家", false) section3:Slider("移动速度", "LoopSpeedV", humanoid.WalkSpeed, 0, 500, false, function(walkSpeed) humanoid.WalkSpeed = walkSpeed end) section3:Textbox("移动速度 当前" .. humanoid.WalkSpeed, "LoopSpeedV", "", function(walkSpeed2) humanoid.WalkSpeed = walkSpeed2 end) section3:Toggle("锁定移动速度", "LoopSpeed", false) section3:Slider("加速", "SpeedBoost", 0, 0, 200, true) section3:Slider("跳跃高度", "LoopJumpV", humanoid.JumpPower, 0, 500, false, function(jumpPower) humanoid.JumpPower = jumpPower end) section3:Textbox("跳跃高度 当前" .. math.round(humanoid.JumpPower), "LoopJumpV", "", function(jumpPower2) humanoid.JumpPower = jumpPower2 end) section3:Toggle("锁定跳跃高度", "LoopJump", false) section3:Toggle("使用跳跃高度", "UseJumpPower", false, function(useJumpPower) humanoid.UseJumpPower = useJumpPower end) section3:Slider("人物高度", "Slider", humanoid.HipHeight, 0, 200, false, function(hipHeight) humanoid.HipHeight = hipHeight end) section3:Textbox("人物高度 当前" .. math.round(humanoid.HipHeight), "Textbox", "", function(hipHeight2) humanoid.HipHeight = hipHeight2 end) section3:Slider("视角", "LoopFovV", currentCamera.FieldOfView, 0, 120, true, function(fieldOfView) currentCamera.FieldOfView = fieldOfView end) section3:Textbox("视角 当前" .. currentCamera.FieldOfView, "LoopFovV", "", function(fieldOfView2) currentCamera.FieldOfView = fieldOfView2 end) section3:Toggle("锁定视角", "LoopFov", false) section3:Slider("重力", "Slider", workspace.Gravity, 0, 200, false, function(gravity) workspace.Gravity = gravity end) section3:Textbox("重力 当前" .. math.round(workspace.Gravity), "Textbox", "", function(gravity2) workspace.Gravity = gravity2 end) section3:Textbox("最大缩放距离 当前" .. localPlayer.CameraMaxZoomDistance, "Textbox", "", function(cameraMaxZoomDistance) localPlayer.CameraMaxZoomDistance = cameraMaxZoomDistance end) section3:Textbox("最大血量", "Textbox", "", function(maxHealth) humanoid.MaxHealth = maxHealth end) section3:Textbox("当前血量", "Textbox", "", function(health) humanoid.Health = health end) section3:Dropdown("相机类型", "Dropdown", { "Fixed", "Attach", "Watch", "Track", "Follow", "Custom", "Scriptable", "Orbital", }, function(p51) currentCamera.CameraType = Enum.CameraType[p51] end) section3:Dropdown("相机模式", "Dropdown", { "Classic", "LockFirstPerson" }, function(cameraMode) localPlayer.CameraMode = cameraMode end) section3:Toggle("自动跳跃", "Toggle", humanoid.AutoJumpEnabled, function(autoJumpEnabled) humanoid.AutoJumpEnabled = autoJumpEnabled end) section3:Button("重新检测角色", function() if localPlayer.Character then notification("XA：提示", "已检测到角色", 5) character = localPlayer.Character humanoid = character:WaitForChild("Humanoid") humanoidRootPart = character:WaitForChild("HumanoidRootPart") else notification("XA：提示", "没有检测到角色", 5) end end) local section4 = tab:Section("实用", false) section4:Button("飞行v3", function() loadstring(game:HttpGet("https://raw.githubusercontent.com/tbhhhhh/Script/main/Content/FlyGuiV3"))() end) section4:Button("反挂机", function() local v121, v122, v123 = pairs(getconnections(localPlayer.Idled)) while true do local v124 v123, v124 = v121(v122, v123) if v123 == nil then break elseif v124.Disable then v124:Disable() elseif v124.Disconnect then v124:Disconnect() end end end) section4:Button("Delta键盘", function() loadstring(game:HttpGet("https://raw.githubusercontent.com/tbhhhhh/Script/refs/heads/main/Content/DeltaKeyBoard.lua"))() end) section4:Button("建筑工具", function() local hopperBin = Instance.new("HopperBin") hopperBin.Name = "复制" hopperBin.BinType = 3 hopperBin.Parent = localPlayer.Backpack local hopperBin2 = Instance.new("HopperBin") hopperBin2.Name = "删除" hopperBin2.BinType = 4 hopperBin2.Parent = localPlayer.Backpack end) section4:Button("F3X", function() loadstring(game:GetObjects("rbxassetid://6695644299")[1].Source)() end) section4:Button("玩家加入/退出服务器信息", function() loadstring(game:HttpGet("https://raw.githubusercontent.com/boyscp/scriscriptsc/main/bbn.lua"))() end) section4:Button("重新加入服务器", function() if #v1:GetPlayers() > 1 then v9:TeleportToPlaceInstance(game.PlaceId, game.JobId, localPlayer) else localPlayer:Kick("重新加入中...") wait() v9:Teleport(game.PlaceId, localPlayer) end end) section4:Button("复制位置", function() setclipboard("CFrame.new(" .. tostring(humanoidRootPart.Position) .. ")") end) section4:Button("锁定视角", function() loadstring(game:HttpGet("https://raw.githubusercontent.com/tbhhhhh/Script/refs/heads/main/Content/Shiftlock.lua"))() end) section4:Button("提高画质", function() loadstring(game:HttpGet("https://raw.githubusercontent.com/tbhhhhh/Script/main/Content/HighQuality"))() end) section4:Button("光影", function() loadstring(game:HttpGet("https://raw.githubusercontent.com/MZEEN2424/Graphics/main/Graphics.xml"))() end) section4:Toggle("高亮", "Fullbright", false, function(p52) if not p52 then v3.Ambient = Color3.new(0, 0, 0) end end) section4:Toggle("没有雾", "NoFog", false, function(p53) v3.FogEnd = 100000 local v125, v126, v127 = pairs(v3:GetDescendants()) while true do local v128 v127, v128 = v125(v126, v127) if v127 == nil then break elseif v128:IsA("Atmosphere") then v128:Destroy() end end end) section4:Toggle("去除阴影", "Toggle", false, function(p54) v3.GlobalShadows = not p54 end) section4:Toggle("穿墙", "Noclip", false, function(p55) if not p55 then humanoid:ChangeState("Jumping") end end) section4:Toggle("身体不可触碰(伪无敌)", "NoTouch", false, function(p56) if not p56 then local v129, v130, v131 = pairs(character:GetDescendants()) while true do local v132 v131, v132 = v129(v130, v131) if v131 == nil then break elseif v132:IsA("BasePart") then v132.CanTouch = true end end end end) section4:Button("载具飞行", function() loadstring(game:HttpGet("https://raw.githubusercontent.com/tbhhhhh/Script/main/Content/VehicleFly"))() end) section4:Button("爬墙", function() loadstring(game:HttpGet("https://raw.githubusercontent.com/tbhhhhh/Script/main/Content/WalkOnWalls"))() end) section4:Button("防被甩飞", function() loadstring(game:HttpGet("https://raw.githubusercontent.com/tbhhhhh/Script/main/Content/Anti-fling"))() end) section4:Button("点击传送工具", function() local getMouse2 = localPlayer:GetMouse() local tool = Instance.new("Tool") tool.RequiresHandle = false tool.Name = "点击传送" tool.Activated:connect(function() character:PivotTo(getMouse2.Hit + Vector3.new(0, 2.5, 0)) end) tool.Parent = localPlayer.Backpack end) section4:Textbox("瞬移道具", "Textbox", "", function(p57) local tool2 = Instance.new("Tool") tool2.Name = "" .. p57 .. "瞬移单位" tool2.RequiresHandle = false tool2.Parent = localPlayer.Backpack tool2.Activated:Connect(function() character:PivotTo(humanoidRootPart.CFrame * CFrame.new(0, 0, -p57)) end) end) section4:Toggle("踏空行走", "Toggle", false, function(p58) if p58 then f5() Jumping = humanoid.Jumping:Connect(function() if workspace:FindFirstChild("FloatPart") then workspace.FloatPart:Destroy() wait(0.3) f5() end end) else Jumping:Disconnect() workspace.FloatPart:Destroy() end end) section4:Toggle("无限跳", "InfiniteJump", false) section4:Toggle("原地复活", "AutoRespawn", false) section4:Slider("等待时间", "ARWaitTime", 2, 0, 5, true) section4:Toggle("快速互动", "Toggle", false, function(p59) if p59 then PromptButtonHoldBegan = v14.PromptButtonHoldBegan:Connect(function(player3) fireproximityprompt(player3) end) else PromptButtonHoldBegan:Disconnect() end end) section4:Button("FE声音", function() loadstring(game:HttpGet("https://raw.githubusercontent.com/tbhhhhh/Script/refs/heads/main/Content/SpamSounds.lua"))() end) section4:Button("偷物品", function() local v133, v134, v135 = pairs(v1:GetChildren()) while true do local v136 v135, v136 = v133(v134, v135) if v135 == nil then break else task.wait() local v137, v138, v139 = pairs(v136.Backpack:GetChildren()) while true do local v140 v139, v140 = v137(v138, v139) if v139 == nil then break end v140.Parent = localPlayer.Backpack end end end end) section4:Button("重置人物", function() character:BreakJoints() end) local tab2 = xaHub:Tab("透视", "6035145364") local section5 = tab2:Section("玩家透视", false) section5:Toggle("总开关", "Toggle", false, function(enabled) esp.Enabled = enabled end) section5:Toggle("名字", "Toggle", false, function(showName) esp.ShowName = showName end) section5:Toggle("方框", "Toggle", false, function(showBox) esp.ShowBox = showBox end) section5:Toggle("健康", "Toggle", false, function(showHealth) esp.ShowHealth = showHealth end) section5:Toggle("距离", "Toggle", false, function(showDistance) esp.ShowDistance = showDistance end) section5:Toggle("线条", "Toggle", false, function(showTracer) esp.ShowTracer = showTracer end) section5:Toggle("队伍检查", "Toggle", false, function(teamcheck) esp.Teamcheck = teamcheck end) section5:Toggle("可见检查", "Toggle", false, function(wallCheck) esp.WallCheck = wallCheck end) section5:Dropdown("线条位置", "Dropdown", { "上", "中", "下" }, 1, function(p60) if p60 == "上" then esp.TracerPosition = "Top" elseif p60 == "中" then esp.TracerPosition = "Middle" elseif p60 == "下" then esp.TracerPosition = "Bottom" end end) section5:Dropdown("方框类型", "Dropdown", { "2D", "边角" }, 1, function(p61) if p61 == "2D" then esp.BoxType = "2D" elseif p61 == "边角" then esp.BoxType = "Corner Box Esp" end end) tab2:Section("NPC透视", false):Toggle("开关", "Toggle", false, function(p62) if p62 then for key2, value2 in pairs(v26) do espLibrary.Add(key2, key2.Name, Color3.new(1, 1, 1), 15, "NPC") end setmetatable(v26, { __newindex = function(object, key3, value3) if value3 then espLibrary.Add(key3, key3.Name, Color3.new(1, 1, 1), 15, "NPC") end rawset(object, key3, value3) end, }) else espLibrary.Clear("NPC") getmetatable(v26).__newindex = nil end end) local section6 = tab2:Section("其他", false) section6:Button("通用透视", function() loadstring(game:HttpGet("https://raw.githubusercontent.com/tbhhhhh/Script/main/Content/ESP-Universal"))() end) section6:Button("血量名称透视", function() loadstring(game:HttpGet("https://raw.githubusercontent.com/tbhhhhh/Script/refs/heads/main/Content/NameHealthESP.lua"))() end) local tab3 = xaHub:Tab("自瞄", "6035145364") local section7 = tab3:Section("Aimbot", false) section7:Toggle("开关", "Toggle", false, function(enabled2) v74.Enabled = enabled2 end) section7:Dropdown("模式", "Dropdown", { "准星", "鼠标" }, 1, function(mode) v74.Mode = mode end) section7:Dropdown("锁定方式", "Dropdown", { "相机", "鼠标" }, 1, function(lockMethod) v74.LockMethod = lockMethod end) section7:Dropdown("瞄准部位", "Dropdown", { "头部", "身体" }, 1, function(p63) if p63 == "头部" then v74.AimPart = "Head" elseif p63 == "身体" then v74.AimPart = "HumanoidRootPart" end end) section7:Toggle("可见检查", "Toggle", false, function(wallCheck2) v74.WallCheck = wallCheck2 end) section7:Toggle("队伍检查", "Toggle", false, function(teamCheck) v74.TeamCheck = teamCheck end) section7:Toggle("存活检查", "Toggle", false, function(aliveCheck) v74.AliveCheck = aliveCheck end) section7:Slider("最大距离", "Slider", 800, 100, 1500, false, function(maxDistance) v74.MaxDistance = maxDistance end) section7:Slider("平滑度", "Slider", 0.6, 0, 1, true, function(smoothness) v74.Smoothness = smoothness end) section7:Slider("预测值/1000", "Slider", 165, 0, 500, false, function(p64) v74.Prediction = p64 / 1000 end) section7:Toggle("瞄准玩家", "Toggle", false, function(players2) v74.Targets.Players = players2 end) section7:Toggle("瞄准NPC", "Toggle", false, function(npCs) v74.Targets.NPCs = npCs end) local section8 = tab3:Section("子弹追踪", false) local button button = section8:Button("初始化", function() v75.Init() button:Destroy() end) section8:Toggle("开关", "Toggle", false, function(enabled3) v75.Enabled = enabled3 end) section8:Dropdown("方法", "Dropdown", { "Raycast", "Ray.new", "FindPartOnRay", "FindPartOnRayWithIgnoreList", "FindPartOnRayWithWhitelist", "ScreenPointToRay", "ViewportPointToRay", "Mouse.Hit/Target", }, 1, function(method) v75.Method = method end) section8:Dropdown("射线长度", "RayLength", { "默认", "1000" }, 1) section8:Slider("命中率", "Slider", 100, 0, 100, false, function(hitChance) v75.HitChance = hitChance end) section8:Toggle("子弹穿墙", "Toggle", false, function(wallbang) v75.Wallbang = wallbang end) section8:Toggle("显示目标", "Toggle", false, function(p65) v75.ShowTarget = p65 frame.Visible = p65 end) section8:Slider("圆点大小", "Slider", 15, 0, 30, true, function(p66) frame.Size = UDim2.new(0, p66, 0, p66) end) local section9 = tab3:Section("FOV", false) section9:Toggle("开关", "Toggle", false, function(visible) circle.Visible = visible end) section9:Slider("大小", "Slider", 60, 20, 200, false, function(radius) circle.Radius = radius end) if identifyexecutor() ~= "Delta" then section9:Slider("透明度", "Slider", 1, 0, 1, true, function(transparency) circle.Transparency = transparency end) end section9:Slider("厚度", "Slider", 2, 1, 10, false, function(thickness) circle.Thickness = thickness end) section9:Dropdown("颜色", "Dropdown", { "红色", "绿色", "蓝色", "黄色", "白色", "黑色" }, 5, function(p67) if p67 == "红色" then circle.Color = Color3.fromRGB(255, 0, 0) elseif p67 == "绿色" then circle.Color = Color3.fromRGB(0, 255, 0) elseif p67 == "蓝色" then circle.Color = Color3.fromRGB(0, 0, 255) elseif p67 == "黄色" then circle.Color = Color3.fromRGB(255, 255, 0) elseif p67 == "白色" then circle.Color = Color3.fromRGB(255, 255, 255) elseif p67 == "黑色" then circle.Color = Color3.fromRGB(0, 0, 0) end end) local section10 = tab3:Section("其他", false) section10:Toggle("显示十字瞄准线", "Toggle", false, function(visible2) line.Visible = visible2 line2.Visible = visible2 end) section10:Toggle("Camera绕过", "Toggle", false, function(p68) local v141, v142, v143 = pairs(getconnections(currentCamera.Changed)) while true do local v144 v143, v144 = v141(v142, v143) if v143 == nil then break end v144:Disable() end local v145, v146, v147 = pairs(getconnections(currentCamera:GetPropertyChangedSignal("CFrame"))) while true do local v148 v147, v148 = v145(v146, v147) if v147 == nil then break end v148:Disable() end end) section10:Button("反hook绕过", function() hookmetamethod(game, "__namecall", newcclosure(function(...) local v149, v150 = pcall(nil, ...) if not v149 then Bypass = true Instance.new("BindableEvent").Event:Wait() end return v150 end)) repeat task.wait() until Bypass notification("XA：提示", "绕过成功", 5) end) local tab4 = xaHub:Tab("范围", "6035145364") local section11 = tab4:Section("身体", false) section11:Toggle("开关", "Toggle", false, function(p69) if p69 then HitboxConnect = v5.RenderStepped:connect(function() local v151 = next local v152, v153 = v1:GetPlayers() while true do local v154 v153, v154 = v151(v152, v153) if v153 == nil then break end if v154 ~= localPlayer and f16(v154) then pcall(function() v154.Character.HumanoidRootPart.Size = Vector3.new(v24.Size, v24.Size, v24.Size) v154.Character.HumanoidRootPart.Transparency = v24.Transparency v154.Character.HumanoidRootPart.Color = v24.Color v154.Character.HumanoidRootPart.Material = "Neon" v154.Character.HumanoidRootPart.CanCollide = v24.Collide end) end end end) else HitboxConnect:Disconnect() task.wait() local v155 = next local v156, v157 = v1:GetPlayers() while true do local v158 v157, v158 = v155(v156, v157) if v157 == nil then break elseif v158 ~= localPlayer then pcall(function() v158.Character.HumanoidRootPart.Size = Vector3.new(2, 2, 1) v158.Character.HumanoidRootPart.Transparency = 1 v158.Character.HumanoidRootPart.Color = Color3.fromRGB(163, 162, 165) v158.Character.HumanoidRootPart.BrickColor = BrickColor.new("Medium stone grey") v158.Character.HumanoidRootPart.Material = "Plastic" v158.Character.HumanoidRootPart.CanCollide = false end) end end end end) section11:Textbox("Hitbox大小(默认15)", "Textbox", "", function(size) v24.Size = size end) section11:Textbox("Hitbox透明度(默认0.8)", "Textbox", "", function(transparency2) v24.Transparency = transparency2 end) section11:Toggle("队伍检查", "Toggle", false, function(teamCheck2) v24.TeamCheck = teamCheck2 end) section11:Toggle("好友检查", "Toggle", false, function(friendCheck) v24.FriendCheck = friendCheck end) section11:Dropdown("选择颜色", "Dropdown", { "红色", "绿色", "蓝色", "黄色", "白色", "黑色" }, 6, function(p70) if p70 == "红色" then v24.Color = Color3.fromRGB(255, 0, 0) elseif p70 == "绿色" then v24.Color = Color3.fromRGB(0, 255, 0) elseif p70 == "蓝色" then v24.Color = Color3.fromRGB(0, 0, 255) elseif p70 == "黄色" then v24.Color = Color3.fromRGB(255, 255, 0) elseif p70 == "白色" then v24.Color = Color3.fromRGB(255, 255, 255) elseif p70 == "黑色" then v24.Color = Color3.fromRGB(0, 0, 0) end end) section11:Toggle("可碰撞", "Toggle", false, function(collide) v24.Collide = collide end) local section12 = tab4:Section("头部", false) local connect section12:Textbox("头部范围(可能不显示)", "HeadHitbox", "", function(p71) connect = v5.Stepped:Connect(function() local v159 = next local v160, v161 = v1:GetPlayers() while true do local v162 v161, v162 = v159(v160, v161) if v161 == nil then break end if v162 ~= localPlayer and v162.Character and v162.Character:FindFirstChild("Head") then v162.Character.Head.Size = Vector3.new( flags.HeadHitbox, flags.HeadHitbox, flags.HeadHitbox ) v162.Character.Head.CanCollide = flags.HeadCollide end end end) end) section12:Button("恢复默认", function() connect:Disconnect() local v163 = next local v164, v165 = v1:GetPlayers() while true do local v166 v165, v166 = v163(v164, v165) if v165 == nil then break end if v166 ~= localPlayer and v166.Character and v166.Character:FindFirstChild("Head") then v166.Character.Head.Size = Vector3.new(1, 1, 1) v166.Character.Head.CanCollide = true end end end) section12:Toggle("可碰撞", "HeadCollide", false) local section13 = xaHub:Tab("国内脚本", "6035145364"):Section("国内脚本", true) section13:Label("排名不分先后") section13:Button("云中心", function() loadstring(game:HttpGet( "https://raw.githubusercontent.com/XiaoYunCN/VIP/refs/heads/main/%E4%BA%91%E8%84%9A%E6%9C%AC/UNIVERSAL%20VERSION.LUA", true ))() end) section13:Button("剑客", function() Sword_Guest_V7 = "欢迎使用剑客V7" Sword_Guest__V7 = "作者_初夏" Sword_Guest___V7 = "剑客QQ群155160100" loadstring(game:HttpGet("https://raw.githubusercontent.com/Zer0neK/Hello/refs/heads/main/SG-V7"))() end) section13:Button("白脚本", function() _G.qq = "1790789616" loadstring(game:HttpGet( "https://raw.githubusercontent.com/wev666666/baijiaobengV2.0beta/main/%E7%99%BD%E8%84%9A%E6%9C%ACbeta", true ))() end) section13:Button("XK", function() end) section13:Button("脚本中心XC", function() loadstring(game:HttpGet("https://pastebin.com/raw/gemxHwA1"))() end) section13:Button("ScriptHub-银狼", function() loadstring(game:HttpGet("https://raw.githubusercontent.com/rbxluau/Roblox/main/ScriptHub.lua"))() end) section13:Button("落叶中心", function() getgenv().LS = "落叶中心" loadstring(game:HttpGet("https://raw.githubusercontent.com/krlpl/Deciduous-center-LS/main/%E8%90%BD%E5%8F%B6%E4%B8%AD%E5%BF%83%E6%B7%B7%E6%B7%86.txt"))() end) section13:Button("斌脚本", function() loadstring(game:HttpGet("https://raw.githubusercontent.com/BINjiaobzx6/BINjiao/main/BIN.lua"))() end) section13:Button("ZS", function() loadstring(game:HttpGet("https://raw.githubusercontent.com/zuohongjian/bjb/main/ZS", true))() end) section13:Button("小魔", function() loadstring(game:HttpGet("https://raw.githubusercontent.com/xiaomoNB666/xiaomoNB666/main/%E6%9E%81.lua"))() end) section13:Button("青V1.9", function() loadstring(game:HttpGet("https://rentry.co/ct293/raw"))() end) section13:Button("鸭hubv2", function() loadstring(game:HttpGet("https://pastebin.com/raw/rb6ZXZeV"))() end) section13:Button("忍脚本", function() R = "忍脚本交流群:139341298" loadstring(game:HttpGet("https://pastebin.com/raw/34kFgqZ5"))() end) section13:Button("导管中心", function() end) local tab5 = xaHub:Tab("其他", "6035145364") local section14 = tab5:Section("XA分支", false) local v167 = { BuildABoatForTreasure = "造船寻宝", Doors = "Doors", ["FPE%3AS"] = "FPE:S", GlassBridge = "玻璃桥", Granny = "奶奶", NaturalDisasterSurvival = "自然灾害", NavalWarfare = "海战", Ohio = "俄亥俄州", HideAndSeekExtreme = "极限捉迷藏", PrisonLife = "监狱人生", RainbowFriends1 = "彩虹朋友1", RainbowFriends2 = "彩虹朋友2", } local v168 section14:Dropdown("选择游戏", "Dropdown", v167, function(p72) local v169, v170, v171 = pairs(v167) while true do local v172 v171, v172 = v169(v170, v171) if v171 == nil then break elseif v172 == p72 then v168 = v171 break end end end) section14:Button("执行", function() if v168 then loadstring(game:HttpGet("https://raw.githubusercontent.com/tbhhhhh/Script/refs/heads/main/Games/" .. v168))() else notification("XA：提示", "请先选择游戏", 5) end end) section14:Button("复制执行脚本", function() if v168 then setclipboard('loadstring(game:HttpGet("https://raw.githubusercontent.com/tbhhhhh/Script/refs/heads/main/Games/' .. v168 .. '"))()') else notification("XA：提示", "请先选择游戏", 5) end end) local section15 = tab5:Section("FE脚本", false) section15:Button("Infinite Yield", function() loadstring(game:HttpGet("https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source"))() end) section15:Button("Nameless Admin", function() loadstring(game:HttpGet("https://raw.githubusercontent.com/FilteringEnabled/NamelessAdmin/main/Source"))() end) section15:Button("Rochips Panel", function() loadstring(game:HttpGet("https://glot.io/snippets/gzrux646yj/raw/main.ts"))() end) section15:Button("CMD-X", function() loadstring(game:HttpGet("https://raw.githubusercontent.com/CMD-X/CMD-X/master/Source", true))() end) section15:Button("C00lgui", function() loadstring(game:GetObjects("rbxassetid://8127297852")[1].Source)() end) section15:Button("C00lgui(2.0)", function() loadstring(game:HttpGet( "https://raw.githubusercontent.com/theawesomari0/c00lgui/main/c00lgui", true ))() end) section15:Button("1x1x1x1", function() loadstring(game:HttpGet("https://pastebin.com/raw/JipYNCht", true))() end) section15:Button("Control", function() loadstring(game:HttpGet("https://raw.githubusercontent.com/tbhhhhh/Script/refs/heads/main/Content/Controller.lua"))() end) section15:Button("变玩家(R6)", function() loadstring(game:HttpGet("https://pastebin.com/raw/XR4sGcgJ"))() end) local section16 = tab5:Section("免费通行证", false) section16:Label("仅部分服务器生效") task.spawn(function() local getCurrentPage = v13:GetDeveloperProductsAsync():GetCurrentPage() local v173 = next local v174 while true do local v175, v176 = v173(getCurrentPage, v174) v174 = v175 if v174 == nil then break end section16:Button("名称: " .. v176.displayName .. " 价格: " .. v176.PriceInRobux .. " Id: " .. v176.ProductId, function() v13:SignalPromptProductPurchaseFinished(localPlayer.UserId, v176.ProductId, true) end) end end) section16:Button("GamepassHook绕过", function() local v177 hookmetamethod(game, "__namecall", function(p73, ...) if tostring(p73) == "MarketplaceService" and getnamecallmethod():lower() == "userownsgamepassasync" then return true end return v177 and v177(p73, ...) or nil end) hookfunction(v13.UserOwnsGamePassAsync, function() return true end) end) local section17 = xaHub:Tab("动画区", "6035145364"):Section("动画区", true) section17:Label("动画为FE，别人能看见，对没有动画的服务器无效") section17:Button("Vampire(吸血鬼)", function() local animate = character.Animate animate.Disabled = true f15() animate.idle.Animation1.AnimationId = "http://www.roblox.com/asset/?id=1083445855" animate.idle.Animation2.AnimationId = "http://www.roblox.com/asset/?id=1083450166" animate.walk.WalkAnim.AnimationId = "http://www.roblox.com/asset/?id=1083473930" animate.run.RunAnim.AnimationId = "http://www.roblox.com/asset/?id=1083462077" animate.jump.JumpAnim.AnimationId = "http://www.roblox.com/asset/?id=1083455352" animate.climb.ClimbAnim.AnimationId = "http://www.roblox.com/asset/?id=1083439238" animate.fall.FallAnim.AnimationId = "http://www.roblox.com/asset/?id=1083443587" humanoid:ChangeState(3) animate.Disabled = false end) section17:Button("Hero(英雄)", function() local animate2 = character.Animate animate2.Disabled = true f15() animate2.idle.Animation1.AnimationId = "http://www.roblox.com/asset/?id=616111295" animate2.idle.Animation2.AnimationId = "http://www.roblox.com/asset/?id=616113536" animate2.walk.WalkAnim.AnimationId = "http://www.roblox.com/asset/?id=616122287" animate2.run.RunAnim.AnimationId = "http://www.roblox.com/asset/?id=616117076" animate2.jump.JumpAnim.AnimationId = "http://www.roblox.com/asset/?id=616115533" animate2.climb.ClimbAnim.AnimationId = "http://www.roblox.com/asset/?id=616104706" animate2.fall.FallAnim.AnimationId = "http://www.roblox.com/asset/?id=616108001" humanoid:ChangeState(3) animate2.Disabled = false end) section17:Button("Zombie(僵尸)", function() local animate3 = character.Animate animate3.Disabled = true f15() animate3.idle.Animation1.AnimationId = "http://www.roblox.com/asset/?id=616158929" animate3.idle.Animation2.AnimationId = "http://www.roblox.com/asset/?id=616160636" animate3.walk.WalkAnim.AnimationId = "http://www.roblox.com/asset/?id=616168032" animate3.run.RunAnim.AnimationId = "http://www.roblox.com/asset/?id=616163682" animate3.jump.JumpAnim.AnimationId = "http://www.roblox.com/asset/?id=616161997" animate3.climb.ClimbAnim.AnimationId = "http://www.roblox.com/asset/?id=616156119" animate3.fall.FallAnim.AnimationId = "http://www.roblox.com/asset/?id=616157476" humanoid:ChangeState(3) animate3.Disabled = false end) section17:Button("Mage(法师)", function() local animate4 = character.Animate animate4.Disabled = true f15() animate4.idle.Animation1.AnimationId = "http://www.roblox.com/asset/?id=707742142" animate4.idle.Animation2.AnimationId = "http://www.roblox.com/asset/?id=707855907" animate4.walk.WalkAnim.AnimationId = "http://www.roblox.com/asset/?id=707897309" animate4.run.RunAnim.AnimationId = "http://www.roblox.com/asset/?id=707861613" animate4.jump.JumpAnim.AnimationId = "http://www.roblox.com/asset/?id=707853694" animate4.climb.ClimbAnim.AnimationId = "http://www.roblox.com/asset/?id=707826056" animate4.fall.FallAnim.AnimationId = "http://www.roblox.com/asset/?id=707829716" humanoid:ChangeState(3) animate4.Disabled = false end) section17:Button("Ghost(幽灵)", function() local animate5 = character.Animate animate5.Disabled = true f15() animate5.idle.Animation1.AnimationId = "http://www.roblox.com/asset/?id=616006778" animate5.idle.Animation2.AnimationId = "http://www.roblox.com/asset/?id=616008087" animate5.walk.WalkAnim.AnimationId = "http://www.roblox.com/asset/?id=616010382" animate5.run.RunAnim.AnimationId = "http://www.roblox.com/asset/?id=616013216" animate5.jump.JumpAnim.AnimationId = "http://www.roblox.com/asset/?id=616008936" animate5.climb.ClimbAnim.AnimationId = "http://www.roblox.com/asset/?id=616003713" animate5.fall.FallAnim.AnimationId = "http://www.roblox.com/asset/?id=616005863" humanoid:ChangeState(3) animate5.Disabled = false end) section17:Button("Elder(长者)", function() local animate6 = character.Animate animate6.Disabled = true f15() animate6.idle.Animation1.AnimationId = "http://www.roblox.com/asset/?id=845397899" animate6.idle.Animation2.AnimationId = "http://www.roblox.com/asset/?id=845400520" animate6.walk.WalkAnim.AnimationId = "http://www.roblox.com/asset/?id=845403856" animate6.run.RunAnim.AnimationId = "http://www.roblox.com/asset/?id=845386501" animate6.jump.JumpAnim.AnimationId = "http://www.roblox.com/asset/?id=845398858" animate6.climb.ClimbAnim.AnimationId = "http://www.roblox.com/asset/?id=845392038" animate6.fall.FallAnim.AnimationId = "http://www.roblox.com/asset/?id=845396048" humanoid:ChangeState(3) animate6.Disabled = false end) section17:Button("Levitation(漂浮)", function() local animate7 = character.Animate animate7.Disabled = true f15() animate7.idle.Animation1.AnimationId = "http://www.roblox.com/asset/?id=616006778" animate7.idle.Animation2.AnimationId = "http://www.roblox.com/asset/?id=616008087" animate7.walk.WalkAnim.AnimationId = "http://www.roblox.com/asset/?id=616013216" animate7.run.RunAnim.AnimationId = "http://www.roblox.com/asset/?id=616010382" animate7.jump.JumpAnim.AnimationId = "http://www.roblox.com/asset/?id=616008936" animate7.climb.ClimbAnim.AnimationId = "http://www.roblox.com/asset/?id=616003713" animate7.fall.FallAnim.AnimationId = "http://www.roblox.com/asset/?id=616005863" humanoid:ChangeState(3) animate7.Disabled = false end) section17:Button("Astronaut(宇航员)", function() local animate8 = character.Animate animate8.Disabled = true f15() animate8.idle.Animation1.AnimationId = "http://www.roblox.com/asset/?id=891621366" animate8.idle.Animation2.AnimationId = "http://www.roblox.com/asset/?id=891633237" animate8.walk.WalkAnim.AnimationId = "http://www.roblox.com/asset/?id=891667138" animate8.run.RunAnim.AnimationId = "http://www.roblox.com/asset/?id=891636393" animate8.jump.JumpAnim.AnimationId = "http://www.roblox.com/asset/?id=891627522" animate8.climb.ClimbAnim.AnimationId = "http://www.roblox.com/asset/?id=891609353" animate8.fall.FallAnim.AnimationId = "http://www.roblox.com/asset/?id=891617961" humanoid:ChangeState(3) animate8.Disabled = false end) section17:Button("Ninja(忍者)", function() local animate9 = character.Animate animate9.Disabled = true f15() animate9.idle.Animation1.AnimationId = "http://www.roblox.com/asset/?id=656117400" animate9.idle.Animation2.AnimationId = "http://www.roblox.com/asset/?id=656118341" animate9.walk.WalkAnim.AnimationId = "http://www.roblox.com/asset/?id=656121766" animate9.run.RunAnim.AnimationId = "http://www.roblox.com/asset/?id=656118852" animate9.jump.JumpAnim.AnimationId = "http://www.roblox.com/asset/?id=656117878" animate9.climb.ClimbAnim.AnimationId = "http://www.roblox.com/asset/?id=656114359" animate9.fall.FallAnim.AnimationId = "http://www.roblox.com/asset/?id=656115606" humanoid:ChangeState(3) animate9.Disabled = false end) section17:Button("Werewolf(狼人)", function() local animate10 = character.Animate animate10.Disabled = true f15() animate10.idle.Animation1.AnimationId = "http://www.roblox.com/asset/?id=1083195517" animate10.idle.Animation2.AnimationId = "http://www.roblox.com/asset/?id=1083214717" animate10.walk.WalkAnim.AnimationId = "http://www.roblox.com/asset/?id=1083178339" animate10.run.RunAnim.AnimationId = "http://www.roblox.com/asset/?id=1083216690" animate10.jump.JumpAnim.AnimationId = "http://www.roblox.com/asset/?id=1083218792" animate10.climb.ClimbAnim.AnimationId = "http://www.roblox.com/asset/?id=1083182000" animate10.fall.FallAnim.AnimationId = "http://www.roblox.com/asset/?id=1083189019" humanoid:ChangeState(3) animate10.Disabled = false end) section17:Button("Cartoon(卡通)", function() local animate11 = character.Animate animate11.Disabled = true f15() animate11.idle.Animation1.AnimationId = "http://www.roblox.com/asset/?id=742637544" animate11.idle.Animation2.AnimationId = "http://www.roblox.com/asset/?id=742638445" animate11.walk.WalkAnim.AnimationId = "http://www.roblox.com/asset/?id=742640026" animate11.run.RunAnim.AnimationId = "http://www.roblox.com/asset/?id=742638842" animate11.jump.JumpAnim.AnimationId = "http://www.roblox.com/asset/?id=742637942" animate11.climb.ClimbAnim.AnimationId = "http://www.roblox.com/asset/?id=742636889" animate11.fall.FallAnim.AnimationId = "http://www.roblox.com/asset/?id=742637151" humanoid:ChangeState(3) animate11.Disabled = false end) section17:Button("Pirate(海盗)", function() local animate12 = character.Animate animate12.Disabled = true f15() animate12.idle.Animation1.AnimationId = "http://www.roblox.com/asset/?id=750781874" animate12.idle.Animation2.AnimationId = "http://www.roblox.com/asset/?id=750782770" animate12.walk.WalkAnim.AnimationId = "http://www.roblox.com/asset/?id=750785693" animate12.run.RunAnim.AnimationId = "http://www.roblox.com/asset/?id=750783738" animate12.jump.JumpAnim.AnimationId = "http://www.roblox.com/asset/?id=750782230" animate12.climb.ClimbAnim.AnimationId = "http://www.roblox.com/asset/?id=750779899" animate12.fall.FallAnim.AnimationId = "http://www.roblox.com/asset/?id=750780242" humanoid:ChangeState(3) animate12.Disabled = false end) section17:Button("Sneaky(鬼祟)", function() local animate13 = character.Animate animate13.Disabled = true f15() animate13.idle.Animation1.AnimationId = "http://www.roblox.com/asset/?id=1132473842" animate13.idle.Animation2.AnimationId = "http://www.roblox.com/asset/?id=1132477671" animate13.walk.WalkAnim.AnimationId = "http://www.roblox.com/asset/?id=1132510133" animate13.run.RunAnim.AnimationId = "http://www.roblox.com/asset/?id=1132494274" animate13.jump.JumpAnim.AnimationId = "http://www.roblox.com/asset/?id=1132489853" animate13.climb.ClimbAnim.AnimationId = "http://www.roblox.com/asset/?id=1132461372" animate13.fall.FallAnim.AnimationId = "http://www.roblox.com/asset/?id=1132469004" humanoid:ChangeState(3) animate13.Disabled = false end) section17:Button("Toy(玩具)", function() local animate14 = character.Animate animate14.Disabled = true f15() animate14.idle.Animation1.AnimationId = "http://www.roblox.com/asset/?id=782841498" animate14.idle.Animation2.AnimationId = "http://www.roblox.com/asset/?id=782845736" animate14.walk.WalkAnim.AnimationId = "http://www.roblox.com/asset/?id=782843345" animate14.run.RunAnim.AnimationId = "http://www.roblox.com/asset/?id=782842708" animate14.jump.JumpAnim.AnimationId = "http://www.roblox.com/asset/?id=782847020" animate14.climb.ClimbAnim.AnimationId = "http://www.roblox.com/asset/?id=782843869" animate14.fall.FallAnim.AnimationId = "http://www.roblox.com/asset/?id=782846423" humanoid:ChangeState(3) animate14.Disabled = false end) section17:Button("Knight(骑士)", function() local animate15 = character.Animate animate15.Disabled = true f15() animate15.idle.Animation1.AnimationId = "http://www.roblox.com/asset/?id=657595757" animate15.idle.Animation2.AnimationId = "http://www.roblox.com/asset/?id=657568135" animate15.walk.WalkAnim.AnimationId = "http://www.roblox.com/asset/?id=657552124" animate15.run.RunAnim.AnimationId = "http://www.roblox.com/asset/?id=657564596" animate15.jump.JumpAnim.AnimationId = "http://www.roblox.com/asset/?id=658409194" animate15.climb.ClimbAnim.AnimationId = "http://www.roblox.com/asset/?id=658360781" animate15.fall.FallAnim.AnimationId = "http://www.roblox.com/asset/?id=657600338" humanoid:ChangeState(3) animate15.Disabled = false end) section17:Button("Confident(自信)", function() local animate16 = character.Animate animate16.Disabled = true f15() animate16.idle.Animation1.AnimationId = "http://www.roblox.com/asset/?id=1069977950" animate16.idle.Animation2.AnimationId = "http://www.roblox.com/asset/?id=1069987858" animate16.walk.WalkAnim.AnimationId = "http://www.roblox.com/asset/?id=1070017263" animate16.run.RunAnim.AnimationId = "http://www.roblox.com/asset/?id=1070001516" animate16.jump.JumpAnim.AnimationId = "http://www.roblox.com/asset/?id=1069984524" animate16.climb.ClimbAnim.AnimationId = "http://www.roblox.com/asset/?id=1069946257" animate16.fall.FallAnim.AnimationId = "http://www.roblox.com/asset/?id=1069973677" humanoid:ChangeState(3) animate16.Disabled = false end) section17:Button("Popstar(明星)", function() local animate17 = character.Animate animate17.Disabled = true f15() animate17.idle.Animation1.AnimationId = "http://www.roblox.com/asset/?id=1212900985" animate17.idle.Animation2.AnimationId = "http://www.roblox.com/asset/?id=1212900985" animate17.walk.WalkAnim.AnimationId = "http://www.roblox.com/asset/?id=1212980338" animate17.run.RunAnim.AnimationId = "http://www.roblox.com/asset/?id=1212980348" animate17.jump.JumpAnim.AnimationId = "http://www.roblox.com/asset/?id=1212954642" animate17.climb.ClimbAnim.AnimationId = "http://www.roblox.com/asset/?id=1213044953" animate17.fall.FallAnim.AnimationId = "http://www.roblox.com/asset/?id=1212900995" humanoid:ChangeState(3) animate17.Disabled = false end) section17:Button("Princess(公主)", function() local animate18 = character.Animate animate18.Disabled = true f15() animate18.idle.Animation1.AnimationId = "http://www.roblox.com/asset/?id=941003647" animate18.idle.Animation2.AnimationId = "http://www.roblox.com/asset/?id=941013098" animate18.walk.WalkAnim.AnimationId = "http://www.roblox.com/asset/?id=941028902" animate18.run.RunAnim.AnimationId = "http://www.roblox.com/asset/?id=941015281" animate18.jump.JumpAnim.AnimationId = "http://www.roblox.com/asset/?id=941008832" animate18.climb.ClimbAnim.AnimationId = "http://www.roblox.com/asset/?id=940996062" animate18.fall.FallAnim.AnimationId = "http://www.roblox.com/asset/?id=941000007" humanoid:ChangeState(3) animate18.Disabled = false end) section17:Button("Cowboy(牛仔)", function() local animate19 = character.Animate animate19.Disabled = true f15() animate19.idle.Animation1.AnimationId = "http://www.roblox.com/asset/?id=1014390418" animate19.idle.Animation2.AnimationId = "http://www.roblox.com/asset/?id=1014398616" animate19.walk.WalkAnim.AnimationId = "http://www.roblox.com/asset/?id=1014421541" animate19.run.RunAnim.AnimationId = "http://www.roblox.com/asset/?id=1014401683" animate19.jump.JumpAnim.AnimationId = "http://www.roblox.com/asset/?id=1014394726" animate19.climb.ClimbAnim.AnimationId = "http://www.roblox.com/asset/?id=1014380606" animate19.fall.FallAnim.AnimationId = "http://www.roblox.com/asset/?id=1014384571" humanoid:ChangeState(3) animate19.Disabled = false end) section17:Button("Patrol(巡逻)", function() local animate20 = character.Animate animate20.Disabled = true f15() animate20.idle.Animation1.AnimationId = "http://www.roblox.com/asset/?id=1149612882" animate20.idle.Animation2.AnimationId = "http://www.roblox.com/asset/?id=1150842221" animate20.walk.WalkAnim.AnimationId = "http://www.roblox.com/asset/?id=1151231493" animate20.run.RunAnim.AnimationId = "http://www.roblox.com/asset/?id=1150967949" animate20.jump.JumpAnim.AnimationId = "http://www.roblox.com/asset/?id=1150944216" animate20.climb.ClimbAnim.AnimationId = "http://www.roblox.com/asset/?id=1148811837" animate20.fall.FallAnim.AnimationId = "http://www.roblox.com/asset/?id=1148863382" humanoid:ChangeState(3) animate20.Disabled = false end) section17:Button("FE Zombie(FE僵尸)", function() local animate21 = character.Animate animate21.Disabled = true f15() animate21.idle.Animation1.AnimationId = "http://www.roblox.com/asset/?id=3489171152" animate21.idle.Animation2.AnimationId = "http://www.roblox.com/asset/?id=3489171152" animate21.walk.WalkAnim.AnimationId = "http://www.roblox.com/asset/?id=3489174223" animate21.run.RunAnim.AnimationId = "http://www.roblox.com/asset/?id=3489173414" animate21.jump.JumpAnim.AnimationId = "http://www.roblox.com/asset/?id=616161997" animate21.climb.ClimbAnim.AnimationId = "http://www.roblox.com/asset/?id=616156119" animate21.fall.FallAnim.AnimationId = "http://www.roblox.com/asset/?id=616157476" humanoid:ChangeState(3) animate21.Disabled = false end) local tab6 = xaHub:Tab("音乐区", "6035145364") local section18 = tab6:Section("音乐区", false) section18:Textbox("输入SoundID", "Textbox", "", function(p74) SoundID = p74 end) section18:Button("播放", function() f13("rbxassetid://" .. SoundID) end) section18:Button("shabi", function() f13("rbxassetid://7908417389") end) section18:Button("彩虹瀑布", function() f13("rbxassetid://1837879082") end) section18:Button("All My People", function() f14( "https://github.com/tbhhhhh/Script/raw/refs/heads/main/Assets/Music/All-My-People.mp3", "All-My-People.mp3" ) end) section18:Button("Cure For Me", function() f14( "https://github.com/tbhhhhh/Script/raw/refs/heads/main/Assets/Music/Cure-For-Me.mp3", "Cure-For-Me.mp3" ) end) local section19 = tab6:Section("搜索音乐", false) local urlEncode section19:Textbox("输入名称", "Textbox", "", function(p75) urlEncode = v7:UrlEncode(p75) end) local v178 = "3" section19:Textbox("输入搜索数量(默认3)", "Textbox", "", function(p76) v178 = p76 end) local v179 = {} local httpGet, button2 section19:Button("搜索", function() local v180, v181, v182 = pairs(v179) while true do local v183 v182, v183 = v180(v181, v182) if v182 == nil then break end v183:Destroy() end task.wait() httpGet = game:HttpGet("https://music.163.com/api/search/get?s=" .. urlEncode .. "&type=1&offset=0&total=true&limit=" .. v178) httpGet = v7:JSONDecode(httpGet) if httpGet.code ~= 200 then notification("XA：错误", "搜索失败\n状态码" .. httpGet.code, 5) else local v184, v185, v186 = pairs(httpGet.result.songs) while true do local v187, v188 = v184(v185, v186) v186 = v187 if v186 == nil then break end button2 = section19:Button(v188.name, function() f14("http://music.163.com/song/media/outer/url?id=" .. v188.id, v188.name .. ".mp3") end) table.insert(v179, button2) end notification("XA：提示", "搜索成功，找到" .. httpGet.result.songCount .. "首歌曲\n当前显示" .. v178 .. "首", 5) end end) section19:Label("搜索列表") local section20 = tab6:Section("本地音乐", false) section20:Label("目录：手机目录/" .. identifyexecutor() .. "/Workspace/XA-Hub/Music") local v189, v190, v191 = ipairs(listfiles("XA-Hub/Music")) while true do local v192 v191, v192 = v189(v190, v191) if v191 == nil then break else local gsub3 = v192:gsub("(.*)/(.*)", "%2") section20:Button(gsub3, function() f13(getcustomasset(v192), gsub3) end) end end local section21 = tab6:Section("信息", false) v25.Name = section21:Label("当前正在播放：无") v25.TimePosition = section21:Label("进度条：00:00/00:00") local section22 = tab6:Section("设置", false) section22:Toggle("暂停音乐", "Toggle", false, function(p77) local v193, v194, v195 = pairs(v8:GetChildren()) while true do local v196 v195, v196 = v193(v194, v195) if v195 == nil then break elseif v196:IsA("Sound") then v196.Playing = not p77 end end end) section22:Slider("音量", "Slider", 0.5, 0, 10, true, function(p78) MusicVolume = p78 local v197, v198, v199 = pairs(v8:GetChildren()) while true do local v200 v199, v200 = v197(v198, v199) if v199 == nil then break elseif v200:IsA("Sound") then v200.Volume = p78 end end end) section22:Button("停止播放所有音乐", function() local v201, v202, v203 = pairs(v8:GetChildren()) while true do local v204 v203, v204 = v201(v202, v203) if v203 == nil then break elseif v204:IsA("Sound") then v204:Stop() v204:Destroy() end end v25.Name.Text = "当前正在播放：无" end) local tab7 = xaHub:Tab("设置", "6035145364") local section23 = tab7:Section("ui设置", false) section23:Textbox("背景透明度(默认0.5)", "Textbox", "", function(backgroundTransparency) luaWare.Gui.Main.BackgroundTransparency = backgroundTransparency luaWare.Gui.Main.SB.BackgroundTransparency = backgroundTransparency luaWare.Gui.Main.SB.Side.BackgroundTransparency = backgroundTransparency end) section23:Button("销毁UI", function() luaWare.Gui:Destroy() end) section23:Button("将toggle恢复默认位置", function() luaWare.Gui.Open.Position = UDim2.new(0.00829315186, 0, 0.31107837, 0) end) local section24 = tab7:Section("开发工具", false) section24:Button("Dex Mobile", function() loadstring(game:HttpGet("https://raw.githubusercontent.com/tbhhhhh/Script/refs/heads/main/Tools/DexMobile.lua"))() end) section24:Button("Simple Spy", function() loadstring(game:HttpGet("https://raw.githubusercontent.com/tbhhhhh/Script/refs/heads/main/Tools/SimpleSpyBeta.lua"))() end) section24:Button("Hydroxide", function() local function f25(p79) return loadstring(game:HttpGetAsync(("https://raw.githubusercontent.com/%s/MC-Hydroxide/%s/%s.lua"):format( "Hosvile", "revision", p79 )), p79 .. ".lua")() end f25("init") f25("ui/main") end) section24:Button("UNC测试", function() loadstring(game:HttpGet("https://raw.githubusercontent.com/tbhhhhh/Script/main/Tools/UNCTest.lua"))() end) section24:Toggle("显示XA用户", "Toggle", false, function(p80) _G.XAUserESP = p80 if p80 then local v205, v206, v207 = pairs(v1:GetPlayers()) while true do local v208 v207, v208 = v205(v206, v207) if v207 == nil then break end if v208 ~= localPlayer and v208:IsInGroup(35310933) then espLibrary.Add( v208.Character, "XA用户" .. v208.Name, Color3.fromRGB(255, 255, 255), 10, "XAUserESP" ) v208.CharacterAdded:Connect(function() if _G.XAUserESP then espLibrary.Add( v208.Character, "XA用户" .. v208.Name, Color3.fromRGB(255, 255, 255), 10, "XAUserESP" ) end end) end end PlayerAdded2 = v1.PlayerAdded:Connect(function(player4) if player4 ~= localPlayer and player4:IsInGroup(35310933) then espLibrary.Add( player4.Character, "XA用户" .. player4.Name, Color3.fromRGB(255, 255, 255), 10, "XAUserESP" ) player4.CharacterAdded:Connect(function() if _G.XAUserESP then espLibrary.Add( player4.Character, "XA用户" .. player4.Name, Color3.fromRGB(255, 255, 255), 10, "XAUserESP" ) end end) end end) else espLibrary.Clear("XAUserESP") PlayerAdded2:Disconnect() end end) section24:Toggle("显示FPS", "Toggle", false, function(p81) local fps, v209 if p81 then local fpsGui = Instance.new("ScreenGui") fps = Instance.new("TextLabel") fpsGui.Name = "FPSGui" fpsGui.Parent = v2 fpsGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling fps.Name = "Fps" fps.Parent = fpsGui fps.BackgroundTransparency = 1 fps.Position = UDim2.new(0.78, 0, 0, 0) fps.Size = UDim2.new(0, 130, 0, 30) fps.Font = Enum.Font.SourceSans fps.Text = "FPS: 0" fps.TextSize = 14 fps.TextColor3 = Color3.new(1, 1, 1) v209 = 0 v5.RenderStepped:Connect(function(delta) v209 = v209 + 1 if v209 >= 10 then fps.Text = "FPS: " .. math.floor(1 / delta) v209 = 0 end end) else v2.FPSGui:Destroy() end end) section24:Textbox("输入信息", "Textbox", "", function(p82) message = p82 end) section24:Button("发送信息", function() f18(message, true, false) end) section24:Button("保存当前位置", function() OldCFrame = humanoidRootPart.CFrame end) section24:Button("传送保存位置", function() if OldCFrame then character:PivotTo(OldCFrame) else notification("XA：错误", "没有检测到位置", 5) end end) section24:Button("打开Console", function() v4:SetCore("DevConsoleVisible", true) end) section24:Button("开启最高FPS", function() setfpscap(120) end) section24:Button("退出游戏", function() game:Shutdown() end) local v210, v211 = pcall(function() local isInGroup = localPlayer:IsInGroup(35310933) if isInGroup then isInGroup = localPlayer:GetRankInGroup(35310933) ~= 1 end return isInGroup end) local v212, v213 if v210 and v211 then local section25 = tab7:Section("Admin", false) v212 = "" section25:Textbox("Enter Username", "Textbox", "", function(p83) v212 = f3(p83) end) section25:Button("kill", function() f18(":kill " .. v212.Name, false, true) end) section25:Button("fling", function() f18(":fling " .. v212.Name, false, true) end) section25:Button("kick", function() f18(":kick " .. v212.Name, false, true) end) section25:Button("bring", function() f18(":bring " .. v212.Name, false, true) end) section25:Toggle("freeze", "Toggle", false, function(p84) if p84 then f18(":freeze " .. v212.Name, false, true) else f18(":unfreeze " .. v212.Name, false, true) end end) v213 = nil section25:Textbox("Enter Message", "Textbox", "", function(p85) v213 = p85 end) section25:Button("warn", function() if v212 and v212:IsInGroup(35310933) and v213 then f18(":warn " .. v212.Name .. " " .. v213, false, true) end end) end local section26 = xaHub:Tab("关于", "6035145364"):Section("关于", false) local v214 section26:Textbox("反馈作者", "Textbox", "", function(value4) if v214 then notification("提示", "你只能每30秒发送一次", 5) else v214 = true local v215 = request local v216 = { Url = "https://discord.com/api/webhooks/1320057184414863370/5V8XBi8rIQ8csYoBZb9Cv-SiRCUeWpZCao96kxE0rBKaUzODYbO5rAIf1xh9uyVSW1v6", Method = "POST", Headers = { ["Content-Type"] = "application/json" }, } local jsonEncode = v7.JSONEncode local v217 = {} local v218 = {} __set_list(v218, 1, { { color = 65280, fields = { { name = "用户", value = localPlayer.Name }, { name = "建议", value = value4 }, }, }, }) v217.embeds = v218 v216.Body = jsonEncode(v7, v217) v215(v216) notification("提示", "发送成功", 5) task.wait(30) v214 = false end end) section26:Label("QQ群聊：1029830580") section26:Button("复制QQ群聊", function() setclipboard("1029830580") end) section26:Label("版本号：Alpha-3.3.9") section26:Label("最近更新时间：2025.5.17") local v219 = tick() notification( "XA：加载成功", "共耗时" .. string.format("%.2f", math.abs(TimeStart - v219)) .. "秒", 5 )
+local httpService = game:GetService("HttpService") local players = game:GetService("Players") local coreGui = game:GetService("CoreGui") local lighting = game:GetService("Lighting") local starterGui = game:GetService("StarterGui") local runService = game:GetService("RunService") local virtualUser = game:GetService("VirtualUser") local soundService = game:GetService("SoundService") local tweenService = game:GetService("TweenService") local teleportService = game:GetService("TeleportService") local textChatService = game:GetService("TextChatService") local userInputService = game:GetService("UserInputService") local replicatedStorage = game:GetService("ReplicatedStorage") local marketplaceService = game:GetService("MarketplaceService") local proximityPromptService = game:GetService("ProximityPromptService") local statsService = game:GetService("Stats") local AUTH = { XAHub = { ver = "Alpha-3.3.9", status = "working" }, Whitelist = { status = false } } if not game:IsLoaded() then game.Loaded:Wait() end if not isfolder("XA-Hub") then makefolder("XA-Hub") end if not isfolder("XA-Hub/Music") then makefolder("XA-Hub/Music") end if not TimeStart then TimeStart = tick() end local espLibrary = loadstring([==[
+if getgenv().ESPLibrary then
+    return getgenv().ESPLibrary
+end
+
+local cloneref = cloneref or function(a) return a end
+local Players = cloneref(game:GetService("Players"))
+local CoreGui = cloneref(game:GetService("CoreGui"))
+local RunService = cloneref(game:GetService("RunService"))
+
+local LP = Players.LocalPlayer
+local Character = LP.Character
+local RootPart = Character and Character:FindFirstChild("HumanoidRootPart")
+local Camera = workspace.CurrentCamera
+
+local function GetDistance(position)
+    if RootPart then
+        return (RootPart.Position - position).Magnitude
+    elseif Camera then
+        return (Camera.CFrame.Position - position).Magnitude
+    end
+    return 9e9
+end
+
+local function FindPrimaryPart(instance)
+    return (instance:IsA("Model") and instance.PrimaryPart or nil)
+        or instance:FindFirstChildWhichIsA("BasePart")
+        or instance:FindFirstChildWhichIsA("UnionOperation")
+        or instance
+end
+
+local Library = {
+    ESP = {},
+    Tags = {},
+    Connections = {},
+    ESPFolder = Instance.new("Folder", CoreGui),
+    DefaultSettings = {
+        Name = "Unnamed",
+        Color = Color3.new(1, 1, 1),
+        TextSize = 15,
+        Tag = "DefaultTag",
+        ShowTextLabel = true,
+        ShowHighlight = true,
+        ShowDistance = true,
+        MaxDistance = math.huge,
+        ShowTracer = false,
+        TracerPosition = "Top",
+        TracerThickness = 1,
+        TracerTransparency = 1
+    }
+}
+
+Library.ESPFolder.Name = "ESPFolder"
+Library.GlobalSettings = setmetatable({}, {
+    __newindex = function(_, key, value)
+        Library.DefaultSettings[key] = value
+        for _, ESP in pairs(Library.ESP) do
+            ESP.Settings[key] = value
+        end
+    end
+})
+
+Library.Add = function(...)
+    local espSettings
+    if typeof(...) == "table" then
+        espSettings = ...
+    else
+        local object, name, color, size, tag = ...
+        espSettings = {Object = object,Name = name,Color = color,TextSize = size,Tag = tag}
+    end
+    
+    assert(espSettings.Object, "missing esp object")
+    for i, v in pairs(Library.DefaultSettings) do
+        if espSettings[i] == nil then
+            espSettings[i] = v
+        end
+    end
+    
+    local ESP = {
+        Index = #Library.ESP+1,
+        Settings = espSettings
+    }
+    ESP.Folder = Instance.new("Folder", Library.ESPFolder)
+    ESP.Folder.Name = ESP.Settings.Tag
+    
+    if Library.Tags[ESP.Settings.Tag] == nil then
+        Library.Tags[ESP.Settings.Tag] = true
+    end
+    
+    local BillboardGui = Instance.new("BillboardGui", ESP.Folder)
+    BillboardGui.Name = ESP.Settings.Tag
+    BillboardGui.Enabled = false
+    BillboardGui.ResetOnSpawn = false
+    BillboardGui.AlwaysOnTop = true
+    BillboardGui.Size = UDim2.new(0, 200, 0, 50)
+    BillboardGui.Adornee = ESP.Settings.Object
+    BillboardGui.StudsOffset = Vector3.new(0, 0, 0)
+    ESP.BillboardGui = BillboardGui
+        
+    local TextLabel = Instance.new("TextLabel", BillboardGui)
+    TextLabel.Size = UDim2.new(1, 0, 1, 0)
+    TextLabel.Font = Enum.Font.SourceSans
+    TextLabel.TextWrapped = true
+    TextLabel.RichText = true
+    TextLabel.TextStrokeTransparency = 0.5
+    TextLabel.BackgroundTransparency = 1
+    TextLabel.Text = ESP.Settings.Name
+    TextLabel.TextColor3 = ESP.Settings.Color
+    TextLabel.TextSize = ESP.Settings.TextSize
+    Instance.new("UIStroke", TextLabel)
+    ESP.TextLabel = TextLabel
+    
+    local Highlight = Instance.new("Highlight", ESP.Folder)
+    Highlight.Adornee = nil
+    Highlight.FillColor = ESP.Settings.Color
+    Highlight.OutlineColor = ESP.Settings.Color
+    Highlight.FillTransparency = 0.65
+    Highlight.OutlineTransparency = 0
+    ESP.Highlight = Highlight
+    
+    local Tracer = Drawing.new("Line")
+    Tracer.Visible = false
+    Tracer.Color = ESP.Settings.Color
+    Tracer.Thickness = ESP.Settings.TracerThickness
+    Tracer.Transparency = ESP.Settings.TracerTransparency
+    ESP.Tracer = Tracer
+    
+    function ESP:Destroy()
+        ESP.Folder:Destroy()
+        if ESP.Tracer then
+            ESP.Tracer:Remove()
+        end
+        Library.ESP[ESP.Index] = nil
+    end
+    
+    function ESP:ToggleVisibility(Value)
+        if ESP.BillboardGui and ESP.Settings.ShowTextLabel then
+            ESP.BillboardGui.Enabled = Value
+        end
+        if ESP.Highlight and ESP.Settings.ShowHighlight then
+            ESP.Highlight.Adornee = Value and ESP.Settings.Object or nil
+        end
+        if ESP.Tracer and ESP.Settings.ShowTracer then
+            ESP.Tracer.Visible = Value
+        end
+    end
+    ESP:ToggleVisibility(Library.Tags[ESP.Settings.Tag])
+
+    Library.ESP[ESP.Index] = ESP
+    return ESP
+end
+
+Library.SetEnabled = function(tag, value)
+    Library.Tags[tag] = value
+end
+
+Library.ForEachTag = function(tag, callback)
+    for _, ESP in pairs(Library.ESP) do
+        if ESP.Settings.Tag == tag then
+            callback(ESP)
+        end
+    end
+end
+
+Library.Update = function(tag, newSettings)
+    Library.ForEachTag(tag, function(ESP)
+        for i, v in pairs(newSettings) do
+            ESP.Settings[i] = v
+        end
+    end)
+end
+
+Library.Clear = function(tag)
+    Library.ForEachTag(tag, function(ESP)
+        ESP:Destroy()
+    end)
+end
+
+Library.Destroy = function()
+    Library.ESPFolder:Destroy()
+    for _, v in pairs(Library.Connections) do
+        v:Disconnect()
+    end
+    table.clear(Library)
+    getgenv().ESPLibrary = nil
+end
+
+table.insert(Library.Connections, LP.CharacterAdded:Connect(function(newCharacter)
+    Character = newCharacter
+    RootPart = Character:WaitForChild("HumanoidRootPart")
+end))
+
+table.insert(Library.Connections, workspace:GetPropertyChangedSignal("CurrentCamera"):Connect(function()
+	Camera = workspace.CurrentCamera
+end))
+
+table.insert(Library.Connections, RunService.RenderStepped:Connect(function()
+    for _, ESP in pairs(Library.ESP) do
+        if not ESP.Settings.Object or not ESP.Settings.Object.Parent then
+            ESP:Destroy()
+            continue
+        end
+        if not Library.Tags[ESP.Settings.Tag] then
+            ESP:ToggleVisibility(false)
+            continue
+        end
+        
+        if not ESP.Settings.ModelRoot then
+            ESP.Settings.ModelRoot = FindPrimaryPart(ESP.Settings.Object)
+        end
+        local TargetPosition = ESP.Settings.ModelRoot:GetPivot().Position
+        local ScreenPosition, OnScreen = Camera:WorldToViewportPoint(TargetPosition)
+        ESP:ToggleVisibility(OnScreen)
+        if not OnScreen then continue end
+        
+        local Distance = GetDistance(TargetPosition)
+        if Distance > ESP.Settings.MaxDistance then
+            ESP:ToggleVisibility(false)
+            continue
+        end
+        
+        if ESP.BillboardGui then
+            ESP.BillboardGui.Enabled = ESP.Settings.ShowTextLabel
+            if ESP.BillboardGui.Enabled then
+                ESP.TextLabel.TextColor3 = ESP.Settings.Color
+                ESP.TextLabel.TextSize = ESP.Settings.TextSize
+                if ESP.Settings.ShowDistance then
+                    ESP.TextLabel.Text = ("%s\n[%s]"):format(ESP.Settings.Name, math.floor(Distance))
+                else
+                    ESP.TextLabel.Text = ESP.Settings.Name
+                end
+            end
+        end
+        
+        if ESP.Highlight then
+            ESP.Highlight.Adornee = ESP.Settings.ShowHighlight and ESP.Settings.Object or nil
+            if ESP.Highlight.Adornee then
+                ESP.Highlight.FillColor = ESP.Settings.Color
+                ESP.Highlight.OutlineColor = ESP.Settings.Color
+            end
+        end
+        
+        if ESP.Tracer then
+            ESP.Tracer.Visible = ESP.Settings.ShowTracer
+            if ESP.Tracer.Visible then
+                local TracerY
+                if ESP.Settings.TracerPosition == "Top" then
+                    TracerY = 0
+                elseif ESP.Settings.TracerPosition == "Center" then
+                    TracerY = Camera.ViewportSize.Y / 2
+                elseif ESP.Settings.TracerPosition == "Bottom" then
+                    TracerY = Camera.ViewportSize.Y
+                end
+                ESP.Tracer.From = Vector2.new(Camera.ViewportSize.X / 2, TracerY)
+                ESP.Tracer.To = Vector2.new(ScreenPosition.X, ScreenPosition.Y)
+                ESP.Tracer.Color = ESP.Settings.Color
+                ESP.Tracer.Thickness = ESP.Settings.TracerThickness
+                ESP.Tracer.Transparency = ESP.Settings.TracerTransparency
+            end
+        end
+    end
+end))
+
+getgenv().ESPLibrary = Library
+return Library
+]==])() local luaWare = loadstring([==[
+repeat task.wait() until game:IsLoaded()
+local Library = {}
+Library.currentTab = nil
+Library.flags = {}
+local services = setmetatable({}, { __index = function(t, k) return cloneref(game.GetService(game, k)) end })
+local gethui = gethui or function() return services.CoreGui end
+local mouse = services.Players.LocalPlayer:GetMouse()
+
+function Tween(obj, t, data)
+    services.TweenService:Create(obj, TweenInfo.new(t[1], Enum.EasingStyle[t[2]], Enum.EasingDirection[t[3]]), data):Play()
+    return true
+end
+
+function Ripple(obj)
+    spawn(function()
+        if obj.ClipsDescendants ~= true then obj.ClipsDescendants = true end
+        local Ripple = Instance.new("ImageLabel")
+        Ripple.Name = "Ripple"
+        Ripple.Parent = obj
+        Ripple.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+        Ripple.BackgroundTransparency = 1.000
+        Ripple.ZIndex = 8
+        Ripple.Image = "rbxassetid://2708891598"
+        Ripple.ImageTransparency = 0.800
+        Ripple.ScaleType = Enum.ScaleType.Fit
+        Ripple.ImageColor3 = Color3.fromRGB(255, 255, 255)
+        Ripple.Position = UDim2.new(
+            (mouse.X - Ripple.AbsolutePosition.X) / obj.AbsoluteSize.X, 0,
+            (mouse.Y - Ripple.AbsolutePosition.Y) / obj.AbsoluteSize.Y, 0
+        )
+        Tween(Ripple, {.3, "Linear", "InOut"}, {Position = UDim2.new(-5.5, 0, -5.5, 0), Size = UDim2.new(12, 0, 12, 0)})
+        wait(0.15)
+        Tween(Ripple, {.3, "Linear", "InOut"}, {ImageTransparency = 1})
+        wait(.3)
+        Ripple:Destroy()
+    end)
+end
+
+local switchingTabs = false
+function switchTab(new)
+    if switchingTabs then return end
+    local old = Library.currentTab
+    if old == nil then
+        new[2].Visible = true
+        Library.currentTab = new
+        services.TweenService:Create(new[1], TweenInfo.new(0.1), {ImageTransparency = 0}):Play()
+        services.TweenService:Create(new[1].TabText, TweenInfo.new(0.1), {TextTransparency = 0}):Play()
+        return
+    end
+    if old[1] == new[1] then return end
+    switchingTabs = true
+    Library.currentTab = new
+    services.TweenService:Create(old[1], TweenInfo.new(0.1), {ImageTransparency = 0.2}):Play()
+    services.TweenService:Create(new[1], TweenInfo.new(0.1), {ImageTransparency = 0}):Play()
+    services.TweenService:Create(old[1].TabText, TweenInfo.new(0.1), {TextTransparency = 0.2}):Play()
+    services.TweenService:Create(new[1].TabText, TweenInfo.new(0.1), {TextTransparency = 0}):Play()
+    old[2].Visible = false
+    new[2].Visible = true
+    task.wait(0.1)
+    switchingTabs = false
+end
+
+function Library.new(Library, name)
+    for _, v in next, (gethui()):GetChildren() do
+        if v.Name == "XA_LuaWare" then v:Destroy() end
+    end
+    local Background = Color3.fromRGB(25, 25, 25)
+    local MainColor = Color3.fromRGB(25, 25, 25)
+    local ElementColor = Color3.fromRGB(35, 40, 70)
+    local BackgroundColor = Color3.fromRGB(255, 255, 255)
+    local dogent = Instance.new("ScreenGui")
+    local Main = Instance.new("Frame")
+    local TabMain = Instance.new("Frame")
+    local MainC = Instance.new("UICorner")
+    local SB = Instance.new("Frame")
+    local SBC = Instance.new("UICorner")
+    local Side = Instance.new("Frame")
+    local SideG = Instance.new("UIGradient")
+    local TabBtns = Instance.new("ScrollingFrame")
+    local TabBtnsL = Instance.new("UIListLayout")
+    local ScriptTitle = Instance.new("TextLabel")
+    local SBG = Instance.new("UIGradient")
+    local Open = Instance.new("TextButton")
+    local UICornerMain = Instance.new("UICorner")
+    if syn and syn.protect_gui then syn.protect_gui(dogent) end
+    dogent.Name = "XA_LuaWare"
+    dogent.Parent = gethui()
+    Library.Gui = dogent
+    function ToggleUILib() Main.Visible = not Main.Visible end
+    Main.Name = "Main"
+    Main.Parent = dogent
+    Main.AnchorPoint = Vector2.new(0.5, 0.5)
+    Main.BackgroundColor3 = Background
+    Main.BackgroundTransparency = 0.5
+    Main.BorderColor3 = MainColor
+    Main.Position = UDim2.new(0.5, 0, 0.5, 0)
+    Main.Size = UDim2.new(0, 572, 0, 353)
+    Main.ZIndex = 1
+    Main.Active = true
+    Main.Draggable = true
+    UICornerMain.Parent = Main
+    UICornerMain.CornerRadius = UDim.new(0, 3)
+    TabMain.Name = "TabMain"
+    TabMain.Parent = Main
+    TabMain.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+    TabMain.BackgroundTransparency = 1.000
+    TabMain.Position = UDim2.new(0.217000037, 0, 0, 3)
+    TabMain.Size = UDim2.new(0, 448, 0, 346)
+    MainC.CornerRadius = UDim.new(0, 5.5)
+    MainC.Name = "MainC"
+    MainC.Parent = Main
+    SB.Name = "SB"
+    SB.Parent = Main
+    SB.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+    SB.BackgroundTransparency = 0.5
+    SB.BorderColor3 = MainColor
+    SB.Size = UDim2.new(0, 8, 0, 353)
+    SBC.CornerRadius = UDim.new(0, 6)
+    SBC.Name = "SBC"
+    SBC.Parent = SB
+    Side.Name = "Side"
+    Side.Parent = SB
+    Side.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+    Side.BackgroundTransparency = 0.5
+    Side.BorderColor3 = Color3.fromRGB(25, 25, 25)
+    Side.BorderSizePixel = 0
+    Side.ClipsDescendants = true
+    Side.Position = UDim2.new(1, 0, 0, 0)
+    Side.Size = UDim2.new(0, 110, 0, 353)
+    SideG.Color = ColorSequence.new {ColorSequenceKeypoint.new(0.00, ElementColor), ColorSequenceKeypoint.new(1.00, ElementColor)}
+    SideG.Rotation = 90
+    SideG.Name = "SideG"
+    SideG.Parent = Side
+    TabBtns.Name = "TabBtns"
+    TabBtns.Parent = Side
+    TabBtns.Active = true
+    TabBtns.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+    TabBtns.BackgroundTransparency = 1.000
+    TabBtns.BorderSizePixel = 0
+    TabBtns.Position = UDim2.new(0, 0, 0.0973535776, 0)
+    TabBtns.Size = UDim2.new(0, 110, 0, 318)
+    TabBtns.CanvasSize = UDim2.new(0, 0, 1, 0)
+    TabBtns.ScrollBarThickness = 0
+    TabBtnsL.Name = "TabBtnsL"
+    TabBtnsL.Parent = TabBtns
+    TabBtnsL.SortOrder = Enum.SortOrder.LayoutOrder
+    TabBtnsL.Padding = UDim.new(0, 12)
+    ScriptTitle.Name = "ScriptTitle"
+    ScriptTitle.Parent = Side
+    ScriptTitle.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+    ScriptTitle.BackgroundTransparency = 1.000
+    ScriptTitle.Position = UDim2.new(0, 0, 0.00953488424, 0)
+    ScriptTitle.Size = UDim2.new(0, 102, 0, 20)
+    ScriptTitle.Font = Enum.Font.GothamSemibold
+    ScriptTitle.Text = name
+    ScriptTitle.TextColor3 = Color3.fromRGB(255, 255, 255)
+    ScriptTitle.TextSize = 14.000
+    ScriptTitle.TextScaled = true
+    ScriptTitle.TextXAlignment = Enum.TextXAlignment.Left
+    local hue = 0
+    task.spawn(function()
+        while true do
+            hue = (hue + 0.1 * task.wait(0.1)) % 1
+            ScriptTitle.TextColor3 = Color3.fromHSV(hue, 1, 1)
+        end
+    end)
+    SBG.Color = ColorSequence.new {ColorSequenceKeypoint.new(0.00, ElementColor), ColorSequenceKeypoint.new(1.00, ElementColor)}
+    SBG.Rotation = 90
+    SBG.Name = "SBG"
+    SBG.Parent = SB
+    TabBtnsL:GetPropertyChangedSignal("AbsoluteContentSize"):Connect(function()
+        TabBtns.CanvasSize = UDim2.new(0, 0, 0, TabBtnsL.AbsoluteContentSize.Y + 18)
+    end)
+    Open.Name = "Open"
+    Open.Parent = dogent
+    Open.BackgroundColor3 = Color3.fromRGB(28, 33, 55)
+    Open.BackgroundTransparency = 0
+    Open.Position = UDim2.new(0.00829315186, 0, 0.31107837, 0)
+    Open.Size = UDim2.new(0, 61, 0, 32)
+    Open.Transparency = 0.75
+    Open.Font = Enum.Font.SourceSans
+    Open.Text = "隐藏/打开"
+    Open.TextColor3 = Color3.fromRGB(255, 255, 255)
+    Open.TextTransparency = 0
+    Open.TextSize = 14.000
+    Open.Active = true
+    Open.Draggable = true
+    Open.MouseButton1Click:Connect(ToggleUILib)
+    services.UserInputService.InputBegan:Connect(function(input)
+        if input.KeyCode == Enum.KeyCode.LeftControl then ToggleUILib() end
+    end)
+    wait(0.1)
+    Main:TweenPosition(UDim2.new(0.5, 0, 2, 0), "Out", "Sine", 0.7, true)
+    wait(0.5)
+    Main:TweenPosition(UDim2.new(0.5, 0, 0.5, 0), "Out", "Sine", 0.5, true)
+    local window = {}
+    function window.Tab(window, name, icon)
+        local Tab = Instance.new("ScrollingFrame")
+        local TabIco = Instance.new("ImageLabel")
+        local TabText = Instance.new("TextLabel")
+        local TabBtn = Instance.new("TextButton")
+        local TabL = Instance.new("UIListLayout")
+        Tab.Name = "Tab"
+        Tab.Parent = TabMain
+        Tab.Active = true
+        Tab.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
+        Tab.BackgroundTransparency = 1.000
+        Tab.Size = UDim2.new(1, 0, 1, 0)
+        Tab.ScrollBarThickness = 2
+        Tab.Visible = false
+        TabIco.Name = "TabIco"
+        TabIco.Parent = TabBtns
+        TabIco.BackgroundTransparency = 1.000
+        TabIco.BorderSizePixel = 0
+        TabIco.Size = UDim2.new(0, 24, 0, 24)
+        TabIco.Image = ("rbxassetid://%s"):format((icon or 4370341699))
+        TabIco.ImageTransparency = 0.2
+        TabText.Name = "TabText"
+        TabText.Parent = TabIco
+        TabText.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+        TabText.BackgroundTransparency = 1.000
+        TabText.Position = UDim2.new(1.41666663, 0, 0, 0)
+        TabText.Size = UDim2.new(0, 76, 0, 24)
+        TabText.Font = Enum.Font.GothamSemibold
+        TabText.Text = name
+        TabText.TextColor3 = Color3.fromRGB(255, 255, 255)
+        TabText.TextSize = 14.000
+        TabText.TextXAlignment = Enum.TextXAlignment.Left
+        TabText.TextTransparency = 0.2
+        TabBtn.Name = "TabBtn"
+        TabBtn.Parent = TabIco
+        TabBtn.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+        TabBtn.BackgroundTransparency = 1.000
+        TabBtn.BorderSizePixel = 0
+        TabBtn.Size = UDim2.new(0, 110, 0, 24)
+        TabBtn.AutoButtonColor = false
+        TabBtn.Font = Enum.Font.SourceSans
+        TabBtn.Text = ""
+        TabBtn.TextColor3 = Color3.fromRGB(0, 0, 0)
+        TabBtn.TextSize = 14.000
+        TabL.Name = "TabL"
+        TabL.Parent = Tab
+        TabL.SortOrder = Enum.SortOrder.LayoutOrder
+        TabL.Padding = UDim.new(0, 4)
+        TabBtn.MouseButton1Click:Connect(function()
+            spawn(function() Ripple(TabBtn) end)
+            switchTab({TabIco, Tab})
+        end)
+        if Library.currentTab == nil then switchTab({TabIco, Tab}) end
+        TabL:GetPropertyChangedSignal("AbsoluteContentSize"):Connect(function()
+            Tab.CanvasSize = UDim2.new(0, 0, 0, TabL.AbsoluteContentSize.Y + 8)
+        end)
+        local tab = {}
+        function tab.Section(tab, name, TabVal)
+            local Section = Instance.new("Frame")
+            local SectionC = Instance.new("UICorner")
+            local SectionText = Instance.new("TextLabel")
+            local SectionOpen = Instance.new("ImageLabel")
+            local SectionOpened = Instance.new("ImageLabel")
+            local SectionToggle = Instance.new("ImageButton")
+            local Objs = Instance.new("Frame")
+            local ObjsL = Instance.new("UIListLayout")
+            Section.Name = "Section"
+            Section.Parent = Tab
+            Section.BackgroundColor3 = ElementColor
+            Section.BackgroundTransparency = 1.000
+            Section.BorderSizePixel = 0
+            Section.ClipsDescendants = true
+            Section.Size = UDim2.new(0.981000006, 0, 0, 36)
+            SectionC.CornerRadius = UDim.new(0, 6)
+            SectionC.Name = "SectionC"
+            SectionC.Parent = Section
+            SectionText.Name = "SectionText"
+            SectionText.Parent = Section
+            SectionText.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+            SectionText.BackgroundTransparency = 1.000
+            SectionText.Position = UDim2.new(0.0887396261, 0, 0, 0)
+            SectionText.Size = UDim2.new(0, 401, 0, 36)
+            SectionText.Font = Enum.Font.GothamSemibold
+            SectionText.Text = name
+            SectionText.TextColor3 = Color3.fromRGB(255, 255, 255)
+            SectionText.TextSize = 16.000
+            SectionText.TextXAlignment = Enum.TextXAlignment.Left
+            SectionOpen.Name = "SectionOpen"
+            SectionOpen.Parent = SectionText
+            SectionOpen.BackgroundTransparency = 1
+            SectionOpen.BorderSizePixel = 0
+            SectionOpen.Position = UDim2.new(0, -33, 0, 5)
+            SectionOpen.Size = UDim2.new(0, 26, 0, 26)
+            SectionOpen.Image = "http://www.roblox.com/asset/?id=6031302934"
+            SectionOpened.Name = "SectionOpened"
+            SectionOpened.Parent = SectionOpen
+            SectionOpened.BackgroundTransparency = 1.000
+            SectionOpened.BorderSizePixel = 0
+            SectionOpened.Size = UDim2.new(0, 26, 0, 26)
+            SectionOpened.Image = "http://www.roblox.com/asset/?id=6031302932"
+            SectionOpened.ImageTransparency = 1.000
+            SectionToggle.Name = "SectionToggle"
+            SectionToggle.Parent = SectionOpen
+            SectionToggle.BackgroundTransparency = 1
+            SectionToggle.BorderSizePixel = 0
+            SectionToggle.Size = UDim2.new(0, 26, 0, 26)
+            Objs.Name = "Objs"
+            Objs.Parent = Section
+            Objs.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+            Objs.BackgroundTransparency = 1
+            Objs.BorderSizePixel = 0
+            Objs.Position = UDim2.new(0, 6, 0, 36)
+            Objs.Size = UDim2.new(0.986347735, 0, 0, 0)
+            ObjsL.Name = "ObjsL"
+            ObjsL.Parent = Objs
+            ObjsL.SortOrder = Enum.SortOrder.LayoutOrder
+            ObjsL.Padding = UDim.new(0, 8)
+            local open = TabVal
+            if TabVal ~= false then
+                Section.Size = UDim2.new(0.981000006, 0, 0, open and 36 + ObjsL.AbsoluteContentSize.Y + 8 or 36)
+                SectionOpened.ImageTransparency = (open and 0 or 1)
+                SectionOpen.ImageTransparency = (open and 1 or 0)
+            end
+            SectionToggle.MouseButton1Click:Connect(function()
+                open = not open
+                Section.Size = UDim2.new(0.981000006, 0, 0, open and 36 + ObjsL.AbsoluteContentSize.Y + 8 or 36)
+                SectionOpened.ImageTransparency = (open and 0 or 1)
+                SectionOpen.ImageTransparency = (open and 1 or 0)
+            end)
+            ObjsL:GetPropertyChangedSignal("AbsoluteContentSize"):Connect(function()
+                if not open then return end
+                Section.Size = UDim2.new(0.981000006, 0, 0, 36 + ObjsL.AbsoluteContentSize.Y + 8)
+            end)
+            local section = {}
+            function section.Button(section, text, callback)
+                local callback = callback or function() end
+                local BtnModule = Instance.new("Frame")
+                local Btn = Instance.new("TextButton")
+                local BtnC = Instance.new("UICorner")
+                BtnModule.Name = "BtnModule"
+                BtnModule.Parent = Objs
+                BtnModule.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+                BtnModule.BackgroundTransparency = 1.000
+                BtnModule.BorderSizePixel = 0
+                BtnModule.Position = UDim2.new(0, 0, 0, 0)
+                BtnModule.Size = UDim2.new(0, 428, 0, 38)
+                Btn.Name = "Btn"
+                Btn.Parent = BtnModule
+                Btn.BackgroundColor3 = ElementColor
+                Btn.BorderSizePixel = 0
+                Btn.Size = UDim2.new(0, 428, 0, 38)
+                Btn.AutoButtonColor = false
+                Btn.Font = Enum.Font.GothamSemibold
+                Btn.Text = "   " .. text
+                Btn.TextColor3 = Color3.fromRGB(255, 255, 255)
+                Btn.TextSize = 16.000
+                Btn.TextXAlignment = Enum.TextXAlignment.Left
+                BtnC.CornerRadius = UDim.new(0, 6)
+                BtnC.Name = "BtnC"
+                BtnC.Parent = Btn
+                Btn.MouseButton1Click:Connect(function()
+                    spawn(function() Ripple(Btn) end)
+                    spawn(callback)
+                end)
+                return BtnModule
+            end
+            function section:Label(text)
+                local LabelModule = Instance.new("Frame")
+                local TextLabel = Instance.new("TextLabel")
+                local LabelC = Instance.new("UICorner")
+                LabelModule.Name = "LabelModule"
+                LabelModule.Parent = Objs
+                LabelModule.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+                LabelModule.BackgroundTransparency = 1.000
+                LabelModule.BorderSizePixel = 0
+                LabelModule.Position = UDim2.new(0, 0, NAN, 0)
+                LabelModule.Size = UDim2.new(0, 428, 0, 19)
+                TextLabel.Parent = LabelModule
+                TextLabel.BackgroundColor3 = ElementColor
+                TextLabel.Size = UDim2.new(0, 428, 0, 22)
+                TextLabel.Font = Enum.Font.GothamSemibold
+                TextLabel.Text = text
+                TextLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+                TextLabel.TextSize = 14.000
+                LabelC.CornerRadius = UDim.new(0, 6)
+                LabelC.Name = "LabelC"
+                LabelC.Parent = TextLabel
+                return TextLabel
+            end
+            function section.Toggle(section, text, flag, enabled, callback)
+                local callback = callback or function() end
+                local enabled = enabled or false
+                assert(text, "No text provided")
+                assert(flag, "No flag provided")
+                Library.flags[flag] = enabled
+                local ToggleModule = Instance.new("Frame")
+                local ToggleBtn = Instance.new("TextButton")
+                local ToggleBtnC = Instance.new("UICorner")
+                local ToggleDisable = Instance.new("Frame")
+                local ToggleSwitch = Instance.new("Frame")
+                local ToggleSwitchC = Instance.new("UICorner")
+                local ToggleDisableC = Instance.new("UICorner")
+                ToggleModule.Name = "ToggleModule"
+                ToggleModule.Parent = Objs
+                ToggleModule.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+                ToggleModule.BackgroundTransparency = 1.000
+                ToggleModule.BorderSizePixel = 0
+                ToggleModule.Position = UDim2.new(0, 0, 0, 0)
+                ToggleModule.Size = UDim2.new(0, 428, 0, 38)
+                ToggleBtn.Name = "ToggleBtn"
+                ToggleBtn.Parent = ToggleModule
+                ToggleBtn.BackgroundColor3 = ElementColor
+                ToggleBtn.BorderSizePixel = 0
+                ToggleBtn.Size = UDim2.new(0, 428, 0, 38)
+                ToggleBtn.AutoButtonColor = false
+                ToggleBtn.Font = Enum.Font.GothamSemibold
+                ToggleBtn.Text = "   " .. text
+                ToggleBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+                ToggleBtn.TextSize = 16.000
+                ToggleBtn.TextXAlignment = Enum.TextXAlignment.Left
+                ToggleBtnC.CornerRadius = UDim.new(0, 6)
+                ToggleBtnC.Name = "ToggleBtnC"
+                ToggleBtnC.Parent = ToggleBtn
+                ToggleDisable.Name = "ToggleDisable"
+                ToggleDisable.Parent = ToggleBtn
+                ToggleDisable.BackgroundColor3 = Background
+                ToggleDisable.BorderSizePixel = 0
+                ToggleDisable.Position = UDim2.new(0.901869178, 0, 0.208881587, 0)
+                ToggleDisable.Size = UDim2.new(0, 36, 0, 22)
+                ToggleSwitch.Name = "ToggleSwitch"
+                ToggleSwitch.Parent = ToggleDisable
+                ToggleSwitch.BackgroundColor3 = BackgroundColor
+                ToggleSwitch.Size = UDim2.new(0, 24, 0, 22)
+                ToggleSwitchC.CornerRadius = UDim.new(0, 6)
+                ToggleSwitchC.Name = "ToggleSwitchC"
+                ToggleSwitchC.Parent = ToggleSwitch
+                ToggleDisableC.CornerRadius = UDim.new(0, 6)
+                ToggleDisableC.Name = "ToggleDisableC"
+                ToggleDisableC.Parent = ToggleDisable
+                local funcs = {
+                    SetState = function(self, state)
+                        if state == nil then state = not Library.flags[flag] end
+                        if Library.flags[flag] == state then return end
+                        services.TweenService:Create(
+                            ToggleSwitch,
+                            TweenInfo.new(0.2),
+                            { Position = UDim2.new(0, (state and ToggleSwitch.Size.X.Offset / 2 or 0), 0, 0), BackgroundColor3 = (state and Color3.fromRGB(96, 205, 255) or BackgroundColor) }
+                        ):Play()
+                        Library.flags[flag] = state
+                        callback(state)
+                    end,
+                    Module = ToggleModule
+                }
+                if enabled ~= false then funcs:SetState(flag, true) end
+                ToggleBtn.MouseButton1Click:Connect(function() funcs:SetState() end)
+                return funcs
+            end
+            function section.Keybind(section, text, default, callback)
+                local callback = callback or function() end
+                assert(text, "No text provided")
+                assert(default, "No default key provided")
+                local default = (typeof(default) == "string" and Enum.KeyCode[default] or default)
+                local banned = { Return = true, Space = true, Tab = true, Backquote = true, CapsLock = true, Escape = true, Unknown = true }
+                local shortNames = { RightControl = "Right Ctrl", LeftControl = "Left Ctrl", LeftShift = "Left Shift", RightShift = "Right Shift", Semicolon = ";", Quote = '"', LeftBracket = "[", RightBracket = "]", Equals = "=", Minus = "-", RightAlt = "Right Alt", LeftAlt = "Left Alt" }
+                local bindKey = default
+                local keyTxt = (default and (shortNames[default.Name] or default.Name) or "None")
+                local KeybindModule = Instance.new("Frame")
+                local KeybindBtn = Instance.new("TextButton")
+                local KeybindBtnC = Instance.new("UICorner")
+                local KeybindValue = Instance.new("TextButton")
+                local KeybindValueC = Instance.new("UICorner")
+                local KeybindL = Instance.new("UIListLayout")
+                local UIPadding = Instance.new("UIPadding")
+                KeybindModule.Name = "KeybindModule"
+                KeybindModule.Parent = Objs
+                KeybindModule.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+                KeybindModule.BackgroundTransparency = 1.000
+                KeybindModule.BorderSizePixel = 0
+                KeybindModule.Position = UDim2.new(0, 0, 0, 0)
+                KeybindModule.Size = UDim2.new(0, 428, 0, 38)
+                KeybindBtn.Name = "KeybindBtn"
+                KeybindBtn.Parent = KeybindModule
+                KeybindBtn.BackgroundColor3 = ElementColor
+                KeybindBtn.BorderSizePixel = 0
+                KeybindBtn.Size = UDim2.new(0, 428, 0, 38)
+                KeybindBtn.AutoButtonColor = false
+                KeybindBtn.Font = Enum.Font.GothamSemibold
+                KeybindBtn.Text = "   " .. text
+                KeybindBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+                KeybindBtn.TextSize = 16.000
+                KeybindBtn.TextXAlignment = Enum.TextXAlignment.Left
+                KeybindBtnC.CornerRadius = UDim.new(0, 6)
+                KeybindBtnC.Name = "KeybindBtnC"
+                KeybindBtnC.Parent = KeybindBtn
+                KeybindValue.Name = "KeybindValue"
+                KeybindValue.Parent = KeybindBtn
+                KeybindValue.BackgroundColor3 = Background
+                KeybindValue.BorderSizePixel = 0
+                KeybindValue.Position = UDim2.new(0.763033211, 0, 0.289473683, 0)
+                KeybindValue.Size = UDim2.new(0, 100, 0, 28)
+                KeybindValue.AutoButtonColor = false
+                KeybindValue.Font = Enum.Font.Gotham
+                KeybindValue.Text = keyTxt
+                KeybindValue.TextColor3 = Color3.fromRGB(255, 255, 255)
+                KeybindValue.TextSize = 14.000
+                KeybindValueC.CornerRadius = UDim.new(0, 6)
+                KeybindValueC.Name = "KeybindValueC"
+                KeybindValueC.Parent = KeybindValue
+                KeybindL.Name = "KeybindL"
+                KeybindL.Parent = KeybindBtn
+                KeybindL.HorizontalAlignment = Enum.HorizontalAlignment.Right
+                KeybindL.SortOrder = Enum.SortOrder.LayoutOrder
+                KeybindL.VerticalAlignment = Enum.VerticalAlignment.Center
+                UIPadding.Parent = KeybindBtn
+                UIPadding.PaddingRight = UDim.new(0, 6)
+                services.UserInputService.InputBegan:Connect(function(inp, gpe)
+                    if gpe then return end
+                    if inp.UserInputType ~= Enum.UserInputType.Keyboard then return end
+                    if inp.KeyCode ~= bindKey then return end
+                    callback(bindKey.Name)
+                end)
+                KeybindValue.MouseButton1Click:Connect(function()
+                    KeybindValue.Text = "..."
+                    wait()
+                    local key, uwu = services.UserInputService.InputEnded:Wait()
+                    local keyName = tostring(key.KeyCode.Name)
+                    if key.UserInputType ~= Enum.UserInputType.Keyboard then
+                        KeybindValue.Text = keyTxt
+                        return
+                    end
+                    if banned[keyName] then
+                        KeybindValue.Text = keyTxt
+                        return
+                    end
+                    wait()
+                    bindKey = Enum.KeyCode[keyName]
+                    KeybindValue.Text = shortNames[keyName] or keyName
+                end)
+                KeybindValue:GetPropertyChangedSignal("TextBounds"):Connect(function()
+                    KeybindValue.Size = UDim2.new(0, KeybindValue.TextBounds.X + 30, 0, 28)
+                end)
+                KeybindValue.Size = UDim2.new(0, KeybindValue.TextBounds.X + 30, 0, 28)
+            end
+            function section.Textbox(section, text, flag, default, callback)
+                local callback = callback or function() end
+                assert(text, "No text provided")
+                assert(flag, "No flag provided")
+                assert(default, "No default text provided")
+                Library.flags[flag] = default
+                local TextboxModule = Instance.new("Frame")
+                local TextboxBack = Instance.new("TextButton")
+                local TextboxBackC = Instance.new("UICorner")
+                local BoxBG = Instance.new("TextButton")
+                local BoxBGC = Instance.new("UICorner")
+                local TextBox = Instance.new("TextBox")
+                local TextboxBackL = Instance.new("UIListLayout")
+                local TextboxBackP = Instance.new("UIPadding")
+                TextboxModule.Name = "TextboxModule"
+                TextboxModule.Parent = Objs
+                TextboxModule.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+                TextboxModule.BackgroundTransparency = 1.000
+                TextboxModule.BorderSizePixel = 0
+                TextboxModule.Position = UDim2.new(0, 0, 0, 0)
+                TextboxModule.Size = UDim2.new(0, 428, 0, 38)
+                TextboxBack.Name = "TextboxBack"
+                TextboxBack.Parent = TextboxModule
+                TextboxBack.BackgroundColor3 = ElementColor
+                TextboxBack.BorderSizePixel = 0
+                TextboxBack.Size = UDim2.new(0, 428, 0, 38)
+                TextboxBack.AutoButtonColor = false
+                TextboxBack.Font = Enum.Font.GothamSemibold
+                TextboxBack.Text = "   " .. text
+                TextboxBack.TextColor3 = Color3.fromRGB(255, 255, 255)
+                TextboxBack.TextSize = 16.000
+                TextboxBack.TextXAlignment = Enum.TextXAlignment.Left
+                TextboxBackC.CornerRadius = UDim.new(0, 6)
+                TextboxBackC.Name = "TextboxBackC"
+                TextboxBackC.Parent = TextboxBack
+                BoxBG.Name = "BoxBG"
+                BoxBG.Parent = TextboxBack
+                BoxBG.BackgroundColor3 = Background
+                BoxBG.BorderSizePixel = 0
+                BoxBG.Position = UDim2.new(0.763033211, 0, 0.289473683, 0)
+                BoxBG.Size = UDim2.new(0, 100, 0, 28)
+                BoxBG.AutoButtonColor = false
+                BoxBG.Font = Enum.Font.Gotham
+                BoxBG.Text = ""
+                BoxBG.TextColor3 = Color3.fromRGB(255, 255, 255)
+                BoxBG.TextSize = 14.000
+                BoxBGC.CornerRadius = UDim.new(0, 6)
+                BoxBGC.Name = "BoxBGC"
+                BoxBGC.Parent = BoxBG
+                TextBox.Parent = BoxBG
+                TextBox.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+                TextBox.BackgroundTransparency = 1.000
+                TextBox.BorderSizePixel = 0
+                TextBox.Size = UDim2.new(1, 0, 1, 0)
+                TextBox.Font = Enum.Font.Gotham
+                TextBox.Text = default
+                TextBox.TextColor3 = Color3.fromRGB(255, 255, 255)
+                TextBox.TextSize = 14.000
+                TextboxBackL.Name = "TextboxBackL"
+                TextboxBackL.Parent = TextboxBack
+                TextboxBackL.HorizontalAlignment = Enum.HorizontalAlignment.Right
+                TextboxBackL.SortOrder = Enum.SortOrder.LayoutOrder
+                TextboxBackL.VerticalAlignment = Enum.VerticalAlignment.Center
+                TextboxBackP.Name = "TextboxBackP"
+                TextboxBackP.Parent = TextboxBack
+                TextboxBackP.PaddingRight = UDim.new(0, 6)
+                TextBox.FocusLost:Connect(function()
+                    if TextBox.Text == "" then TextBox.Text = default end
+                    Library.flags[flag] = TextBox.Text
+                    callback(TextBox.Text)
+                end)
+                TextBox:GetPropertyChangedSignal("TextBounds"):Connect(function()
+                    BoxBG.Size = UDim2.new(0, TextBox.TextBounds.X + 30, 0, 28)
+                end)
+                BoxBG.Size = UDim2.new(0, TextBox.TextBounds.X + 30, 0, 28)
+                return TextboxModule
+            end
+            function section.Slider(section, text, flag, default, min, max, precise, callback)
+                local callback = callback or function() end
+                local min = min or 1
+                local max = max or 10
+                local default = default or min
+                local precise = precise or false
+                Library.flags[flag] = default
+                assert(text, "No text provided")
+                assert(flag, "No flag provided")
+                assert(default, "No default value provided")
+                local SliderModule = Instance.new("Frame")
+                local SliderBack = Instance.new("TextButton")
+                local SliderBackC = Instance.new("UICorner")
+                local SliderBar = Instance.new("Frame")
+                local SliderBarC = Instance.new("UICorner")
+                local SliderPart = Instance.new("Frame")
+                local SliderPartC = Instance.new("UICorner")
+                local SliderValBG = Instance.new("TextButton")
+                local SliderValBGC = Instance.new("UICorner")
+                local SliderValue = Instance.new("TextBox")
+                local MinSlider = Instance.new("TextButton")
+                local AddSlider = Instance.new("TextButton")
+                SliderModule.Name = "SliderModule"
+                SliderModule.Parent = Objs
+                SliderModule.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+                SliderModule.BackgroundTransparency = 1.000
+                SliderModule.BorderSizePixel = 0
+                SliderModule.Position = UDim2.new(0, 0, 0, 0)
+                SliderModule.Size = UDim2.new(0, 428, 0, 38)
+                SliderBack.Name = "SliderBack"
+                SliderBack.Parent = SliderModule
+                SliderBack.BackgroundColor3 = ElementColor
+                SliderBack.BorderSizePixel = 0
+                SliderBack.Size = UDim2.new(0, 428, 0, 38)
+                SliderBack.AutoButtonColor = false
+                SliderBack.Font = Enum.Font.GothamSemibold
+                SliderBack.Text = "   " .. text
+                SliderBack.TextColor3 = Color3.fromRGB(255, 255, 255)
+                SliderBack.TextSize = 16.000
+                SliderBack.TextXAlignment = Enum.TextXAlignment.Left
+                SliderBackC.CornerRadius = UDim.new(0, 6)
+                SliderBackC.Name = "SliderBackC"
+                SliderBackC.Parent = SliderBack
+                SliderBar.Name = "SliderBar"
+                SliderBar.Parent = SliderBack
+                SliderBar.AnchorPoint = Vector2.new(0, 0.5)
+                SliderBar.BackgroundColor3 = Background
+                SliderBar.BorderSizePixel = 0
+                SliderBar.Position = UDim2.new(0.369000018, 40, 0.5, 0)
+                SliderBar.Size = UDim2.new(0, 140, 0, 12)
+                SliderBarC.CornerRadius = UDim.new(0, 4)
+                SliderBarC.Name = "SliderBarC"
+                SliderBarC.Parent = SliderBar
+                SliderPart.Name = "SliderPart"
+                SliderPart.Parent = SliderBar
+                SliderPart.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+                SliderPart.BorderSizePixel = 0
+                SliderPart.Size = UDim2.new(0, 54, 0, 13)
+                SliderPartC.CornerRadius = UDim.new(0, 4)
+                SliderPartC.Name = "SliderPartC"
+                SliderPartC.Parent = SliderPart
+                SliderValBG.Name = "SliderValBG"
+                SliderValBG.Parent = SliderBack
+                SliderValBG.BackgroundColor3 = Background
+                SliderValBG.BorderSizePixel = 0
+                SliderValBG.Position = UDim2.new(0.883177578, 0, 0.131578952, 0)
+                SliderValBG.Size = UDim2.new(0, 44, 0, 28)
+                SliderValBG.AutoButtonColor = false
+                SliderValBG.Font = Enum.Font.Gotham
+                SliderValBG.Text = ""
+                SliderValBG.TextColor3 = Color3.fromRGB(255, 255, 255)
+                SliderValBG.TextSize = 14.000
+                SliderValBGC.CornerRadius = UDim.new(0, 6)
+                SliderValBGC.Name = "SliderValBGC"
+                SliderValBGC.Parent = SliderValBG
+                SliderValue.Name = "SliderValue"
+                SliderValue.Parent = SliderValBG
+                SliderValue.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+                SliderValue.BackgroundTransparency = 1.000
+                SliderValue.BorderSizePixel = 0
+                SliderValue.Size = UDim2.new(1, 0, 1, 0)
+                SliderValue.Font = Enum.Font.Gotham
+                SliderValue.Text = "1000"
+                SliderValue.TextColor3 = Color3.fromRGB(255, 255, 255)
+                SliderValue.TextSize = 14.000
+                MinSlider.Name = "MinSlider"
+                MinSlider.Parent = SliderModule
+                MinSlider.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+                MinSlider.BackgroundTransparency = 1.000
+                MinSlider.BorderSizePixel = 0
+                MinSlider.Position = UDim2.new(0.296728969, 40, 0.236842096, 0)
+                MinSlider.Size = UDim2.new(0, 20, 0, 20)
+                MinSlider.Font = Enum.Font.Gotham
+                MinSlider.Text = "-"
+                MinSlider.TextColor3 = Color3.fromRGB(255, 255, 255)
+                MinSlider.TextSize = 24.000
+                MinSlider.TextWrapped = true
+                AddSlider.Name = "AddSlider"
+                AddSlider.Parent = SliderModule
+                AddSlider.AnchorPoint = Vector2.new(0, 0.5)
+                AddSlider.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+                AddSlider.BackgroundTransparency = 1.000
+                AddSlider.BorderSizePixel = 0
+                AddSlider.Position = UDim2.new(0.810906529, 0, 0.5, 0)
+                AddSlider.Size = UDim2.new(0, 20, 0, 20)
+                AddSlider.Font = Enum.Font.Gotham
+                AddSlider.Text = "+"
+                AddSlider.TextColor3 = Color3.fromRGB(255, 255, 255)
+                AddSlider.TextSize = 24.000
+                AddSlider.TextWrapped = true
+                local funcs = {
+                    SetValue = function(self, value)
+                        local percent = (mouse.X - SliderBar.AbsolutePosition.X) / SliderBar.AbsoluteSize.X
+                        if value then percent = (value - min) / (max - min) end
+                        percent = math.clamp(percent, 0, 1)
+                        if precise then
+                            value = value or tonumber(string.format("%.1f", tostring(min + (max - min) * percent)))
+                        else
+                            value = value or math.floor(min + (max - min) * percent)
+                        end
+                        Library.flags[flag] = tonumber(value)
+                        SliderValue.Text = tostring(value)
+                        SliderPart.Size = UDim2.new(percent, 0, 1, 0)
+                        callback(tonumber(value))
+                    end
+                }
+                MinSlider.MouseButton1Click:Connect(function()
+                    local currentValue = Library.flags[flag]
+                    currentValue = math.clamp(currentValue - 1, min, max)
+                    funcs:SetValue(currentValue)
+                end)
+                AddSlider.MouseButton1Click:Connect(function()
+                    local currentValue = Library.flags[flag]
+                    currentValue = math.clamp(currentValue + 1, min, max)
+                    funcs:SetValue(currentValue)
+                end)
+                funcs:SetValue(default)
+                local dragging, boxFocused, allowed = false, false, { [""] = true, ["-"] = true }
+                SliderBar.InputBegan:Connect(function(input)
+                    if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+                        funcs:SetValue()
+                        dragging = true
+                    end
+                end)
+                services.UserInputService.InputEnded:Connect(function(input)
+                    if dragging and (input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch) then
+                        dragging = false
+                    end
+                end)
+                services.UserInputService.InputChanged:Connect(function(input)
+                    if dragging and (input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch) then
+                        funcs:SetValue()
+                    end
+                end)
+                SliderValue.Focused:Connect(function() boxFocused = true end)
+                SliderValue.FocusLost:Connect(function()
+                    boxFocused = false
+                    if SliderValue.Text == "" then funcs:SetValue(default) end
+                end)
+                SliderValue:GetPropertyChangedSignal("Text"):Connect(function()
+                    if not boxFocused then return end
+                    SliderValue.Text = SliderValue.Text:gsub("%D+", "")
+                    local text = SliderValue.Text
+                    if not tonumber(text) then
+                        SliderValue.Text = SliderValue.Text:gsub("%D+", "")
+                    elseif not allowed[text] then
+                        if tonumber(text) > max then
+                            text = max
+                            SliderValue.Text = tostring(max)
+                        end
+                        funcs:SetValue(tonumber(text))
+                    end
+                end)
+                return funcs, SliderModule
+            end
+            function section.Dropdown(section, text, flag, options, default, callback)
+                local callback = callback or function() end
+                if type(default) == "function" then
+                    callback = default
+                    default = nil
+                end
+                local options = options or {}
+                assert(text, "No text provided")
+                assert(flag, "No flag provided")
+                Library.flags[flag] = options[default]
+                local DropdownModule = Instance.new("Frame")
+                local DropdownTop = Instance.new("TextButton")
+                local DropdownTopC = Instance.new("UICorner")
+                local DropdownOpen = Instance.new("TextButton")
+                local DropdownText = Instance.new("TextBox")
+                local DropdownModuleL = Instance.new("UIListLayout")
+                DropdownModule.Name = "DropdownModule"
+                DropdownModule.Parent = Objs
+                DropdownModule.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+                DropdownModule.BackgroundTransparency = 1.000
+                DropdownModule.BorderSizePixel = 0
+                DropdownModule.ClipsDescendants = true
+                DropdownModule.Position = UDim2.new(0, 0, 0, 0)
+                DropdownModule.Size = UDim2.new(0, 428, 0, 38)
+                DropdownTop.Name = "DropdownTop"
+                DropdownTop.Parent = DropdownModule
+                DropdownTop.BackgroundColor3 = ElementColor
+                DropdownTop.BorderSizePixel = 0
+                DropdownTop.Size = UDim2.new(0, 428, 0, 38)
+                DropdownTop.AutoButtonColor = false
+                DropdownTop.Font = Enum.Font.GothamSemibold
+                DropdownTop.Text = ""
+                DropdownTop.TextColor3 = Color3.fromRGB(255, 255, 255)
+                DropdownTop.TextSize = 16.000
+                DropdownTop.TextXAlignment = Enum.TextXAlignment.Left
+                DropdownTopC.CornerRadius = UDim.new(0, 6)
+                DropdownTopC.Name = "DropdownTopC"
+                DropdownTopC.Parent = DropdownTop
+                DropdownOpen.Name = "DropdownOpen"
+                DropdownOpen.Parent = DropdownTop
+                DropdownOpen.AnchorPoint = Vector2.new(0, 0.5)
+                DropdownOpen.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+                DropdownOpen.BackgroundTransparency = 1.000
+                DropdownOpen.BorderSizePixel = 0
+                DropdownOpen.Position = UDim2.new(0.918383181, 0, 0.5, 0)
+                DropdownOpen.Size = UDim2.new(0, 20, 0, 20)
+                DropdownOpen.Font = Enum.Font.Gotham
+                DropdownOpen.Text = "+"
+                DropdownOpen.TextColor3 = Color3.fromRGB(255, 255, 255)
+                DropdownOpen.TextSize = 24.000
+                DropdownOpen.TextWrapped = true
+                DropdownText.Name = "DropdownText"
+                DropdownText.Parent = DropdownTop
+                DropdownText.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+                DropdownText.BackgroundTransparency = 1.000
+                DropdownText.BorderSizePixel = 0
+                DropdownText.Position = UDim2.new(0.0373831764, 0, 0, 0)
+                DropdownText.Size = UDim2.new(0, 184, 0, 38)
+                DropdownText.Font = Enum.Font.GothamSemibold
+                DropdownText.PlaceholderColor3 = Color3.fromRGB(255, 255, 255)
+                DropdownText.PlaceholderText = default and text.." - "..options[default] or text
+                DropdownText.Text = ""
+                DropdownText.TextColor3 = Color3.fromRGB(255, 255, 255)
+                DropdownText.TextSize = 16.000
+                DropdownText.TextXAlignment = Enum.TextXAlignment.Left
+                DropdownModuleL.Name = "DropdownModuleL"
+                DropdownModuleL.Parent = DropdownModule
+                DropdownModuleL.SortOrder = Enum.SortOrder.LayoutOrder
+                DropdownModuleL.Padding = UDim.new(0, 4)
+                local setAllVisible = function()
+                    local options = DropdownModule:GetChildren()
+                    for i = 1, #options do
+                        local option = options[i]
+                        if option:IsA("TextButton") and option.Name:match("Option_") then
+                            option.Visible = true
+                        end
+                    end
+                end
+                local searchDropdown = function(text)
+                    local options = DropdownModule:GetChildren()
+                    for i = 1, #options do
+                        local option = options[i]
+                        if text == "" then
+                            setAllVisible()
+                        else
+                            if option:IsA("TextButton") and option.Name:match("Option_") then
+                                if option.Text:lower():match(text:lower()) then
+                                    option.Visible = true
+                                else
+                                    option.Visible = false
+                                end
+                            end
+                        end
+                    end
+                end
+                local open = false
+                local ToggleDropVis = function()
+                    open = not open
+                    if open then setAllVisible() end
+                    DropdownOpen.Text = (open and "-" or "+")
+                    DropdownModule.Size = UDim2.new(0, 428, 0, (open and DropdownModuleL.AbsoluteContentSize.Y + 4 or 38))
+                end
+                DropdownOpen.MouseButton1Click:Connect(ToggleDropVis)
+                DropdownText.Focused:Connect(function()
+                    if open then return end
+                    ToggleDropVis()
+                end)
+                DropdownText:GetPropertyChangedSignal("Text"):Connect(function()
+                    if not open then return end
+                    searchDropdown(DropdownText.Text)
+                end)
+                DropdownModuleL:GetPropertyChangedSignal("AbsoluteContentSize"):Connect(function()
+                    if not open then return end
+                    DropdownModule.Size = UDim2.new(0, 428, 0, (DropdownModuleL.AbsoluteContentSize.Y + 4))
+                end)
+                local funcs = {}
+                funcs.AddOption = function(self, option)
+                    local Option = Instance.new("TextButton")
+                    local OptionC = Instance.new("UICorner")
+                    Option.Name = "Option_" .. option
+                    Option.Parent = DropdownModule
+                    Option.BackgroundColor3 = ElementColor
+                    Option.BorderSizePixel = 0
+                    Option.Position = UDim2.new(0, 0, 0.328125, 0)
+                    Option.Size = UDim2.new(0, 428, 0, 26)
+                    Option.AutoButtonColor = false
+                    Option.Font = Enum.Font.Gotham
+                    Option.Text = option
+                    Option.TextColor3 = Color3.fromRGB(255, 255, 255)
+                    Option.TextSize = 14.000
+                    OptionC.CornerRadius = UDim.new(0, 6)
+                    OptionC.Name = "OptionC"
+                    OptionC.Parent = Option
+                    Option.MouseButton1Click:Connect(function()
+                        ToggleDropVis()
+                        callback(Option.Text)
+                        DropdownText.Text = text.." - "..Option.Text
+                        Library.flags[flag] = Option.Text
+                    end)
+                end
+                funcs.RemoveOption = function(self, option)
+                    local option = DropdownModule:FindFirstChild("Option_" .. option)
+                    if option then option:Destroy() end
+                end
+                funcs.SetOptions = function(self, options)
+                    for _, v in next, DropdownModule:GetChildren() do
+                        if v.Name:match("Option_") then v:Destroy() end
+                    end
+                    for _, v in next, options do
+                        funcs:AddOption(v)
+                    end
+                end
+                funcs:SetOptions(options)
+                return funcs
+            end
+            return section
+        end
+        return tab
+    end
+    return window
+end
+return Library
+]==])() local flags = luaWare.flags local notification = loadstring([==[
+local gethui = gethui or function()
+    return cloneref(game:GetService("CoreGui"))
+end
+
+local GUI = gethui():FindFirstChild("STX_Nofitication")
+if not GUI then
+    local STX_Nofitication = Instance.new("ScreenGui")
+    local STX_NofiticationUIListLayout = Instance.new("UIListLayout")
+    STX_Nofitication.Name = "STX_Nofitication"
+    STX_Nofitication.Parent = gethui()
+    STX_Nofitication.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+    STX_Nofitication.ResetOnSpawn = false
+    STX_NofiticationUIListLayout.Name = "STX_NofiticationUIListLayout"
+    STX_NofiticationUIListLayout.Parent = STX_Nofitication
+    STX_NofiticationUIListLayout.HorizontalAlignment = Enum.HorizontalAlignment.Right
+    STX_NofiticationUIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
+    STX_NofiticationUIListLayout.VerticalAlignment = Enum.VerticalAlignment.Bottom
+end
+
+local Nofitication = {}
+local GUI = gethui():FindFirstChild("STX_Nofitication")
+function Nofitication:Notify(settings)
+    local SelectedType = string.lower(tostring(settings.Type))
+    local ambientShadow = Instance.new("ImageLabel")
+    local Window = Instance.new("Frame")
+    local Outline_A = Instance.new("Frame")
+    local WindowTitle = Instance.new("TextLabel")
+    local WindowDescription = Instance.new("TextLabel")
+    ambientShadow.Name = "ambientShadow"
+    ambientShadow.Parent = GUI
+    ambientShadow.AnchorPoint = Vector2.new(0.5, 0.5)
+    ambientShadow.BackgroundTransparency = 1.000
+    ambientShadow.BorderSizePixel = 0
+    ambientShadow.Position = UDim2.new(0.91525954, 0, 0.936809778, 0)
+    ambientShadow.Size = UDim2.new(0, 0, 0, 0)
+    ambientShadow.ScaleType = Enum.ScaleType.Slice
+    ambientShadow.SliceCenter = Rect.new(10, 10, 118, 118)
+    Window.Name = "Window"
+    Window.Parent = ambientShadow
+    Window.BackgroundColor3 = Color3.new(0, 0, 0)
+    Window.BackgroundTransparency = 0.5
+    Window.BorderSizePixel = 0
+    Window.Position = UDim2.new(0, 5, 0, 5)
+    Window.Size = UDim2.new(0, 230, 0, 80)
+    Window.ZIndex = 2
+    Instance.new("UICorner", Window).CornerRadius = UDim.new(0, 8)
+    Outline_A.Name = "Outline_A"
+    Outline_A.Parent = Window
+    Outline_A.BackgroundColor3 = settings.OutlineColor
+    Outline_A.BorderSizePixel = 0
+    Outline_A.Position = UDim2.new(0, 0, 0, 25)
+    Outline_A.Size = UDim2.new(0, 230, 0, 2)
+    Outline_A.ZIndex = 5
+    WindowTitle.Name = "WindowTitle"
+    WindowTitle.Parent = Window
+    WindowTitle.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+    WindowTitle.BackgroundTransparency = 1.000
+    WindowTitle.BorderSizePixel = 0
+    WindowTitle.Position = UDim2.new(0, 8, 0, 2)
+    WindowTitle.Size = UDim2.new(0, 222, 0, 22)
+    WindowTitle.ZIndex = 4
+    WindowTitle.Font = Enum.Font.GothamSemibold
+    WindowTitle.Text = settings.Title
+    WindowTitle.TextColor3 = Color3.fromRGB(255, 255, 255)
+    WindowTitle.TextSize = 12.000
+    WindowTitle.TextXAlignment = Enum.TextXAlignment.Left
+    WindowDescription.Name = "WindowDescription"
+    WindowDescription.Parent = Window
+    WindowDescription.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+    WindowDescription.BackgroundTransparency = 1.000
+    WindowDescription.BorderSizePixel = 0
+    WindowDescription.Position = UDim2.new(0, 8, 0, 34)
+    WindowDescription.Size = UDim2.new(0, 216, 0, 40)
+    WindowDescription.ZIndex = 4
+    WindowDescription.Font = Enum.Font.GothamSemibold
+    WindowDescription.Text = settings.Description
+    WindowDescription.TextColor3 = Color3.fromRGB(220, 220, 220)
+    WindowDescription.TextSize = 12.000
+    WindowDescription.TextWrapped = true
+    WindowDescription.TextXAlignment = Enum.TextXAlignment.Left
+    WindowDescription.TextYAlignment = Enum.TextYAlignment.Top
+    if SelectedType == "default" then
+        ambientShadow:TweenSize(UDim2.new(0, 240, 0, 90), "Out", "Linear", 0.2)
+        Window.Size = UDim2.new(0, 230, 0, 80)
+        WindowTitle.Position = UDim2.new(0, 24, 0, 2)
+        local ImageButton = Instance.new("ImageButton")
+        ImageButton.Parent = Window
+        ImageButton.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+        ImageButton.BackgroundTransparency = 1.000
+        ImageButton.BorderSizePixel = 0
+        ImageButton.Position = UDim2.new(0, 4, 0, 4)
+        ImageButton.Size = UDim2.new(0, 18, 0, 18)
+        ImageButton.ZIndex = 5
+        ImageButton.AutoButtonColor = false
+        ImageButton.Image = settings.Image
+        ImageButton.ImageColor3 = settings.ImageColor
+        Outline_A:TweenSize(UDim2.new(0, 0, 0, 2), "Out", "Linear", settings.Time)
+        task.wait(settings.Time)
+        ambientShadow:TweenSize(UDim2.new(0, 0, 0, 0), "Out", "Linear", 0.2)
+        task.wait(0.2)
+        ambientShadow:Destroy()
+    elseif SelectedType == "option" then
+        ambientShadow:TweenSize(UDim2.new(0, 240, 0, 110), "Out", "Linear", 0.2)
+        Window.Size = UDim2.new(0, 230, 0, 100)
+        local No = Instance.new("ImageButton")
+        local Yes = Instance.new("ImageButton")
+        No.Name = "No"
+        No.Parent = Window
+        No.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+        No.BackgroundTransparency = 1.000
+        No.BorderSizePixel = 0
+        No.Position = UDim2.new(0, 7, 0, 76)
+        No.Size = UDim2.new(0, 18, 0, 18)
+        No.ZIndex = 5
+        No.AutoButtonColor = false
+        No.Image = "http://www.roblox.com/asset/?id=6031094678"
+        No.ImageColor3 = Color3.fromRGB(255, 84, 84)
+        Yes.Name = "Yes"
+        Yes.Parent = Window
+        Yes.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+        Yes.BackgroundTransparency = 1.000
+        Yes.BorderSizePixel = 0
+        Yes.Position = UDim2.new(0, 28, 0, 76)
+        Yes.Size = UDim2.new(0, 18, 0, 18)
+        Yes.ZIndex = 5
+        Yes.AutoButtonColor = false
+        Yes.Image = "http://www.roblox.com/asset/?id=6031094667"
+        Yes.ImageColor3 = Color3.fromRGB(83, 230, 50)
+        local function Cancel()
+            pcall(settings.Callback, false)
+            ambientShadow:TweenSize(UDim2.new(0, 0, 0, 0), "Out", "Linear", 0.2)
+            task.wait(0.2)
+            ambientShadow:Destroy()
+        end
+        local function Confirm()
+            pcall(settings.Callback, true)
+            ambientShadow:TweenSize(UDim2.new(0, 0, 0, 0), "Out", "Linear", 0.2)
+            task.wait(0.2)
+            ambientShadow:Destroy()
+        end
+        No.MouseButton1Click:Connect(Cancel)
+        Yes.MouseButton1Click:Connect(Confirm)
+        Outline_A:TweenSize(UDim2.new(0, 0, 0, 2), "Out", "Linear", settings.Time)
+        task.wait(settings.Time)
+        if ambientShadow.Parent then
+            ambientShadow:TweenSize(UDim2.new(0, 0, 0, 0), "Out", "Linear", 0.2)
+            task.wait(0.2)
+            ambientShadow:Destroy()
+        end
+    end
+end
+    
+local function notify(...)
+    local args = {...}
+    task.spawn(function()
+    Nofitication:Notify({
+        Title = args[1],
+        Description = args[2],
+        Time = args[3],
+        Type = "default",
+        OutlineColor = Color3.fromRGB(80, 80, 80),
+        Image = "http://www.roblox.com/asset/?id=6023426923",
+        ImageColor = Color3.fromRGB(255, 84, 84)
+    })
+    end)
+end
+
+getgenv().notify = notify
+return notify
+]==])() local esp = loadstring([==[
+local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
+local localPlayer = Players.LocalPlayer
+local camera = workspace.CurrentCamera
+local cache = {}
+
+local ESP_SETTINGS = {
+    BoxColor = Color3.new(1, 1, 1),
+    NameColor = Color3.new(1, 1, 1),
+    TeamCheck = false,
+    WallCheck = false,
+    TeamColor = false,
+    Enabled = false,
+    ShowBox = false,
+    ShowName = false,
+    ShowHealth = false,
+    ShowDistance = false,
+    ShowTracer = false,
+    TracerColor = Color3.new(1, 1, 1), 
+    TracerThickness = 1,
+    TracerPosition = "Top",
+}
+
+local function create(class, properties)
+    local drawing = Drawing.new(class)
+    for property, value in pairs(properties) do
+        drawing[property] = value
+    end
+    return drawing
+end
+
+local function createEsp(player)
+    local esp = {
+        tracer = create("Line", {
+            Thickness = ESP_SETTINGS.TracerThickness,
+            Color = ESP_SETTINGS.TracerColor,
+            Transparency = 0.5
+        }),
+        box = create("Square", {
+            Color = ESP_SETTINGS.BoxColor,
+            Thickness = 1,
+            Filled = false
+        }),
+        name = create("Text", {
+            Color = ESP_SETTINGS.NameColor,
+            Outline = true,
+            Center = true,
+            Size = 13
+        }),
+        health = create("Line", {
+            Thickness = 1
+        }),
+        distance = create("Text", {
+            Color = Color3.new(1, 1, 1),
+            Size = 12,
+            Outline = true,
+            Center = true
+        }),
+        tracer = create("Line", {
+            Thickness = ESP_SETTINGS.TracerThickness,
+            Color = ESP_SETTINGS.TracerColor,
+            Transparency = 1
+        }),
+        boxLines = {},
+    }
+    cache[player] = esp
+end
+
+local function isPlayerBehindWall(player)
+    local character = player.Character
+    if not character then return false end
+    local rootPart = character:FindFirstChild("HumanoidRootPart")
+    if not rootPart then return false end
+    local ray = Ray.new(camera.CFrame.Position, rootPart.Position - camera.CFrame.Position)
+    local hit, position = workspace:FindPartOnRayWithIgnoreList(ray, {localPlayer.Character, character})
+    return hit ~= nil
+end
+
+local function removeEsp(player)
+    local esp = cache[player]
+    if not esp then return end
+    for key, drawing in pairs(esp) do
+        if drawing.Remove then
+            drawing:Remove()
+        elseif key == "boxLines" then
+            for _, line in ipairs(drawing) do
+                if line.Remove then line:Remove() end
+            end
+        end
+    end
+    cache[player] = nil
+end
+
+local function updateEsp()
+    for player, esp in pairs(cache) do
+        local character, team = player.Character, player.Team
+        if character and (not ESP_SETTINGS.TeamCheck or (team and team ~= localPlayer.Team)) then
+            local rootPart = character:FindFirstChild("HumanoidRootPart")
+            local head = character:FindFirstChild("Head")
+            local humanoid = character:FindFirstChild("Humanoid")
+            local isBehindWall = ESP_SETTINGS.WallCheck and isPlayerBehindWall(player)
+            local shouldShow = not isBehindWall and ESP_SETTINGS.Enabled
+            if rootPart and head and humanoid and shouldShow then
+                local position, onScreen = camera:WorldToViewportPoint(rootPart.Position)
+                if onScreen then
+                    local hrp2D = camera:WorldToViewportPoint(rootPart.Position)
+                    local charSize = (camera:WorldToViewportPoint(rootPart.Position - Vector3.new(0, 3, 0)).Y - camera:WorldToViewportPoint(rootPart.Position + Vector3.new(0, 2.6, 0)).Y) / 2
+                    local boxSize = Vector2.new(math.floor(charSize * 1.8), math.floor(charSize * 1.9))
+                    local boxPosition = Vector2.new(math.floor(hrp2D.X - charSize * 1.8 / 2), math.floor(hrp2D.Y - charSize * 1.6 / 2))
+                    local teamColor = ESP_SETTINGS.TeamColor and player.TeamColor.Color
+                    if ESP_SETTINGS.ShowName and ESP_SETTINGS.Enabled then
+                        esp.name.Visible = true
+                        esp.name.Text = player.Name
+                        esp.name.Position = Vector2.new(boxSize.X / 2 + boxPosition.X, boxPosition.Y - 16)
+                        esp.name.Color = teamColor or ESP_SETTINGS.NameColor
+                    else
+                        esp.name.Visible = false
+                    end
+                    if ESP_SETTINGS.ShowBox and ESP_SETTINGS.Enabled then
+                        esp.box.Size = boxSize
+                        esp.box.Position = boxPosition
+                        esp.box.Color = teamColor or ESP_SETTINGS.BoxColor
+                        esp.box.Visible = true
+                        for _, line in ipairs(esp.boxLines) do line:Remove() end
+                    else
+                        esp.box.Visible = false
+                        for _, line in ipairs(esp.boxLines) do line:Remove() end
+                        esp.boxLines = {}
+                    end
+                    if ESP_SETTINGS.ShowHealth and ESP_SETTINGS.Enabled then
+                        esp.health.Visible = true
+                        local healthPercentage = player.Character.Humanoid.Health / player.Character.Humanoid.MaxHealth
+                        esp.health.From = Vector2.new((boxPosition.X - 5), boxPosition.Y + boxSize.Y)
+                        esp.health.To = Vector2.new(esp.health.From.X, esp.health.From.Y - (player.Character.Humanoid.Health / player.Character.Humanoid.MaxHealth) * boxSize.Y)
+                        esp.health.Color = Color3.new(1, 0, 0):Lerp(Color3.new(0, 1, 0), healthPercentage)
+                    else
+                        esp.health.Visible = false
+                    end
+                    if ESP_SETTINGS.ShowDistance and ESP_SETTINGS.Enabled then
+                        local distance = (camera.CFrame.p - rootPart.Position).Magnitude
+                        esp.distance.Text = string.format("%.1fm", distance)
+                        esp.distance.Position = Vector2.new(boxPosition.X + boxSize.X / 2, boxPosition.Y + boxSize.Y + 5)
+                        esp.distance.Visible = true
+                    else
+                        esp.distance.Visible = false
+                    end
+                    if ESP_SETTINGS.ShowTracer and ESP_SETTINGS.Enabled then
+                        local tracerY
+                        if ESP_SETTINGS.TracerPosition == "Top" then
+                            tracerY = 0
+                        elseif ESP_SETTINGS.TracerPosition == "Middle" then
+                            tracerY = camera.ViewportSize.Y / 2
+                        else
+                            tracerY = camera.ViewportSize.Y
+                        end
+                        if ESP_SETTINGS.TeamCheck and player.Team == localPlayer.Team then
+                            esp.tracer.Visible = false
+                        else
+                            esp.tracer.Visible = true
+                            esp.tracer.From = Vector2.new(camera.ViewportSize.X / 2, tracerY)
+                            esp.tracer.To = Vector2.new(hrp2D.X, hrp2D.Y)
+                            esp.tracer.Color = teamColor or ESP_SETTINGS.TracerColor
+                        end
+                    else
+                        esp.tracer.Visible = false
+                    end
+                else
+                    for _, drawing in pairs(esp) do drawing.Visible = false end
+                    for _, line in ipairs(esp.boxLines) do line:Remove() end
+                    esp.boxLines = {}
+                end
+            else
+                for _, drawing in pairs(esp) do drawing.Visible = false end
+                for _, line in ipairs(esp.boxLines) do line:Remove() end
+                esp.boxLines = {}
+            end
+        else
+            for _, drawing in pairs(esp) do drawing.Visible = false end
+            for _, line in ipairs(esp.boxLines) do line:Remove() end
+            esp.boxLines = {}
+        end
+    end
+end
+
+for _, player in ipairs(Players:GetPlayers()) do
+    if player ~= localPlayer then createEsp(player) end
+end
+
+Players.PlayerAdded:Connect(function(player)
+    if player ~= localPlayer then createEsp(player) end
+end)
+
+Players.PlayerRemoving:Connect(function(player)
+    removeEsp(player)
+end)
+
+RunService.RenderStepped:Connect(updateEsp)
+
+return ESP_SETTINGS
+]==])() local v1 = cloneref(players) local v2 = cloneref(coreGui) local v3 = cloneref(lighting) local v4 = cloneref(starterGui) local v5 = cloneref(runService) local v6 = cloneref(virtualUser) local v7 = cloneref(httpService) local v8 = cloneref(soundService) cloneref(tweenService) local v9 = cloneref(teleportService) local v10 = cloneref(textChatService) local v11 = cloneref(userInputService) local v12 = cloneref(replicatedStorage) local v13 = cloneref(marketplaceService) local v14 = cloneref(proximityPromptService)
