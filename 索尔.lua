@@ -1,1 +1,1252 @@
-local v1 local function SolsRngCancelHandler() v1 = false end local v2 local function performTask12() local function waitForChild() local function processItems2(v104) local function performTask11() end if v104.Name == "ErrorPrompt" then if v1 then while v1 do end return end end end local robloxPromptGui = v2:WaitForChild("RobloxPromptGui", 10) if robloxPromptGui then return robloxPromptGui, robloxPromptGui:WaitForChild("promptOverlay", 10) else return robloxPromptGui end end end local function performTask13() end local v3, v4 local function performTask14() local function performTask10() v3:JSONEncode(v4) end end local function runProtected() local function readConfigFile() return v3:JSONDecode(readfile("sols_farm_config.json")) end local v104 = isfile if isfile then v104 = readfile end local v105 if v104 then v104, v105 = pcall(isfile("sols_farm_config.json")) type(v105) if v105.farmWatermelons ~= nil then v4.farmWatermelons = v105.farmWatermelons end if v105.autoFishing ~= nil then v4.autoFishing = v105.autoFishing end if v105.autoFarmEnabled ~= nil then v4.autoFarmEnabled = v105.autoFarmEnabled end end end local v5 local function processItems3() local function performTask8() end local function performTask9() end local v104, v105, v106 if getconnections then v104 = getconnections(v5.Idled) x1, v106 = next(v104, nil) if not (x1 == nil) then v105 = x1 while true do x1, v106 = next(v104, v105) if x1 ~= nil then v105 = x1 continue end break end end end end local function performTask15() local function performTask6() end local function performTask7() Vector2.new(0, 0) Vector2.new(0, 0) end end local function performTask16() end local function processItems4() local v104 if v1 then v104 = v1 while not v104 do return end end end local v6 local function processItems5() local packets = v6:WaitForChild("Packets", 8) local v104, v105, v106, v107 if packets then v104, v105, v106 = ipairs(packets:GetChildren()) x3, v107 = v104(v105, v106) if not (x3 == nil) then v106 = x3 while true do if v107:IsA("ModuleScript") then x3, v107 = v104(v105, v106) if not (x3 == nil) then v106 = x3 continue end else x3, v107 = v104(v105, v106) if x3 == nil then break else v106 = x3 continue end end return end end end end local v7 local function getValue6() local v104 = require(v6.Packets.Fishing) v7 = v104 return v104 end local v8 local function performTask17() local function updateState7(v104) local v105 = v104.id v8.inventory[v104.uid] = v105 end end local function performTask18() local function updateState6(v104) v8.inventory[v104] = nil end end local function performTask19() local function transformValue6(lastSellRequest) v8.lastSellRequest = lastSellRequest end end local function performTask20() local function performTask5() end end local function performTask21() local function updateState5() v8.sellAcknowledged = true end end local function performTask22() local function updateState4() v8.fishingBegan = true end end local function performTask23() local function transformValue5(v104) v8.gameEndTime = tonumber(v104.endTimestamp) end end local v9, v10 local function processItems6() local v104 = v10 if v10 then v104 = v10.Parent end local v105, v106, v107 if not v104 then v10 = nil v104, v105, v106 = ipairs(v9:GetDescendants()) x4, v107 = v104(v105, v106) if not (x4 == nil) then v106 = x4 while true do if not (v107:IsA("TextLabel") and v107.Text:match("^Inventory% %[%d+ / %d+%]$")) then x4, v107 = v104(v105, v106) if x4 ~= nil then v106 = x4 continue end break end v10 = v107 return v107 end end end return v10 end local v11 local function processItems7() local v104 = v11() local v105, v106, inventory, v107, v108 if v104 then v105, v106 = v104.Text:match("^Inventory% %[(%d+) / (%d+)%]$") if v105 then return tonumber(v105), tonumber(v106) else v105 = 0 v106 = next inventory = v8.inventory v108 = next(inventory, nil) if v108 == nil then return 0, 20 else v107 = v108 while true do v105 = v105 + 1 v108 = v106(inventory, v107) if v108 == nil then return v105, 20 else v105 = v105 + 1 v107 = next(inventory, v108) continue end end end end else v105 = 0 v106, inventory, v107 = pairs(v8.inventory) v108 = v106(inventory, v107) if v108 == nil then return 0, 20 else v107 = v108 while true do v105 = v105 + 1 v108 = next(inventory, v107) if v108 ~= nil then v105 = v105 + 1 v107 = v106(inventory, v108) continue end break end return v105, 20 end end end local function processItems8() local v104 = nil local v105, v106, v107 v105, v106, v107 = ipairs(v9:GetDescendants()) local v108, v109 v108, v109 = v105(v106, v107) local v110, v111, v112, v113, v114, v115 if not (v108 == nil) then v107 = v108 while true do if not (v109:IsA("TextLabel") and v109.Text:find("Fishing Shop")) then v108, v109 = v105(v106, v107) if v108 ~= nil then v107 = v108 continue end break end v104 = v109 if v104 then v106 = 1 v105 = v104.Parent if v105 then v110 = v105:GetDescendants() local __brk1 = false local __cont2 = false while true do v109, v110, v111 = ipairs(v110) v112, v113 = v109(v110, v111) if v112 == nil then v106 = v106 + 1 if not (v106 + 1 > 10) then v105 = v105.Parent if v105 then v110 = v105:GetDescendants() continue end end return nil end v111 = v112 v114 = v113:IsA("GuiButton") while true do if v114 then if v113:IsA("TextButton") then v114 = v113.Text else v115 = v113:FindFirstChildWhichIsA("TextLabel", true) v114 = v115 and v115.Text or "" end if v114 ~= "Sell All" then v112, v113 = ipairs(v110, v111) if v112 == nil then v106 = v106 + 1 if v106 + 1 > 10 then __brk1 = true break else v105 = v105.Parent if v105 then v110 = v105:GetDescendants() __cont2 = true break end return nil end end v111 = v112 v114 = v113:IsA("GuiButton") continue end return v105 end v112, v113 = ipairs(v110, v111) if v112 == nil then break end v111 = v112 v114 = v113:IsA("GuiButton") end if __brk1 then break end if __cont2 then __cont2 = false continue end v106 = v106 + 1 if v106 + 1 > 10 then break else v105 = v105.Parent if v105 then v110 = v105:GetDescendants() continue end return nil end end end end return nil end end if v104 then v106 = 1 v105 = v104.Parent if v105 then v110 = v105:GetDescendants() local __brk5 = false local __cont6 = false while true do v109, v110, v111 = ipairs(v110) v112, v113 = v109(v110, v111) if v112 == nil then v106 = v106 + 1 if not (v106 + 1 > 10) then v105 = v105.Parent if v105 then v110 = v105:GetDescendants() continue end end return nil end v111 = v112 v114 = v113:IsA("GuiButton") while true do if v114 then if v113:IsA("TextButton") then v114 = v113.Text else v115 = v113:FindFirstChildWhichIsA("TextLabel", true) v114 = v115 and v115.Text or "" end if v114 ~= "Sell All" then v112, v113 = ipairs(v110, v111) if v112 == nil then v106 = v106 + 1 if v106 + 1 > 10 then __brk5 = true break else v105 = v105.Parent if v105 then v110 = v105:GetDescendants() __cont6 = true break end return nil end end v111 = v112 v114 = v113:IsA("GuiButton") continue end return v105 end v112, v113 = ipairs(v110, v111) if v112 == nil then break end v111 = v112 v114 = v113:IsA("GuiButton") end if __brk5 then break end if __cont6 then __cont6 = false continue end v106 = v106 + 1 if v106 + 1 > 10 then break else v105 = v105.Parent if v105 then v110 = v105:GetDescendants() continue end return nil end end end end return nil end local v12 local function processItems9() local v104 = next local inventory2 = v8.inventory local v105, v106 v105, v106 = next(inventory2, nil) local v107 = {} local v108 if not (v105 == nil) then v107[v106] = true v105, v106 = v104(inventory2, v105) v108 = v105 while true do v107[v106] = true v105, v106 = v104(inventory2, v108) if v105 ~= nil then v108 = v105 continue end break end end v104 = v12(inventory2, v105, v105, v106) local v109, v110 if v104 then inventory2, v108, v105 = ipairs(v104:GetDescendants()) v106, v109 = inventory2(v108, v105) do local shouldExit = false if not (v106 == nil) then v105 = v106 local __cont1 = false while true do v110 = v109:IsA("Frame") while true do if v110 then v109:FindFirstChildWhichIsA("ViewportFrame", true) v107[v109.Name] = true v106, v109 = inventory2(v108, v105) if v106 == nil then v105 = v107 v108 = next(v107) inventory2 = not v108 else v105 = v106 __cont1 = true break end else v106, v109 = ipairs(v108, v105) if v106 == nil then break else v105 = v106 v110 = v109:IsA("Frame") continue end end shouldExit = true break end if shouldExit then break end if __cont1 then __cont1 = false continue end break end if shouldExit then break end end end if not next(v107) then inventory2 = ipairs v108 = v9 else return v107 end elseif not next(v107) then inventory2 = ipairs v108 = v9 else return v107 end v105 = v108 v108 = v108.GetDescendants inventory2, v108, v105 = inventory2(next(v105)) v106, v109 = inventory2(v108, v105) if not (v106 == nil) then v105 = v106 while true do if v109:IsA("Frame") then v109:FindFirstChildWhichIsA("ViewportFrame", true) v107[v109.Name] = true v106, v109 = inventory2(v108, v105) if not (v106 == nil) then v105 = v106 continue end else v106, v109 = inventory2(v108, v105) if v106 == nil then break else v105 = v106 continue end end return v107 end end return v107 end local v13, v14 local function processItems10() local v104 = v14 if v14 then v104 = v14.Parent end if not v104 then workspace.Map:FindFirstChild("Miscs") workspace.Map.Miscs:FindFirstChild("FishingPoints") v14 = workspace:FindFirstChild("FishingPoints") end local v105 = nil v104 = nil local v106, v107, v108, v109, plrLoc, magnitude if v14 then v106, v107, v108 = ipairs(v14:GetChildren()) x5, v109 = v106(v107, v108) if not (x5 == nil) then v108 = x5 while true do if v109:IsA("Model") then v109:GetAttribute("occupied") v109:GetAttribute("spotId") plrLoc = v109:GetAttribute("plrLoc") magnitude = ((typeof(plrLoc) == "CFrame" and plrLoc.Position or plrLoc) - v13).Magnitude if not v104 or magnitude < v104 then v105 = v109 v104 = magnitude end end x5, v109 = v106(v107, v108) if not (x5 == nil) then v108 = x5 continue end return v105 end end end return v105 end local v15 local function processItems11() local v104, v105 local function processItems() local function onVisibleChanged() local v112 = v104 if v104 then v112 = v104.Visible end if v112 then v104.Visible = false end end local mainInterface = v9:FindFirstChild("MainInterface") local v106 = nil local v107, v108, v109, v110, v111, isA do local shouldExit = false if mainInterface then v107, v108, v109 = ipairs(mainInterface:GetDescendants()) v110, v111 = v107(v108, v109) if not (v110 == nil) then v109 = v110 while true do isA = v111:IsA("TextLabel") if isA then v106 = v111.Parent if v106 then v108 = v106 v107 = v106:IsA("ImageLabel") shouldExit = true break else return end end if not isA then v110, v111 = v107(v108, v109) if v110 ~= nil then v109 = v110 continue end break end v106 = v111.Parent if v106 then v108 = v106 v107 = v106:IsA("ImageLabel") shouldExit = true break else return end end if shouldExit then break end end if v106 then v107 = v106:IsA("ImageLabel") else return end else return end end if v107 then v106.Visible = false if v106 ~= v104 then v104 = v106 v105 = v106:GetPropertyChangedSignal("Visible"):Connect(onVisibleChanged) end end end v104 = nil if v1 then if v15 then local __cont1 = false while not v1 do if __cont1 then __cont1 = false continue end break end end end end local v16, v17 local function getValue7() local clock = os.clock() local minigameMap, barriers, map, v104, v105 if clock - v16 < 0.25 then return v17 else v16 = clock minigameMap = workspace:FindFirstChild("MinigameMap") if not minigameMap then v17 = false return false else barriers = minigameMap:FindFirstChild("Barriers") if barriers then v104 = #barriers:GetChildren() v17 = true return true else map = minigameMap:FindFirstChild("Map") end if map then v104 = map:FindFirstChild("leafygrass") if v104 then v105 = #v104:GetChildren() v17 = true return true else v17 = false return false end else v17 = false return false end end end end local v18 local function checkCondition() return not v18() end local v19, v20 local function updateState8() local function performTask3() end local function performTask4() end if v19 then v19 = nil v20 = nil end end local vector3 local function addPart(v104) local getChildren, v105, v106, v107, v108, v109, v110, v111, v112 if v104 then getChildren = v104:GetChildren() v105 = 1 v106 = #getChildren if 1 <= v106 then v107 = getChildren[1] v108 = v107:IsA("BasePart") while true do if v108 then v108 = (v107.Position - vector3).Magnitude v109 = v108 < 4 if v109 then v110 = not v109 else v110 = v108 >= 10 end if v110 then v110 = Instance.new("Part") v110.Name = "GrassSafetyFloor" v111 = v107.Size.X v112 = v107.Size.Z v110.Size = Vector3.new(v111, 40, v112) v110.CFrame = v107.CFrame * CFrame.new(0, -20, 0) v110.Anchored = true v110.CanCollide = true v110.Transparency = 1 v110.CastShadow = false v110.Material = Enum.Material.SmoothPlastic v110.Parent = v19 end v105 = v105 + 1 if v105 + 1 <= v106 then v107 = getChildren[v105] v108 = v107:IsA("BasePart") continue end end v105 = v105 + 1 if v105 + 1 > v106 then break else v107 = getChildren[v105] v108 = v107:IsA("BasePart") end end return end end end local v21 local function processItems12(v104, v105, v106, v115, ...) local v107 if v19 then v19:GetAttribute("World") return else v107 = v18(v106, v115, ...) end local v108 local v109, v110, v111, v112, v113, v114, obstacleBlocker if v107 then v108 = workspace:FindFirstChild("MinigameMap") v107 = v108 and v108:FindFirstChild("Map") v109 = v107 and v107:FindFirstChild("leafygrass") v20 = Instance.new("Folder") v20.Name = "ObstacleCollisions" v20.Parent = workspace v110, v111, v112 = ipairs(v21) v113, v114 = v110(v111, v112) if not (v113 == nil) then v112 = v113 while true do obstacleBlocker = Instance.new("Part") obstacleBlocker.Name = "ObstacleBlocker" obstacleBlocker.Size = v114.Size obstacleBlocker.CFrame = v114.CF obstacleBlocker.Anchored = true obstacleBlocker.CanCollide = true obstacleBlocker.Transparency = 1 obstacleBlocker.CastShadow = false obstacleBlocker.Material = Enum.Material.SmoothPlastic obstacleBlocker.Parent = v20 v113, v114 = v110(v111, v112) if v113 ~= nil then v112 = v113 continue end break end end return end end local v22 local function computeValue(v104, v105, v106, v109, ...) local v107 if v19 then v19:GetAttribute("World") return else v107 = v22(v106, v109, ...) end local v108 if v107 then v108 = workspace:FindFirstChild("Map") if v108 then v108:FindFirstChild("leafygrass") else return end end end local v23 local function updateState9() v23 = v2 end local v24, v25, v26, v27 local function updateState10() v27 = not v27 if v27 then v26.Visible = false v24.Size = UDim2.new(0, 280, 0, 38) v25.Text = "+" else v26.Visible = true v24.Size = UDim2.new(0, 280, 0, 275) v25.Text = "-" end end local v28, v29, v30 local function transformValue7(v104) local function updateState3() local v106 = Enum.UserInputState.End if v104.UserInputState == v106 then v28 = false end end local mouseButton1 = Enum.UserInputType.MouseButton1 local v105 = v104.UserInputType == mouseButton1 if not v105 then mouseButton1 = Enum.UserInputType.Touch v105 = v104.UserInputType == mouseButton1 end if v105 then v28 = true v29 = v104.Position v30 = v24.Position end end local v31 local function updateState11(v104) local mouseMovement = Enum.UserInputType.MouseMovement local v105 = v104.UserInputType == mouseMovement if not v105 then mouseMovement = Enum.UserInputType.Touch v105 = v104.UserInputType == mouseMovement end if v105 then v31 = v104 end end local function processValues(v104) end local v32, v33, v34 local function getValue8() v32 = not v32 v4.farmWatermelons = v32 local v104, v105 if v32 then v33.Text = "西瓜: 开" v33.TextColor3 = Color3.fromRGB(52, 211, 153) v104 = v34 v105 = Color3.fromRGB(16, 185, 129) else v33.Text = "西瓜: 关" v33.TextColor3 = Color3.fromRGB(120, 126, 146) v104 = v34 v105 = Color3.fromRGB(38, 42, 56) end v104.Color = v105 end local v35, v36, v37 local function getValue9() v35 = not v35 v4.autoFishing = v35 local v104, v105 if v35 then v36.Text = "钓鱼: 开" v36.TextColor3 = Color3.fromRGB(56, 189, 248) v104 = v37 v105 = Color3.fromRGB(56, 189, 248) else v36.Text = "钓鱼: 关" v36.TextColor3 = Color3.fromRGB(120, 126, 146) v104 = v37 v105 = Color3.fromRGB(38, 42, 56) end v104.Color = v105 end local raycastParams, v38, v39 local function transformValue8(v104) if v5.Character then elseif v104 then v38.FilterDescendantsInstances = v39 raycastParams.FilterDescendantsInstances = v39 return else v38.FilterDescendantsInstances = v39 raycastParams.FilterDescendantsInstances = v39 return end v38.FilterDescendantsInstances = v39 raycastParams.FilterDescendantsInstances = v39 end local v40 local function transformValue9(v104) if 0.5 < os.clock() - v40 then v40 = os.clock() v104.Jump = true end end local function transformValue10(v104) local lookVector = v104.CFrame.LookVector workspace:Raycast(v104.Position - Vector3.new(0, 1.5, 0), lookVector * 3, raycastParams) workspace:Raycast(v104.Position + Vector3.new(0, 0.2, 0), lookVector * 3, raycastParams) workspace:Raycast(v104.Position + Vector3.new(0, 2.8, 0), lookVector * 3, raycastParams) end local function computeValue2(v104, v105, v106) return workspace:Raycast(v104, v105 - v104, v38) == nil or v106 end local createPath local function runProtected2(v104, v105) local v106 = pcall(function() end) local success if v106 then success = Enum.PathStatus.Success v106 = createPath.Status == success end if v106 then return createPath:GetWaypoints() else return nil end end local v41, v42 local function checkCondition2(v104, v105, v106, v107, v108, v109, v110, v111, v112, v113, v114, v115, v116) local v118, v119, v120, v121, v122, v123 v118 = v106.X v119 = v106.Z Vector3.new(v118, 0, v119) v118 = v42(v105.Position, v106) or {} v120 = v105.Position.X v121 = v105.Position.Z Vector3.new(v120, 0, v121) os.clock(v114) os.clock(v114) v122 = os.clock(v116) + 45 if v1 and v41 and 0 < v104.Health then os.clock() v123 = not v109() return false end return true end local function processItems13() local v104 = { [1] = 63, [2] = 8, [3] = 0, [4] = 77, [5] = 105, [6] = 110, [7] = 105, [8] = 103, [9] = 97, [10] = 109, [11] = 101, } local v105 = v104 v104 = buffer.create(#v104) local v106 = 1 local v107 = #v105 if not (1 > v107) then while true do v106 = v106 + 1 if v106 + 1 > v107 then break end end end end local function transformValue11(v104) end local v43 local function transformValue12(v104) local function getValue5() local absolutePosition = v104.AbsolutePosition local absoluteSize = v104.AbsoluteSize local v105 = absoluteSize.X / 2 local v106 = absoluteSize.Y / 2 return absolutePosition, absoluteSize, absolutePosition.X + v105, absolutePosition.Y + v106 end local function isInstanceOf() if firesignal then v104:IsA("GuiButton") end end local function updateState2() v43.GuiNavigationEnabled = true v43.SelectedObject = v104 v43.SelectedObject = nil end end local function checkCondition3() local v104, v105, v106 v104, v105, v106 = ipairs(v9:GetDescendants()) local v107 x6, v107 = v104(v105, v106) local v108, v109, v110 if not (x6 == nil) then v106 = x6 while true do v108 = false if v107:IsA("TextLabel") or v107:IsA("TextButton") then v109 = v107.Text:lower() if v109:find("give%s*up") or v109:find("giveup") or v109:find("сдаться") then v108 = true end end v109 = v107.Name v110 = v109 v109 = v109.lower v109 = v109(v110) v109 = v109:find("give%s*up") or v107.Name:lower():find("giveup") if v109 then v108 = true end if not v108 then x6, v107 = v104(v105, v106) if x6 ~= nil then v106 = x6 continue end break end if not v107:IsA("GuiButton") then if not v107:FindFirstAncestorWhichIsA("GuiButton") then end end return true end end return false end local function processItems14() local v104 = v9:FindFirstChild("MainInterface") and v9.MainInterface:FindFirstChild("Dialog") local v105 = v104 local v106, v107, v108, v109, v110, v111 if v104 then v105 = v104:FindFirstChild("Choices") if not v105 then v105 = v9:FindFirstChild("Choices", true) else v106 = nil v107, v108, v109 = ipairs(v105:GetChildren()) v110, v111 = v107(v108, v109) if not (v110 == nil) then v109 = v110 while true do if not (v111:IsA("TextButton") and v111.Text:find("Quest")) then v110, v111 = v107(v108, v109) if v110 ~= nil then v109 = v110 continue end break end v106 = v111 if not v106 then v107, v108, v109 = ipairs(v105:GetChildren()) v110, v111 = v107(v108, v109) if not (v110 == nil) then v109 = v110 while true do if not v111:IsA("TextButton") then v110, v111 = v107(v108, v109) if v110 ~= nil then v109 = v110 continue end break end v106 = v111 if v106 then v43.GuiNavigationEnabled = true v43.SelectedObject = v106 v43.SelectedObject = nil end return end end return elseif v106 then v43.GuiNavigationEnabled = true v43.SelectedObject = v106 v43.SelectedObject = nil return else return end end end if not v106 then v107, v108, v109 = ipairs(v105:GetChildren()) v110, v111 = v107(v108, v109) if not (v110 == nil) then v109 = v110 while true do if not v111:IsA("TextButton") then v110, v111 = v107(v108, v109) if v110 ~= nil then v109 = v110 continue end break end v106 = v111 if v106 then v43.GuiNavigationEnabled = true v43.SelectedObject = v106 v43.SelectedObject = nil end return end end end return end elseif not v105 then v105 = v9:FindFirstChild("Choices", true) else return end v106 = nil if v105 then v107, v108, v109 = ipairs(v105:GetChildren()) v110, v111 = v107(v108, v109) if not (v110 == nil) then v109 = v110 while true do if not (v111:IsA("TextButton") and v111.Text:find("Quest")) then v110, v111 = v107(v108, v109) if v110 ~= nil then v109 = v110 continue end break end v106 = v111 if not v106 then v107, v108, v109 = ipairs(v105:GetChildren()) v110, v111 = v107(v108, v109) if not (v110 == nil) then v109 = v110 while true do if not v111:IsA("TextButton") then v110, v111 = v107(v108, v109) if v110 ~= nil then v109 = v110 continue end break end v106 = v111 if v106 then v43.GuiNavigationEnabled = true v43.SelectedObject = v106 v43.SelectedObject = nil end return end end return elseif v106 then v43.GuiNavigationEnabled = true v43.SelectedObject = v106 v43.SelectedObject = nil return else return end end end if not v106 then v107, v108, v109 = ipairs(v105:GetChildren()) v110, v111 = v107(v108, v109) if not (v110 == nil) then v109 = v110 while true do if not v111:IsA("TextButton") then v110, v111 = v107(v108, v109) if v110 ~= nil then v109 = v110 continue end break end v106 = v111 if v106 then v43.GuiNavigationEnabled = true v43.SelectedObject = v106 v43.SelectedObject = nil end return end end return elseif v106 then v43.GuiNavigationEnabled = true v43.SelectedObject = v106 v43.SelectedObject = nil return else return end else return end end local v44, v45 local function findChild() local v104 = v44 if v44 then v104 = v44.Parent end if v104 then v104 = v45 end if v104 then v104 = v45.Parent end if v104 then return v44, v45 else workspace:FindFirstChild("Lime") return nil, nil end end local function getValue10() local watermelon, v104, v105, v106, v107 if not v18() then return nil, nil else watermelon = workspace:FindFirstChild("Watermelon") if not watermelon then workspace:FindFirstChild("MinigameMap"):FindFirstChild("Watermelon") return nil, nil else v104 = watermelon:IsA("Model") end if not v104 then watermelon:FindFirstAncestorOfClass("Model") end v104 = watermelon v105 = v104:FindFirstChild("Center") if v105 then return v105, v104:FindFirstChildWhichIsA("ProximityPrompt", true) else v107 = "BasePart" v106 = v104 v105 = v104.FindFirstChildWhichIsA end v105 = v105(v106, v107) if not v105 then return nil, nil else return v105, v104:FindFirstChildWhichIsA("ProximityPrompt", true) end end end local v46 local function getHumanoidRootPart(v104, v105, v106, v107, v108, v111, ...) local clock2 = os.clock() Color3.fromRGB(160, 165, 185) Color3.fromRGB(107, 114, 128) local character, v109, v110, position if v1 and v41 then v110 = os.clock(v108) local __cont1 = false while true do v109 = v110 - clock2 v110 = 15 if v109 < 15 then if v22() then character = v5.Character while true do if character then v109 = character:FindFirstChild("HumanoidRootPart") v110 = v46(v107, v108, v111, ...) if v110 then position = v110.Position if not ((v109.Position - position).Magnitude < 500) then v110 = os.clock(v108) __cont1 = true break end elseif not (v109.Position.X < 350) then v110 = os.clock(v108) __cont1 = true break end end Color3.fromRGB(160, 165, 185) Color3.fromRGB(107, 114, 128) return end if __cont1 then __cont1 = false continue end break end else Color3.fromRGB(160, 165, 185) end Color3.fromRGB(107, 114, 128) return end end Color3.fromRGB(160, 165, 185) Color3.fromRGB(107, 114, 128) end local v47, v48, v49, v50 local function checkCondition4(v104, v105, v106, v107, v108, v109, v110, v115, ...) local function transformValue4(v115) local v116, v117, v118, v119 if v47 then v116 = math.floor(os.clock() - v47) v117 = math.max v118 = 0 v119 = math.floor(180 - v116) else v117 = math.max v118 = 0 v119 = math.floor(180) end v117 = v117(v118, v119) string.format("%s (超时 %d秒)", v115, v117) Color3.fromRGB(100, 180, 255) Color3.fromRGB(56, 189, 248) end local function getValue4() if v47 and 180 <= os.clock() - v47 then end end local v111, v112 v111, v112 = v50(v108, v109, v110, v115, ...) local v113, v114, position2 if v111 then v111:FindFirstAncestorOfClass("Model") Color3.fromRGB(100, 180, 255) Color3.fromRGB(56, 189, 248) if v47 then os.clock(v110) Color3.fromRGB(248, 113, 113) Color3.fromRGB(239, 68, 68) v47 = nil return else v22(v108, v109, v110, v115, ...) v113, v114 = v50() end if v113 then v111 = v113 v112 = v114 end if v112 then position2 = v111.Position if (v105.Position - position2).Magnitude <= 15 and v112 then Color3.fromRGB(192, 132, 252) Color3.fromRGB(168, 85, 247) v49 = v49 + 1 v48.Text = tostring(v49) Color3.fromRGB(52, 211, 153) Color3.fromRGB(16, 185, 129) end v47 = nil return end end end local function processItems15() local v104, v105, v106 v104, v105, v106 = ipairs(workspace:GetDescendants()) local v107, v108 v107, v108 = v104(v105, v106) local parent, v109 if not (v107 == nil) then v106 = v107 while true do if v108:IsA("ProximityPrompt") then parent = v108.Parent v109 = parent if v109 then parent:IsA("BasePart") return end if v109 then v109 = (parent.Position - v13).Magnitude < 15 end if not v109 then v107, v108 = v104(v105, v106) if v107 ~= nil then v106 = v107 continue end return end return end v107, v108 = v104(v105, v106) if v107 ~= nil then v106 = v107 continue end break end end end local v51, v52, v53 local function checkCondition5(v104, v105, v106, v107, v108, v109, v110, v111, v128, ...) local function transformValue3(v128) Color3.fromRGB(100, 180, 255) Color3.fromRGB(56, 189, 248) return v128 end local function getValue3() local v128 = v1 and v41 if v128 then return v22() else return v128 end end local v112, v113, magnitude2, v114, v115, v116, v117, v118, v119, v120, v121, v122, v123, v124, v125, v126, v127 while true do do local shouldExit = false if v1 and v41 then if v22(v108, v109, v110, v111, v128, ...) then v112 = not v32 local __cont1 = false while true do if not v112 then v112 = v35 end if v112 then v112 = v51() local __cont2 = false while true do if v112 == 0 then return true else Color3.fromRGB(240, 200, 80) local __brk18 = false while true do Color3.fromRGB(245, 158, 11) v113 = v53(v104, v105, v13, "鱼商", transformValue3, getValue3, nil, 7.5) magnitude2 = (v105.Position - v13).Magnitude if not v113 and 8.5 < magnitude2 then v112 = v1 and v41 if v112 then v22(v113, magnitude2) v112 = not v32 __cont1 = true break end if v112 then v113 = v32 v112 = not v32 end if v112 then v112 = v51(v113, magnitude2) if v112 == 0 then return true else Color3.fromRGB(240, 200, 80) continue end else return false end end Color3.fromRGB(240, 200, 80) v119 = 158 Color3.fromRGB(245, 158, 11) v114 = v52(v108, v109, v110, v111, v128, ...) if not next(v114) then v114 = v52(v108, v109, v110, v111, v128, ...) end v116 = v114 v115 = next v118 = next(v116, nil) if v118 == nil then if v51(v108, v109, v110, v111, v128, ...) == 0 then Color3.fromRGB(52, 211, 153) Color3.fromRGB(16, 185, 129) return true else v112 = v1 and v41 if v112 then v22(v113, magnitude2, v114) v112 = not v32 __cont1 = true break end if v112 then v113 = v32 v112 = not v32 end if v112 then v112 = v51(v113, magnitude2, v114) if v112 == 0 then return true else Color3.fromRGB(240, 200, 80) continue end else return false end end end while true do if not v1 or not v41 then return false end if v18(v110, v111, v128, ...) then __brk18 = true break else v120 = 1 v121 = 3 v122 = 1 v123 = v51() v8.sellAcknowledged = false v126 = v7 v125 = v118 v124 = tick goto __x87 end end if __brk18 then break end v117 = v118 shouldExit = true break end if shouldExit then break end if __cont1 then break end if __cont2 then __cont2 = false continue end break end end if shouldExit then break end if __cont1 then __cont1 = false continue end return false end break end if shouldExit then break end end else return false end return false end ::__x7:: v118 = v115(v116, v117) if v118 == nil then v117 = v118 v116 = task goto __x7 end v117 = v118 goto __x141 ::__x10:: v118 = v115(v116, v117) if v118 == nil then v117 = v118 v116 = task goto __x7 end v117 = v118 goto __x141 ::__x13:: v125 = v51(v108, v109, v110, v111, v128, ...) if v125 < v123 then goto __x7 end v120 = v120 + v122 if 0 < v122 then if v120 + v122 > v121 then goto __x7 else v51(v124, v125) v8.sellAcknowledged = false v117 = v117(52, 211, 153) Color3.fromRGB(16, 185, 129) return true end elseif v121 > v120 + v122 then goto __x7 else v51(v124, v125) v8.sellAcknowledged = false v117 = v117(52, 211, 153) Color3.fromRGB(16, 185, 129) return true end ::__x14:: v125 = v51() if v125 < v123 then goto __x10 end v120 = v120 + v122 if 0 < v122 then if v120 + v122 > v121 then goto __x10 else v51(v124, v125) v8.sellAcknowledged = false v117 = v117(52, 211, 153) Color3.fromRGB(16, 185, 129) return true end elseif v121 > v120 + v122 then goto __x10 else v51(v124, v125) v8.sellAcknowledged = false v117 = v117(52, 211, 153) Color3.fromRGB(16, 185, 129) return true end ::__x20:: v118 = v115(v116, v117) if v118 == nil then v117 = v118 v116 = task goto __x7 end v117 = v118 goto __x141 ::__x87:: v124 = v124(v108, v109, v110, v111, v128, ...) v125 = v1 if v125 then v127 = v8 end if v125 then v127 = tick(v111, v128, ...) v125 = v126 < v127 v126 = task goto __x394 end if v125 then v125 = task.wait v126 = 0.05 goto __x356 end v125 = v51(v109, v110, v111, v128, ...) if v125 < v123 then goto __x20 end v120 = v120 + v122 if 0 < v122 then if v120 + v122 > v121 then goto __x20 else v51(v124, v125) v8.sellAcknowledged = false v117 = v117(52, 211, 153) Color3.fromRGB(16, 185, 129) return true end elseif v121 > v120 + v122 then goto __x20 else v51(v124, v125) v8.sellAcknowledged = false v117 = v117(52, 211, 153) Color3.fromRGB(16, 185, 129) return true end ::__x141:: v121 = v1 v120 = not v1 if not v120 then v124 = v125.send end if v120 then v125 = v118 v124 = tick goto __x87 end v120 = v18(v110, v111, v128, ...) if v120 then return false else v126 = v127 - v124 v127 = 1 end v125 = v126 < v127 if not v125 then goto __x14 end v126 = task goto __x394 ::__x356:: v125 = v1 if v125 then v127 = v8 v126 = v127.sellAcknowledged v125 = not v126 goto __x396 end goto __x396 ::__x394:: while true do local shouldExit2 = false v126 = 0.05 v125 = v1 while true do if v125 then v127 = v8 end if v125 then v127 = 1 v125 = tick(v110, v111, v128, ...) - v124 < v127 v126 = task shouldExit2 = true break end if not v125 then goto __x13 end v126 = 0.05 v125 = v1 end if not shouldExit2 then break end end ::__x396:: if v125 then v126 = tick(v110, v111, v128, ...) - v124 v127 = 1 v125 = task.wait v126 = 0.05 goto __x356 end if not v125 then goto __x13 end v125 = task.wait v126 = 0.05 goto __x356 end end local function getAttribute(v104, v105, v106, v107, v108, v109, v118, ...) v8.gameEndTime = nil v8.fishingBegan = false v104:GetAttribute("spotId") local v110 = tick(v107, v108, v109, v118, ...) local v111, v112, v113, v114, v115, v116, v117 while true do do local shouldExit = false while true do if v1 and v41 and v35 then if v22(v108, v109, v118, ...) then v111 = not v8.fishingBegan local __cont1 = false while true do if v111 then v112 = tick() - v110 v113 = 8 local __cont2 = false while true do v111 = v112 < v113 if v111 then v112 = task v111 = task.wait while true do v112 = 0.1 v111 = v1 and v41 and v35 if v111 then v22(v107, v108, v109, v118, ...) v113 = v8 v112 = v8.fishingBegan v111 = not v112 __cont1 = true break end if v111 then v113 = v8 v112 = v8.fishingBegan v111 = not v112 end if v111 then v111 = tick(v109, v118, ...) - v110 < 8 return v104, v105, v110 end if v111 then while true do v111 = v1 and v41 and v35 if v111 then v22(v107, v108, v109, v118, ...) return v104, v105, v110 end if v111 then v111 = not v8.fishingBegan end if v111 then v111 = tick(v109, v118, ...) - v110 < 8 return v104, v105, v110 end if not v111 then break end end return v104, v105, v110 else break end end if __cont1 then break end if __cont2 then __cont2 = false continue end return v104, v105, v110 end break end if __cont1 then __cont1 = false continue end break end while v111 do v112 = task v111 = task.wait while true do v112 = 0.1 v111 = v1 and v41 and v35 and v22(v107, v108, v109, v118, ...) if v111 then v112 = v8.fishingBegan v111 = not v112 end if v111 then v113 = tick(v109, v118, ...) goto __x57 end if v111 then v111 = task.wait v112 = 0.1 while true do v111 = v1 and v41 and v35 if v111 then v22(v107, v108, v109, v118, ...) v7() return v104, v105, v110 end if v111 then v112 = v8.fishingBegan v111 = not v112 end if v111 then break end if v111 then v111 = task.wait v112 = 0.1 else v112 = v8.fishingBegan v111 = tick v114 = Color3.fromRGB v115 = 168 v116 = 85 v117 = 247 shouldExit = true break end end if shouldExit then break end break else v113 = v8 goto __x70 end end if shouldExit then break end v113 = tick(v109, v118, ...) goto __x57 end if shouldExit then break end break end if shouldExit then break end end else return v104, v105, tick(v108, v109, v118, ...) end v111 = not v8.fishingBegan do break end ::__x57:: v111 = v113 - v110 < 8 if not v111 then v111 = not v8.fishingBegan break end break end if shouldExit then break end ::__x70:: if v111 then v114 = v114(v115, v116, v117) v111 = v1 else v111 = tick end v115 = 168 v116 = 85 v117 = 247 end end end local v54, v55, v56 local function processItems16(v104, v105, v106, v107, v108, v109, v110, v111, v128, ...) local function performTask2() end local v112 local function transformValue2(v128) string.format("%s (%s)", v128, v112) Color3.fromRGB(100, 180, 255) Color3.fromRGB(56, 189, 248) return v128 end local v113 local function getValue2() local v128 = v1 and v41 and v35 if v128 then v22() v128 = not v32 else return v128 end if v128 then return v128 else return os.clock() < v113 end end v112 = v7 v113 = not v7 local v114, v115, v116, v117, v118, v119, v120, v121, v122, v123, v124, v125, v126, v127 while true do do local shouldExit = false while true do while true do while true do if v113 then Color3.fromRGB(248, 113, 113) v116 = 239 v117 = 68 v118 = 68 Color3.fromRGB(239, 68, 68) v113 = os.clock(v110) + v107 v112 = v1 and v41 if v112 then v112 = os.clock(v110) < v113 v114 = task else return end else v15 = true v114 = os v113 = os.clock(v110) + v107 v112 = v1 and v41 and v35 if v112 then v112 = nil v114 = v32 while true do if v114 then v114 = math.max(0, math.floor(v113 - os.clock())) v115 = math.floor(v114 / 60) v116 = v114 % 60 v120 = v116 v117 = string.format("门票倒计时 %02d:%02d", v115, v116) v112 = v117 v114, v115 = v51(v115, v116, v117) if v115 <= v114 then v118 = v105 v119 = v106 v116 = task.wait v117 = 0.2 else v116 = v54(v111, v128, ...) if v116 then v117 = v116:GetAttribute("plrLoc") if v117 then v118 = v117.Position v119 = (v105.Position - v118).Magnitude if 7 < v119 then string.format("钓鱼点 (%s)", v112) Color3.fromRGB(100, 180, 255) Color3.fromRGB(56, 189, 248) v123 = v118 v124 = "钓鱼点" v125 = transformValue2 v126 = getValue2 v127 = nil v120 = (v105.Position - v118).Magnitude if v120 <= 10 then v22(v110, v111, v128, ...) string.format("钓鱼中... (%s)", v112) Color3.fromRGB(52, 211, 153) v125 = 16 v126 = 185 v127 = 129 v124 = Color3.fromRGB(16, 185, 129) v121 = v56 v122 = v116 v123 = v106 v116 = task.wait v117 = 0.2 else v121 = task.wait v122 = 0.5 end else v120 = (v105.Position - v118).Magnitude if v120 <= 10 then v22() v121 = v106 v123 = "钓鱼中... (%s)" v122 = string.format("钓鱼中... (%s)", v112) v124 = Color3 v116 = task.wait v117 = 0.2 else v122 = task v121 = task.wait break end end else v120 = v116 v119 = v116:GetPivot() v118 = os v116 = task.wait v117 = 0.2 end else string.format("等待钓点 (%s)", v112) v119 = Color3.fromRGB(251, 191, 36) v121 = 245 v122 = 158 v123 = 11 v120 = Color3.fromRGB(245, 158, 11) v118 = 1.5 v116 = task.wait v117 = 0.2 end end else v112 = "仅钓鱼" v114, v115 = v51() if v115 <= v114 then v118 = v105 v119 = v106 v116 = task.wait v117 = 0.2 else v116 = v54(v111, v128, ...) if v116 then v119 = "plrLoc" v118 = v116 v117 = v116.GetAttribute(v118, "plrLoc") v114 = v114() else v117 = v106 v119 = "等待钓点 (%s)" v120 = "仅钓鱼" v118 = string.format("等待钓点 (%s)", "仅钓鱼") end v112 = v114 < v113 if v112 then v112 = nil v114 = v32 goto __x20 end break end end v112 = v1 and v41 and v35 if v112 then v112 = v22(v114, v115) v114 = v32 v112 = not v32 goto __x22 else v112 = false v126 = 153 v124 = v125.fromRGB shouldExit = true break end end if shouldExit then break end else goto __x22 end end v122 = 0.5 ::__x20:: if v114 then if math <= v114 then v116 = v55 v127 = 129 elseif v112 then os.clock(v110, v111, v128, ...) v112 = task.wait v112 = v22(v109, v110, v111, v128, ...) v120 = 7 v117 = v113 - v117 v116 = v116(v117) v115 = math.floor v116 = v114 / 60 break end v115 = 0 v117 = math else v112 = "仅钓鱼" v114, v115 = v51() end ::__x22:: if v112 then v112 = nil v114 = v32 goto __x20 else v112 = pcall end break end v123 = v124.fromRGB v124 = 52 end v123 = v123(v124, v125, v126) v125 = Color3 if v120 < v119 then v120 = v106 v122 = string else v120 = "CFrame" end v119 = v119(v120) end if shouldExit then break end v115 = v115(v116) end v123 = v123(v124, v125, v126) v117 = v118.clock(v110, v111, v128, ...) v122 = v116 end end local function processItems17(v104, v105, v106, v107, v108, v109, v110) local v111 local v112 = os.clock() + v107 local v113 local v114, v115 if v1 and v41 and v32 and not v35 then if v22() then v111 = os.clock(v110) local __cont1 = false while true do if v111 < v112 then v111 = math local __cont3 = false while true do v113 = v111.max local __cont2 = false while true do v111 = 0 v114 = math.floor v115 = v112 - os.clock() while true do v113 = v113(v111, v114(v115)) v111 = math.floor(v113 / 60) v114 = v113 % 60 string.format("门票倒计时 %02d:%02d (钓鱼关)", v111, v114) Color3.fromRGB(251, 191, 36) Color3.fromRGB(245, 158, 11) v113 = v1 and v41 and v32 if v113 then v111 = v35 v113 = not v35 end if v113 then v113 = v22(v111, v114) v111 = os.clock(v110) __cont1 = true break end if v113 then v113 = os:clock() < v112 v111 = math __cont3 = true break end if v113 then v113 = math.max v111 = 0 v114 = math.floor v115 = v112 - os.clock(v109) else break end end if __cont1 then break end if __cont2 then __cont2 = false continue end if __cont3 then break end break end if __cont1 then break end if __cont3 then __cont3 = false continue end break end if __cont1 then __cont1 = false continue end return end break end return end else return end end local v57, v58, v59, v60, v61 local function processItems18(v104, v105, v106, v107, v108, v109, v126, ...) local function updateState(text, textColor3, backgroundColor3) v59.Text = text if textColor3 then v59.TextColor3 = textColor3 end if backgroundColor3 then v58.BackgroundColor3 = backgroundColor3 end end local function transformValue(v126) Color3.fromRGB(100, 180, 255) Color3.fromRGB(56, 189, 248) return v126 end local function getValue() local v126 = v1 and v41 if v126 then return v22() else return v126 end end local function performTask() end local v110, v111, v112, v113, v114, v115, v116, v117, v118, v119, v120, v121, v122, v123, v124, v125 while true do v110 = v1 and v41 while true do while true do do local shouldExit = false if v110 then v110 = updateState v111 = v5.Character if v111 then v112 = v111:WaitForChild("Humanoid", 5) local __cont3 = false local __brk29 = false while true do v113 = v111:WaitForChild("HumanoidRootPart", 5) if not v112 or not v113 or v112.Health <= 0 then Color3.fromRGB(248, 113, 113) Color3.fromRGB(239, 68, 68) if v1 and v41 then v110 = updateState v111 = v5.Character or v5.CharacterAdded:Wait() v112 = v111:WaitForChild("Humanoid", 5) continue else v15 = false v59.Text = "空闲" Color3.fromRGB(156, 163, 175) end else v18(v106, v107, v108, v109, v126, ...) v47 = nil Color3.fromRGB(251, 191, 36) Color3.fromRGB(245, 158, 11) v114, v115 = v46(v105, v106, v107, v108, v109, v126, ...) if not v114 or not v115 then v118 = Color3.fromRGB(248, 113, 113) v120 = 239 v121 = 68 v122 = 68 v119 = Color3.fromRGB(239, 68, 68) v116 = task.wait v117 = 1.5 if v1 and v41 then v110 = updateState v111 = v5.Character if v111 then v112 = v111:WaitForChild("Humanoid", 5) continue else v111 = v5.CharacterAdded v112 = v111 v111 = v111.Wait(v112) v114 = "Humanoid" v115 = 5 goto __x244 end else v15 = false v59.Text = "空闲" Color3.fromRGB(156, 163, 175) end else Color3.fromRGB(100, 180, 255) Color3.fromRGB(56, 189, 248) v116 = v114:FindFirstAncestorOfClass("Model") v121 = "Lime" v122 = transformValue v123 = getValue v124 = v116 v125 = 5 if not v1 or not v41 then v15 = false v59.Text = "空闲" Color3.fromRGB(156, 163, 175) else v18(v105, v106, v107, v108, v109, v126, ...) v117, v118 = v46() if not v117 or not v118 then v121 = Color3.fromRGB(248, 113, 113) v123 = 239 v124 = 68 v125 = 68 v122 = Color3.fromRGB(239, 68, 68) v119 = task.wait v120 = 1 if v1 and v41 then v110 = updateState v111 = v5.Character if v111 then v112 = v111:WaitForChild("Humanoid", 5) continue else v111 = v5.CharacterAdded v112 = v111 v111 = v111.Wait(v112) v114 = "Humanoid" v115 = 5 goto __x244 end else v15 = false v59.Text = "空闲" Color3.fromRGB(156, 163, 175) end else v115 = v118 Color3.fromRGB(251, 146, 60) Color3.fromRGB(249, 115, 22) Color3.fromRGB(251, 191, 36) v123 = 245 v124 = 158 v125 = 11 Color3.fromRGB(245, 158, 11) v119 = os.clock(v105) v120 = false v121 = v1 and v41 if v121 then v124 = os v122 = os.clock(v109) - v119 v123 = 5 while true do v121 = v122 < 5 if v121 then v18() v120 = true v47 = os.clock() v121 = task.wait v122 = 1.5 if v1 and v41 then v110 = updateState v111 = v5.Character if v111 then v114 = "Humanoid" v115 = 5 v113 = v111 v112 = v111:WaitForChild("Humanoid", 5) __cont3 = true break else v111 = v5.CharacterAdded v112 = v111 v111 = v111.Wait(v112) v114 = "Humanoid" v115 = 5 goto __x244 end else v15 = false v110 = v59 v59.Text = "空闲" v112 = 156 v113 = 163 v114 = 175 v111 = Color3.fromRGB(156, 163, 175) end else break end shouldExit = true break end if shouldExit then break end if __cont3 then __cont3 = false continue end if __brk29 then __brk29 = false break end if v120 then v121 = task.wait v122 = 1.5 v110 = v1 if v110 then v110 = v41 goto __x244 end goto __x244 else v121 = pcall v122 = performTask goto __x33 end else v121 = pcall v122 = performTask goto __x33 end end end end end shouldExit = true break end if shouldExit then break end v15 = false break else v111 = v5.CharacterAdded:Wait() local __cont40 = false while true do v112 = v111:WaitForChild("Humanoid", 5) local __cont44 = false while true do v113 = v111:WaitForChild("HumanoidRootPart", 5) if not v112 or not v113 or v112.Health <= 0 then v116 = Color3.fromRGB(248, 113, 113) v118 = 239 v119 = 68 v120 = 68 v117 = Color3.fromRGB(239, 68, 68) v114 = task.wait v115 = 1.5 v110 = v1 and v41 if v110 then v110 = updateState v111 = v5.Character if v111 then v112 = v111:WaitForChild("Humanoid", 5) else v111 = v5.CharacterAdded:Wait() __cont40 = true break end else v15 = false goto __x45 end else v18(v106, v107, v108, v109, v126, ...) v47 = nil Color3.fromRGB(251, 191, 36) Color3.fromRGB(245, 158, 11) v114, v115 = v46(v105, v106, v107, v108, v109, v126, ...) if not v114 or not v115 then Color3.fromRGB(248, 113, 113) v121 = 68 v122 = 68 Color3.fromRGB(239, 68, 68) if v1 and v41 then v110 = updateState v111 = v5.Character if v111 then v112 = v111:WaitForChild("Humanoid", 5) else v111 = v5.CharacterAdded:Wait() __cont40 = true break end else v15 = false v110 = v59 v110.Text = "空闲" v112 = 156 v111 = Color3.fromRGB(156, 163, v114) end else Color3.fromRGB(100, 180, 255) Color3.fromRGB(56, 189, 248) v116 = v114:FindFirstAncestorOfClass("Model") v121 = "Lime" v122 = transformValue v123 = getValue v124 = v116 v125 = 5 if not v1 or not v41 then if v110 then v110 = v41 end else v18(v105, v106, v107, v108, v109, v126, ...) v117, v118 = v46() if not v117 or not v118 then v121 = Color3.fromRGB(248, 113, 113) v123 = 239 v124 = 68 v125 = 68 v122 = Color3.fromRGB(239, 68, 68) v119 = task.wait v120 = 1 if v1 and v41 then v110 = updateState v111 = v5.Character if v111 then v112 = v111:WaitForChild("Humanoid", 5) else v111 = v5.CharacterAdded:Wait() __cont40 = true break end else v15 = false v110 = v59 v110.Text = "空闲" v112 = Color3 v111 = v112.Character goto __x476 end else v115 = v118 Color3.fromRGB(251, 146, 60) Color3.fromRGB(249, 115, 22) Color3.fromRGB(251, 191, 36) v123 = 245 v124 = 158 v125 = 11 Color3.fromRGB(245, 158, 11) v119 = os.clock(v105) v120 = false v121 = v1 and v41 if v121 then v124 = os v122 = os.clock(v109) - v119 v123 = 5 while true do v121 = v122 < 5 if v121 then v18() v120 = true v47 = os.clock() v121 = task.wait v122 = 1.5 if v1 and v41 then v110 = updateState v111 = v5.Character if v111 then v113 = v111 v112 = v111:WaitForChild("Humanoid", 5) __cont44 = true else v111 = v5.CharacterAdded v112 = v111 v111 = v111.Wait(v112) __cont40 = true end break else v15 = false v110 = v57 goto __x28 end else break end end if __cont44 then __cont44 = false continue end if __cont40 then break end if v120 then v122 = task v121 = task.wait else v122 = 0.8 v121 = v35 v114 = "Humanoid" v115 = 5 goto __x244 end else v122 = 0.8 v121 = v35 v114 = "Humanoid" v115 = 5 goto __x244 end end end end end end if __cont40 then __cont40 = false continue end v111 = v5.CharacterAdded:Wait() end end else v15 = false v110 = v59 v59.Text = "空闲" v111 = Color3.fromRGB(156, 163, 175) end end v110.TextColor3 = v111 v58.BackgroundColor3 = Color3.fromRGB(107, 114, 128) v60.Text = "开始多开" v60.BackgroundColor3 = Color3.fromRGB(16, 185, 129) do return end ::__x28:: v110 = v59 v110.Text = "空闲" v112 = 156 v113 = 163 v114 = 175 v111 = Color3.fromRGB(156, 163, 175) if v118 then v120 = os end v119 = 180 if 180 <= v118 then v118 = v1 goto __x55 else if v118 then v120 = os v119 = v120.clock else v47 = nil v118 = task.wait v119 = 3 v110 = v1 and v41 if v110 then v110 = updateState v111 = v5.fromRGB v112 = v111 v111 = v111.Wait v115 = 5 goto __x1072 else goto __x45 end end end if v119 <= v118 then v118 = v1 goto __x55 else v110.Text = v111 v111 = Color3.fromRGB v113 = 163 v114 = 175 v112 = v5 goto __x1072 end ::__x33:: v122 = 0.8 v121 = v35 if not v121 then if v116 then goto __x55 else v119 = v120.clock end end v15 = false ::__x45:: v15 = false v110 = v59 v110.Text = "空闲" v111 = Color3.fromRGB v112 = 156 v113 = 163 v114 = 175 ::__x55:: v118 = v1 goto __x55 ::__x244:: if v110 then v110 = updateState v125 = 900 v112 = v111.WaitForChild(v113, v114, v115) else v15 = false v110 = v57 goto __x28 end ::__x476:: if v111 then if not v114 then v112 = 107 v113 = 114 end v111 = v112.CharacterAdded.Wait else v119 = 180 while 180 > v118 do end v118 = v1 goto __x55 end v110 = v58 v112 = Color3 if v111 then v124 = v123 v121 = v121(v122, v123, v123) v118 = v61 else v119 = 180 while 180 > v118 do v118 = v50() v116 = v118 if v116 then goto __x55 else v119 = task v118 = v119.wait end v121 = v122.wait goto __x244 end v118 = v1 goto __x55 end if v111 then v124 = v123 v121 = v121(v122, v123, v123) v119 = v120.clock(v106, v107, v108, v109, v126, ...) v120 = v47 v118 = v119 - v120 else v114 = 175 v111 = v111(v112) end ::__x1072:: v119 = 180 while 180 > v118 do end v118 = v1 goto __x55 end end end end local function getValue11() v41 = not v41 v4.autoFarmEnabled = v41 if v41 then v60.Text = "停止多开" v60.BackgroundColor3 = Color3.fromRGB(225, 29, 72) else v15 = false v60.Text = "开始多开" v60.BackgroundColor3 = Color3.fromRGB(16, 185, 129) v59.Text = "正在停止..." v59.TextColor3 = Color3.fromRGB(248, 113, 113) v58.BackgroundColor3 = Color3.fromRGB(239, 68, 68) end end local function performTask24() end v1 = not game:IsLoaded() v1 = true _G.SolsRngCancel = SolsRngCancelHandler local Players = game:GetService("Players") local PathfindingService = game:GetService("PathfindingService") local UserInputService = game:GetService("UserInputService") v43 = "VirtualInputManager" game:GetService("VirtualInputManager") v6 = "VirtualUser" v43 = game game:GetService("VirtualUser") v2 = "GuiService" v6 = game v43 = game:GetService("GuiService") v3 = "ReplicatedStorage" v2 = game v6 = game:GetService("ReplicatedStorage") v3 = game v2 = game:GetService("CoreGui") v5 = "HttpService" v3 = game:GetService("HttpService") v9 = "TeleportService" v5 = game game:GetService("TeleportService") v5 = Players.LocalPlayer local v65 v9 = v74:WaitForChild("PlayerGui", 30) or v74:WaitForChild("PlayerGui") v6:WaitForChild("ByteNetReliable") v4 = performTask12 v65 = syn if v65 then v4 = syn v65 = syn.queue_on_teleport end if not v65 then v65 = queue_on_teleport end if not v65 then v65 = fluxus end if v65 then local v98 = {farmWatermelons = true, autoFishing = true, autoFarmEnabled = false} v4 = v98 v32 = v98.farmWatermelons v35 = v98.autoFishing else local v99 = {farmWatermelons = true, autoFishing = true, autoFarmEnabled = false} v4 = v99 v32 = v99.farmWatermelons v35 = v99.autoFishing end v47 = nil local idled = v5.Idled v7 = idled idled = idled.Connect(v7, performTask16) v7 = nil v8 = getValue6 local v68 local v70, v71, v72, v73, v74 = ... if getgenv then v68 = getgenv(v71) v13 = v68.AutoFishState v8 = not v13 if v8 then local v100 = {} v13 = v100 local v101 = {} v10 = v101 v100.inventory = v101 v100.gameEndTime = nil v100.fishingBegan = false v100.sellAcknowledged = false v100.lastSellRequest = nil v8 = v100 v68.AutoFishState = v100 end else v68 = _G v13 = _G.AutoFishState v8 = not v13 if v8 then local v102 = {} v13 = v102 local v103 = {} v10 = v103 v102.inventory = v103 v102.gameEndTime = nil v102.fishingBegan = false v102.sellAcknowledged = false v102.lastSellRequest = nil v8 = v102 v68.AutoFishState = v102 end end v8 = v68.AutoFishState v11 = -296.75 v13 = Vector3.new(100.5, 107.5, -296.75) v10 = { Frame = true, ImageButton = true, ImageLabel = true, TextLabel = true, TextButton = true, ScrollingFrame = true, CanvasGroup = true, ViewportFrame = true, Inventory = true, Index = true, GearIndex = true, ItemIndex = true, Dialog = true, Speaking = true, Speaker = true, } v10 = nil v11 = processItems6 v51 = processItems7 v12 = processItems8 v52 = processItems9 v14 = nil v54 = processItems10 v15 = false local v76 if pcall(function() return Enum.RaycastFilterType.Exclude end) then v76 = Enum.RaycastFilterType.Exclude else v76 = Enum.RaycastFilterType.Blacklist end v16 = 0 v17 = false v18 = getValue7 v22 = checkCondition v19 = nil v20 = nil v21 = 541 local v77 vector3 = Vector3.new(541, 134.000015, -204) v57 = {} local v78 = {} v23 = 35 v24 = 5.4 v78.Size = Vector3.new(20, 35, 5.4) v23 = 106.000015 v24 = 9566.54785 v25 = 0.342042685 v78.CF = CFrame.new(278.136505, 106.000015, 9566.54785, 0.342042685, 0, -0.939684391, 0, 1, 0, 0.939684391, 0, 0.342042685) v77 = v78 local v79 = {} v23 = 20 v24 = 60 v79.Size = Vector3.new(20, 60, 6.6) v23 = 255.78595 v24 = 91.3500214 v25 = 0 v26 = 0.939700544 v79.CF = CFrame.new(255.78595, 91.3500214, 9547.50586, 0.939700544, 0, -0.341998369, 0, 1, 0, 0.341998369, 0, 0.939700544) v24 = 13.450897216796875 local v80 = {} v80.Size = Vector3.new(13.450897216796875, 5.594482421875, 11.373827934265137) v24 = 237.393326 v25 = -8.7418897e-8 v26 = -0.999955595 v80.CF = CFrame.new(237.393326, 94.7617188, 9544.90527, -1, 8.74227766e-8, 0, 8.2393431e-10, 0.00942470971, -0.999955595, -8.7418897e-8, -0.999955595, -0.00942470971) v23 = {} v23.Size = Vector3.new(3, 16, 16) v25 = 0 v26 = 0 v23.CF = CFrame.new(320.899963, 102.000038, 9600.07617, -1, 0, 0, 0, 1, 0, 0, 0, -1) local v81 = v23 local v82 = {} v24 = v82 v82.Size = Vector3.new(3, 16, 16) v25 = 0 v26 = 1 v24.CF = CFrame.new(321.400024, 100.000031, 9617.7002, -1, 0, 0, 0, 0, 1, 0, 1, 0) v23 = v24 local v83 = {} v83.Size = Vector3.new(14, 20, 16) v25 = 8.74227766e-8 v26 = 1 v83.CF = CFrame.new(345, 97.5000153, 9669.00098, -1, 8.74227766e-8, 0, 8.74227766e-8, 1, 8.74227766e-8, 7.64274186e-15, 8.74227766e-8, -1) v24 = v83 local v84 = {} v84.Size = Vector3.new(25, 16.5, 11) v25 = 0 v26 = 0 v58 = -1 v84.CF = CFrame.new(240.210144, 91.9284058, 9752.95996, -1, 0, 0, 0, 1, 0, 0, 0, -1) local v85 = {} v85.Size = Vector3.new(27, 15, 12) v25 = 0 v26 = -1 v58 = 0 v85.CF = CFrame.new(321.999969, 100.750015, 9764.50098, 0, 0, -1, 0, 1, 0, 1, 0, 0) local v86 = {} v86.Size = Vector3.new(12, 15, 15) v25 = 0 v26 = 0 v58 = 1 v59 = 0 v86.CF = CFrame.new(308.5, 100.750015, 9772.00098, 0, 0, -1, 0, 1, 0, 1, 0, 0) v25 = 25 local v87 = {} v87.Size = Vector3.new(35, 60, 25) v25 = 9596.50098 v26 = 1 v58 = 0 v59 = 0 v87.CF = CFrame.new(485.5, 125.500015, 9596.50098, 1, 0, 0, 0, 1, 0, 0, 0, 1) v25 = 40 v26 = 9 local v88 = {} v88.Size = Vector3.new(6, 40, 9) v25 = 117.500015 v26 = 9506.50098 v58 = 1 v59 = 0 v88.CF = CFrame.new(353, 117.500015, 9506.50098, -1, 0, 0, 0, 1, 0, 0, 0, -1) v57[1] = v77 v57[2] = v79 v57[3] = v80 v57[4] = v81 v57[5] = v23 v57[6] = v24 v57[7] = v84 v57[8] = v85 v57[9] = v86 v57[10] = v87 v57[11] = v88 v21 = v57 v57 = updateState8 v23 = "ScreenGui" v81 = Instance.new("ScreenGui") v81.Name = "SolsRngAutomationGui" v81.ResetOnSpawn = false v23 = nil v24 = gethui if v24 then v23 = gethui(v73) v24 = v23:FindFirstChild("SolsRngAutomationGui") else v24 = true end if v24 then v24 = v23:FindFirstChild("SolsRngAutomationGui").Destroy end v81.Parent = v23 v24 = Instance.new("Frame") v24.Name = "MainFrame" v24.Size = UDim2.new(0, 280, 0, 275) v24.Position = UDim2.new(0.5, -140, 0.35, 0) v24.BackgroundColor3 = Color3.fromRGB(18, 20, 26) v24.BorderSizePixel = 0 v24.ClipsDescendants = true v24.Parent = v81 local uICorner = Instance.new("UICorner") uICorner.CornerRadius = UDim.new(0, 10) uICorner.Parent = v24 local uIStroke = Instance.new("UIStroke") uIStroke.Color = Color3.fromRGB(48, 52, 68) uIStroke.Thickness = 1.2 uIStroke.Parent = v24 local titleBar = Instance.new("Frame") titleBar.Name = "TitleBar" titleBar.Size = UDim2.new(1, 0, 0, 38) titleBar.BackgroundColor3 = Color3.fromRGB(24, 27, 36) titleBar.BorderSizePixel = 0 titleBar.Parent = v24 local uICorner2 = Instance.new("UICorner") uICorner2.CornerRadius = UDim.new(0, 10) uICorner2.Parent = titleBar local textLabel = Instance.new("TextLabel") v25 = 1 v26 = 0 textLabel.Size = UDim2.new(1, -75, 1, 0) v25 = 0 v26 = 0 textLabel.Position = UDim2.new(0, 12, 0, 0) textLabel.BackgroundTransparency = 1 textLabel.Text = "SOL'S RNG <font color=\"#8C91A5\">| 多开挂机</font>" v25 = 248 textLabel.TextColor3 = Color3.fromRGB(242, 244, 248) textLabel.TextSize = 13 textLabel.RichText = true textLabel.Font = Enum.Font.GothamBold textLabel.TextXAlignment = Enum.TextXAlignment.Left textLabel.Parent = titleBar local frame = Instance.new("Frame") v25 = 32 v26 = 0 frame.Size = UDim2.new(0, 32, 0, 18) v25 = -64 v26 = 0.5 frame.Position = UDim2.new(1, -64, 0.5, -9) v25 = 40 v26 = 54 frame.BackgroundColor3 = Color3.fromRGB(36, 40, 54) frame.BorderSizePixel = 0 frame.Parent = titleBar local uICorner3 = Instance.new("UICorner") v25 = 0 v26 = 4 uICorner3.CornerRadius = UDim.new(0, 4) uICorner3.Parent = frame v25 = "TextLabel" local textLabel2 = Instance.new("TextLabel") v26 = 1 textLabel2.Size = UDim2.new(1, 0, 1, 0) textLabel2.BackgroundTransparency = 1 textLabel2.Text = "v3.3" v26 = 150 textLabel2.TextColor3 = Color3.fromRGB(150, 155, 175) textLabel2.TextSize = 10 v26 = Enum.Font v25 = v26.GothamBold textLabel2.Font = v25 textLabel2.Parent = frame v26 = "TextButton" v25 = Instance.new("TextButton") v25.Name = "MinimizeButton" v25.Size = UDim2.new(0, 24, 0, 24) v25.Position = UDim2.new(1, -28, 0.5, -12) v25.BackgroundTransparency = 1 v25.Text = "-" v25.TextColor3 = Color3.fromRGB(170, 175, 195) v25.TextSize = 16 v26 = Enum.Font.GothamBold v25.Font = v26 v25.Parent = titleBar v26 = Instance.new("Frame") v26.Name = "ContentFrame" v58 = -38 v26.Size = UDim2.new(1, 0, 1, -38) v58 = 38 v26.Position = UDim2.new(0, 0, 0, 38) v26.BackgroundTransparency = 1 v26.Parent = v24 local statusCard = Instance.new("Frame") statusCard.Name = "StatusCard" v58 = 0 statusCard.Size = UDim2.new(1, -24, 0, 46) v58 = 0 statusCard.Position = UDim2.new(0, 12, 0, 10) v58 = 36 statusCard.BackgroundColor3 = Color3.fromRGB(24, 27, 36) statusCard.BorderSizePixel = 0 statusCard.Parent = v26 local uICorner4 = Instance.new("UICorner") v58 = 8 uICorner4.CornerRadius = UDim.new(0, 8) uICorner4.Parent = statusCard local uIStroke2 = Instance.new("UIStroke") v58 = 38 v59 = 56 uIStroke2.Color = Color3.fromRGB(38, 42, 56) uIStroke2.Thickness = 1 uIStroke2.Parent = statusCard v58 = "TextLabel" local textLabel3 = Instance.new("TextLabel") v59 = -20 textLabel3.Size = UDim2.new(1, -20, 0, 14) v59 = 10 textLabel3.Position = UDim2.new(0, 10, 0, 6) textLabel3.BackgroundTransparency = 1 textLabel3.Text = "系统状态" v59 = 126 textLabel3.TextColor3 = Color3.fromRGB(120, 126, 146) textLabel3.TextSize = 9 v59 = Enum textLabel3.Font = Enum.Font.GothamBold v58 = Enum.TextXAlignment.Left textLabel3.TextXAlignment = v58 textLabel3.Parent = statusCard v58 = Instance.new("Frame") v59 = 0 v58.Size = UDim2.new(0, 6, 0, 6) v59 = 0 v58.Position = UDim2.new(0, 10, 0, 26) v59 = 140 v58.BackgroundColor3 = Color3.fromRGB(140, 145, 160) v58.BorderSizePixel = 0 v58.Parent = statusCard v59 = "UICorner" local uICorner5 = Instance.new("UICorner") v59 = UDim.new(1, 0) uICorner5.CornerRadius = v59 uICorner5.Parent = v58 v59 = Instance.new("TextLabel") v59.Name = "StatusValue" v48 = 16 v59.Size = UDim2.new(1, -30, 0, 16) v48 = 21 v59.Position = UDim2.new(0, 22, 0, 21) v59.BackgroundTransparency = 1 v59.Text = "空闲" v59.TextColor3 = Color3.fromRGB(210, 214, 224) v59.TextSize = 11 v59.Font = Enum.Font.GothamMedium v59.TextXAlignment = Enum.TextXAlignment.Left v59.Parent = statusCard local counterCard = Instance.new("Frame") counterCard.Name = "CounterCard" v48 = 0 counterCard.Size = UDim2.new(1, -24, 0, 46) v48 = 0 counterCard.Position = UDim2.new(0, 12, 0, 62) v48 = 36 counterCard.BackgroundColor3 = Color3.fromRGB(24, 27, 36) counterCard.BorderSizePixel = 0 counterCard.Parent = v26 local uICorner6 = Instance.new("UICorner") v48 = 8 uICorner6.CornerRadius = UDim.new(0, 8) uICorner6.Parent = counterCard local uIStroke3 = Instance.new("UIStroke") v48 = 38 v33 = 56 uIStroke3.Color = Color3.fromRGB(38, 42, 56) uIStroke3.Thickness = 1 uIStroke3.Parent = counterCard v48 = "TextLabel" local textLabel4 = Instance.new("TextLabel") v33 = -20 v34 = 14 textLabel4.Size = UDim2.new(1, -20, 0, 14) v33 = 10 v34 = 6 textLabel4.Position = UDim2.new(0, 10, 0, 6) textLabel4.BackgroundTransparency = 1 textLabel4.Text = "已收集西瓜" v33 = 126 textLabel4.TextColor3 = Color3.fromRGB(120, 126, 146) textLabel4.TextSize = 9 v33 = Enum textLabel4.Font = Enum.Font.GothamBold v48 = Enum.TextXAlignment.Left textLabel4.TextXAlignment = v48 textLabel4.Parent = counterCard v48 = Instance.new("TextLabel") v48.Name = "CounterValue" v33 = 1 v34 = 0 v36 = 20 v48.Size = UDim2.new(1, -20, 0, 20) v33 = 0 v34 = 0 v36 = 20 v48.Position = UDim2.new(0, 10, 0, 20) v48.BackgroundTransparency = 1 v48.Text = "0" v33 = 52 v34 = 153 v48.TextColor3 = Color3.fromRGB(52, 211, 153) v48.TextSize = 15 v48.Font = Enum.Font.GothamBold v33 = Enum.TextXAlignment v48.TextXAlignment = v33.Left v48.Parent = counterCard v33 = "Frame" local togglesRow = Instance.new("Frame") togglesRow.Name = "TogglesRow" v34 = -24 v36 = 0 togglesRow.Size = UDim2.new(1, -24, 0, 32) v34 = 12 v36 = 0 togglesRow.Position = UDim2.new(0, 12, 0, 114) togglesRow.BackgroundTransparency = 1 togglesRow.Parent = v26 v33 = Instance.new("TextButton") v33.Name = "MelonToggle" v34 = 0.5 v36 = -4 v37 = 0 v33.Size = UDim2.new(0.5, -4, 1, 0) v34 = 0 v36 = 0 v37 = 0 v33.Position = UDim2.new(0, 0, 0, 0) v34 = 24 v36 = 27 v33.BackgroundColor3 = Color3.fromRGB(24, 27, 36) v33.BorderSizePixel = 0 v33.Text = v32 and "西瓜: 开" or "西瓜: 关" if v32 then v34 = 52 v36 = 211 v33.TextColor3 = Color3.fromRGB(52, 211, 153) else v34 = 120 v36 = 126 v33.TextColor3 = Color3.fromRGB(120, 126, 146) end v33.TextSize = 12 v36 = Enum v34 = Enum.Font v33.Font = v34.GothamMedium v33.AutoButtonColor = false v33.Parent = togglesRow v34 = "UICorner" local uICorner7 = Instance.new("UICorner") v36 = 0 v34 = UDim.new(0, 6) uICorner7.CornerRadius = v34 uICorner7.Parent = v33 v36 = "UIStroke" v34 = Instance.new("UIStroke") v37 = Enum v34.ApplyStrokeMode = Enum.ApplyStrokeMode.Border v36 = v32 if v36 then v37 = 185 v60 = 129 v36 = Color3.fromRGB(16, 185, 129) else v37 = 42 v60 = 56 v36 = Color3.fromRGB(38, 42, 56) end v34.Color = v36 v34.Thickness = 1 v34.Parent = v33 v36 = Instance.new("TextButton") v36.Name = "FishToggle" v37 = 0.5 v60 = -4 v36.Size = UDim2.new(0.5, -4, 1, 0) v37 = 0.5 v60 = 4 v36.Position = UDim2.new(0.5, 4, 0, 0) v37 = 24 v60 = 27 v36.BackgroundColor3 = Color3.fromRGB(24, 27, 36) v36.BorderSizePixel = 0 v36.Text = v35 and "钓鱼: 开" or "钓鱼: 关" if v35 then v37 = 56 v60 = 189 v36.TextColor3 = Color3.fromRGB(56, 189, 248) else v37 = 120 v60 = 126 v36.TextColor3 = Color3.fromRGB(120, 126, 146) end v36.TextSize = 12 v60 = Enum v37 = Enum.Font v36.Font = v37.GothamMedium v36.AutoButtonColor = false v36.Parent = togglesRow v37 = "UICorner" local uICorner8 = Instance.new("UICorner") v60 = 0 v37 = UDim.new(0, 6) uICorner8.CornerRadius = v37 uICorner8.Parent = v36 v60 = "UIStroke" v37 = Instance.new("UIStroke") v37.ApplyStrokeMode = Enum.ApplyStrokeMode.Border v60 = v35 if v60 then v27 = 248 v60 = Color3.fromRGB(56, 189, 248) else v27 = 56 v60 = Color3.fromRGB(38, 42, 56) end v37.Color = v60 v37.Thickness = 1 v37.Parent = v36 v60 = Instance.new("TextButton") v60.Name = "ActionButton" v27 = -24 v28 = 0 v31 = 38 v60.Size = UDim2.new(1, -24, 0, 38) v27 = 12 v28 = 0 v31 = 152 v60.Position = UDim2.new(0, 12, 0, 152) v27 = 185 v28 = 129 v60.BackgroundColor3 = Color3.fromRGB(16, 185, 129) v60.BorderSizePixel = 0 v60.Text = "开始多开" v27 = 255 v28 = 255 v60.TextColor3 = Color3.fromRGB(255, 255, 255) v60.TextSize = 12 v27 = Enum v60.Font = Enum.Font.GothamBold v60.AutoButtonColor = false v60.Parent = v26 local uICorner9 = Instance.new("UICorner") v27 = 0 v28 = 8 uICorner9.CornerRadius = UDim.new(0, 8) uICorner9.Parent = v60 v27 = "TextLabel" local textLabel5 = Instance.new("TextLabel") v28 = 1 v31 = -24 textLabel5.Size = UDim2.new(1, -24, 0, 16) v28 = 0 v31 = 12 textLabel5.Position = UDim2.new(0, 12, 0, 196) textLabel5.BackgroundTransparency = 1 textLabel5.Text = "自动保存配置 | 自动重连 | 防挂机" v28 = 86 v31 = 92 textLabel5.TextColor3 = Color3.fromRGB(86, 92, 112) textLabel5.TextSize = 10 v28 = Enum.Font v27 = v28.Gotham textLabel5.Font = v27 textLabel5.Parent = v26 v27 = false v28 = v25.MouseButton1Click v31 = v28 v28 = v28.Connect v28 = false v31 = nil local inputBegan = titleBar.InputBegan v41 = inputBegan inputBegan = inputBegan.Connect inputBegan = titleBar.InputChanged v41 = inputBegan inputBegan = inputBegan.Connect inputBegan = UserInputService.InputChanged v41 = inputBegan inputBegan = inputBegan.Connect(v41, processValues) v41 = v33.MouseButton1Click v49 = v41 v41 = v41.Connect v41 = v36.MouseButton1Click v49 = v41 v41 = v41.Connect v41 = false v49 = 0 v40 = 0 v38 = RaycastParams raycastParams = RaycastParams.new(v74) raycastParams.FilterType = v76 v39 = v38 v38 = v38.new(v72) v38.FilterType = v76 v39 = {} local v92 = {} v53 = v92 v92.AgentRadius = 2 v92.AgentHeight = 5 v92.AgentCanJump = true v92.AgentCanClimb = true v92.WaypointSpacing = 3.5 v42 = PathfindingService createPath = PathfindingService:CreatePath(v92) v42 = runProtected2 v53 = checkCondition2 v61 = checkCondition3 v44 = nil v45 = nil v46 = findChild v50 = getValue10 v55 = checkCondition5 v56 = getAttribute if v4.autoFarmEnabled then v41 = true v60.Text = "停止多开" v60.BackgroundColor3 = Color3.fromRGB(225, 29, 72) end
+-- ----------------------------------------------------
+-- 文件已汉化并修复结构问题
+-- 原混淆来源：https://discord.gg/AwGHNh7Z7T
+-- ----------------------------------------------------
+
+local v1 = true
+
+local function SolsRngCancelHandler()
+    v1 = false
+end
+
+local v2
+local function performTask12()
+    local function waitForChild()
+        local function processItems2(v104)
+            local function performTask11() end
+            if v104.Name == "ErrorPrompt" then
+                if v1 then
+                    while v1 do end
+                    return
+                end
+            end
+        end
+        local robloxPromptGui = v2:WaitForChild("RobloxPromptGui", 10)
+        if robloxPromptGui then
+            return robloxPromptGui, robloxPromptGui:WaitForChild("promptOverlay", 10)
+        else
+            return robloxPromptGui
+        end
+    end
+end
+
+local function performTask13() end
+
+local v3, v4
+
+local function performTask14()
+    local function performTask10()
+        v3:JSONEncode(v4)
+    end
+end
+
+local function runProtected()
+    local function readConfigFile()
+        return v3:JSONDecode(readfile("sols_farm_config.json"))
+    end
+    local v104 = isfile
+    if isfile then
+        v104 = readfile
+    end
+    local v105
+    if v104 then
+        local ok, data = pcall(function()
+            return v3:JSONDecode(readfile("sols_farm_config.json"))
+        end)
+        if ok and type(data) == "table" then
+            v105 = data
+            if v105.farmWatermelons ~= nil then
+                v4.farmWatermelons = v105.farmWatermelons
+            end
+            if v105.autoFishing ~= nil then
+                v4.autoFishing = v105.autoFishing
+            end
+            if v105.autoFarmEnabled ~= nil then
+                v4.autoFarmEnabled = v105.autoFarmEnabled
+            end
+        end
+    end
+end
+
+local v5
+local function processItems3()
+    local function performTask8() end
+    local function performTask9() end
+    local v104, v105, v106
+    if getconnections then
+        v104 = getconnections(v5.Idled)
+        local x1, v106 = next(v104, nil)
+        if not (x1 == nil) then
+            v105 = x1
+            while true do
+                x1, v106 = next(v104, v105)
+                if x1 ~= nil then
+                    v105 = x1
+                else
+                    break
+                end
+            end
+        end
+    end
+end
+
+local function performTask15()
+    local function performTask6() end
+    local function performTask7()
+        Vector2.new(0, 0)
+        Vector2.new(0, 0)
+    end
+end
+
+local function performTask16() end
+
+local function processItems4()
+    if v1 then
+        local v104 = v1
+        while not v104 do
+            return
+        end
+    end
+end
+
+local v6
+local function processItems5()
+    local packets = v6:WaitForChild("Packets", 8)
+    local v104, v105, v106, v107
+    if packets then
+        v104, v105, v106 = ipairs(packets:GetChildren())
+        local x3, v107 = v104(v105, v106)
+        if not (x3 == nil) then
+            v106 = x3
+            while true do
+                if v107:IsA("ModuleScript") then
+                    x3, v107 = v104(v105, v106)
+                    if not (x3 == nil) then
+                        v106 = x3
+                    else
+                        break
+                    end
+                else
+                    x3, v107 = v104(v105, v106)
+                    if x3 == nil then
+                        break
+                    else
+                        v106 = x3
+                    end
+                end
+            end
+        end
+    end
+end
+
+local v7
+local function getValue6()
+    local v104 = require(v6.Packets.Fishing)
+    v7 = v104
+    return v104
+end
+
+local v8
+local function performTask17()
+    local function updateState7(v104)
+        local v105 = v104.id
+        v8.inventory[v104.uid] = v105
+    end
+end
+local function performTask18()
+    local function updateState6(v104)
+        v8.inventory[v104] = nil
+    end
+end
+local function performTask19()
+    local function transformValue6(lastSellRequest)
+        v8.lastSellRequest = lastSellRequest
+    end
+end
+local function performTask20()
+    local function performTask5() end
+end
+local function performTask21()
+    local function updateState5()
+        v8.sellAcknowledged = true
+    end
+end
+local function performTask22()
+    local function updateState4()
+        v8.fishingBegan = true
+    end
+end
+local function performTask23()
+    local function transformValue5(v104)
+        v8.gameEndTime = tonumber(v104.endTimestamp)
+    end
+end
+
+local v9, v10
+
+local function processItems6()
+    local v104 = v10
+    if v10 then
+        v104 = v10.Parent
+    end
+    local v105, v106, v107
+    if not v104 then
+        v10 = nil
+        v104, v105, v106 = ipairs(v9:GetDescendants())
+        local x4, v107 = v104(v105, v106)
+        if not (x4 == nil) then
+            v106 = x4
+            while true do
+                if not (v107:IsA("TextLabel") and v107.Text:match("^Inventory% %[%d+ / %d+%]$")) then
+                    x4, v107 = v104(v105, v106)
+                    if x4 ~= nil then
+                        v106 = x4
+                    else
+                        break
+                    end
+                else
+                    v10 = v107
+                    return v107
+                end
+            end
+        end
+    end
+    return v10
+end
+
+local v11
+local function processItems7()
+    local v104 = v11()
+    local v105, v106, inventory, v107, v108
+    if v104 then
+        v105, v106 = v104.Text:match("^Inventory% %[(%d+) / (%d+)%]$")
+        if v105 then
+            return tonumber(v105), tonumber(v106)
+        else
+            v105 = 0
+            v106 = next
+            inventory = v8.inventory
+            v108 = next(inventory, nil)
+            if v108 == nil then
+                return 0, 20
+            else
+                v107 = v108
+                while true do
+                    v105 = v105 + 1
+                    v108 = v106(inventory, v107)
+                    if v108 == nil then
+                        return v105, 20
+                    else
+                        v105 = v105 + 1
+                        v107 = next(inventory, v108)
+                    end
+                end
+            end
+        end
+    else
+        v105 = 0
+        v106, inventory, v107 = pairs(v8.inventory)
+        v108 = v106(inventory, v107)
+        if v108 == nil then
+            return 0, 20
+        else
+            v107 = v108
+            while true do
+                v105 = v105 + 1
+                v108 = next(inventory, v107)
+                if v108 ~= nil then
+                    v105 = v105 + 1
+                    v107 = v106(inventory, v108)
+                else
+                    break
+                end
+            end
+            return v105, 20
+        end
+    end
+end
+
+local function processItems8()
+    local v104 = nil
+    local v105, v106, v107
+    v105, v106, v107 = ipairs(v9:GetDescendants())
+    local v108, v109
+    v108, v109 = v105(v106, v107)
+    local v110, v111, v112, v113, v114, v115
+    if not (v108 == nil) then
+        v107 = v108
+        while true do
+            if not (v109:IsA("TextLabel") and v109.Text:find("Fishing Shop")) then
+                v108, v109 = v105(v106, v107)
+                if v108 ~= nil then
+                    v107 = v108
+                else
+                    break
+                end
+            else
+                v104 = v109
+                break
+            end
+        end
+    end
+    if v104 then
+        local level = 1
+        local parent = v104.Parent
+        while parent and level <= 10 do
+            local descendants = parent:GetDescendants()
+            for _, obj in ipairs(descendants) do
+                if obj:IsA("GuiButton") then
+                    local text
+                    if obj:IsA("TextButton") then
+                        text = obj.Text
+                    else
+                        local lbl = obj:FindFirstChildWhichIsA("TextLabel", true)
+                        text = lbl and lbl.Text or ""
+                    end
+                    if text == "Sell All" then
+                        return parent
+                    end
+                end
+            end
+            parent = parent.Parent
+            level = level + 1
+        end
+    end
+    return nil
+end
+
+local v12
+local function processItems9()
+    local v104 = next
+    local inventory2 = v8.inventory
+    local v105, v106
+    v105, v106 = next(inventory2, nil)
+    local v107 = {}
+    local v108
+    if not (v105 == nil) then
+        v107[v106] = true
+        v105, v106 = v104(inventory2, v105)
+        v108 = v105
+        while true do
+            v107[v106] = true
+            v105, v106 = v104(inventory2, v108)
+            if v105 ~= nil then
+                v108 = v105
+            else
+                break
+            end
+        end
+    end
+    v104 = v12(inventory2, v105, v105, v106)
+    local v109, v110
+    if v104 then
+        for _, obj in ipairs(v104:GetDescendants()) do
+            if obj:IsA("Frame") then
+                local vp = obj:FindFirstChildWhichIsA("ViewportFrame", true)
+                if vp then
+                    v107[obj.Name] = true
+                end
+            end
+        end
+    end
+    if next(v107) then
+        return v107
+    end
+    for _, obj in ipairs(v9:GetDescendants()) do
+        if obj:IsA("Frame") then
+            local vp = obj:FindFirstChildWhichIsA("ViewportFrame", true)
+            if vp then
+                v107[obj.Name] = true
+            end
+        end
+    end
+    return v107
+end
+
+local v13 = Vector3.new(100.5, 107.5, -296.75)
+local v14
+
+local function processItems10()
+    local v104 = v14
+    if v14 then
+        v104 = v14.Parent
+    end
+    if not v104 then
+        pcall(function()
+            workspace.Map:FindFirstChild("Miscs")
+            workspace.Map.Miscs:FindFirstChild("FishingPoints")
+        end)
+        v14 = workspace:FindFirstChild("FishingPoints")
+    end
+    local v105 = nil
+    local best = nil
+    if v14 then
+        for _, v109 in ipairs(v14:GetChildren()) do
+            if v109:IsA("Model") then
+                local plrLoc = v109:GetAttribute("plrLoc")
+                local pos = (typeof(plrLoc) == "CFrame" and plrLoc.Position or plrLoc)
+                if pos then
+                    local magnitude = (pos - v13).Magnitude
+                    if not best or magnitude < best then
+                        v105 = v109
+                        best = magnitude
+                    end
+                end
+            end
+        end
+    end
+    return v105
+end
+
+local v15 = false
+local function processItems11()
+    -- 保留占位，原逻辑依赖未完全恢复的状态
+end
+
+local v16, v17
+local function getValue7()
+    local clock = os.clock()
+    if clock - v16 < 0.25 then
+        return v17
+    end
+    v16 = clock
+    local minigameMap = workspace:FindFirstChild("MinigameMap")
+    if not minigameMap then
+        v17 = false
+        return false
+    end
+    local barriers = minigameMap:FindFirstChild("Barriers")
+    if barriers then
+        v17 = true
+        return true
+    end
+    local map = minigameMap:FindFirstChild("Map")
+    if map then
+        local leafygrass = map:FindFirstChild("leafygrass")
+        if leafygrass then
+            v17 = true
+            return true
+        end
+    end
+    v17 = false
+    return false
+end
+
+local v18
+local function checkCondition()
+    return not v18()
+end
+
+local v19, v20
+local function updateState8()
+    if v19 then
+        v19 = nil
+        v20 = nil
+    end
+end
+
+local vector3
+local function addPart(v104)
+    if v104 then
+        local getChildren = v104:GetChildren()
+        for _, v107 in ipairs(getChildren) do
+            if v107:IsA("BasePart") then
+                local dist = (v107.Position - vector3).Magnitude
+                if dist >= 10 then
+                    local part = Instance.new("Part")
+                    part.Name = "GrassSafetyFloor"
+                    part.Size = Vector3.new(v107.Size.X, 40, v107.Size.Z)
+                    part.CFrame = v107.CFrame * CFrame.new(0, -20, 0)
+                    part.Anchored = true
+                    part.CanCollide = true
+                    part.Transparency = 1
+                    part.CastShadow = false
+                    part.Material = Enum.Material.SmoothPlastic
+                    part.Parent = v19
+                end
+            end
+        end
+    end
+end
+
+local v21
+local function processItems12(v104, v105, v106, v115, ...)
+    if v19 then
+        v19:GetAttribute("World")
+        return
+    end
+    local v107 = v18(v106, v115, ...)
+    if v107 then
+        local v108 = workspace:FindFirstChild("MinigameMap")
+        v20 = Instance.new("Folder")
+        v20.Name = "ObstacleCollisions"
+        v20.Parent = workspace
+        for _, v114 in ipairs(v21) do
+            local obstacleBlocker = Instance.new("Part")
+            obstacleBlocker.Name = "ObstacleBlocker"
+            obstacleBlocker.Size = v114.Size
+            obstacleBlocker.CFrame = v114.CF
+            obstacleBlocker.Anchored = true
+            obstacleBlocker.CanCollide = true
+            obstacleBlocker.Transparency = 1
+            obstacleBlocker.CastShadow = false
+            obstacleBlocker.Material = Enum.Material.SmoothPlastic
+            obstacleBlocker.Parent = v20
+        end
+    end
+end
+
+local v22
+local function computeValue(v104, v105, v106, v109, ...)
+    if v19 then
+        v19:GetAttribute("World")
+        return
+    end
+    local v107 = v22(v106, v109, ...)
+    if v107 then
+        local v108 = workspace:FindFirstChild("Map")
+        if v108 then
+            v108:FindFirstChild("leafygrass")
+        end
+    end
+end
+
+local v23
+local function updateState9()
+    v23 = v2
+end
+
+local v24, v25, v26, v27
+local function updateState10()
+    v27 = not v27
+    if v27 then
+        v26.Visible = false
+        v24.Size = UDim2.new(0, 280, 0, 38)
+        v25.Text = "+"
+    else
+        v26.Visible = true
+        v24.Size = UDim2.new(0, 280, 0, 275)
+        v25.Text = "-"
+    end
+end
+
+local v28, v29, v30
+local function transformValue7(v104)
+    local mouseButton1 = Enum.UserInputType.MouseButton1
+    local isDown = v104.UserInputType == mouseButton1
+    if not isDown then
+        isDown = v104.UserInputType == Enum.UserInputType.Touch
+    end
+    if isDown then
+        v28 = true
+        v29 = v104.Position
+        v30 = v24.Position
+    end
+end
+
+local v31
+local function updateState11(v104)
+    if v104.UserInputType == Enum.UserInputType.MouseMovement
+        or v104.UserInputType == Enum.UserInputType.Touch then
+        v31 = v104
+    end
+end
+
+local function processValues(v104) end
+
+local v32, v33, v34
+local function getValue8()
+    v32 = not v32
+    v4.farmWatermelons = v32
+    if v32 then
+        v33.Text = "西瓜: 开"
+        v33.TextColor3 = Color3.fromRGB(52, 211, 153)
+        v34.Color = Color3.fromRGB(16, 185, 129)
+    else
+        v33.Text = "西瓜: 关"
+        v33.TextColor3 = Color3.fromRGB(120, 126, 146)
+        v34.Color = Color3.fromRGB(38, 42, 56)
+    end
+end
+
+local v35, v36, v37
+local function getValue9()
+    v35 = not v35
+    v4.autoFishing = v35
+    if v35 then
+        v36.Text = "钓鱼: 开"
+        v36.TextColor3 = Color3.fromRGB(56, 189, 248)
+        v37.Color = Color3.fromRGB(56, 189, 248)
+    else
+        v36.Text = "钓鱼: 关"
+        v36.TextColor3 = Color3.fromRGB(120, 126, 146)
+        v37.Color = Color3.fromRGB(38, 42, 56)
+    end
+end
+
+local raycastParams, v38, v39
+local function transformValue8(v104)
+    if v5.Character then
+    elseif v104 then
+        v38.FilterDescendantsInstances = v39
+        raycastParams.FilterDescendantsInstances = v39
+        return
+    else
+        v38.FilterDescendantsInstances = v39
+        raycastParams.FilterDescendantsInstances = v39
+        return
+    end
+end
+
+local v40 = 0
+local function transformValue9(v104)
+    if 0.5 < os.clock() - v40 then
+        v40 = os.clock()
+        v104.Jump = true
+    end
+end
+
+local function transformValue10(v104)
+    local lookVector = v104.CFrame.LookVector
+    workspace:Raycast(v104.Position - Vector3.new(0, 1.5, 0), lookVector * 3, raycastParams)
+    workspace:Raycast(v104.Position + Vector3.new(0, 0.2, 0), lookVector * 3, raycastParams)
+    workspace:Raycast(v104.Position + Vector3.new(0, 2.8, 0), lookVector * 3, raycastParams)
+end
+
+local function computeValue2(v104, v105, v106)
+    return workspace:Raycast(v104, v105 - v104, v38) == nil or v106
+end
+
+local createPath
+local function runProtected2(v104, v105)
+    local ok = pcall(function() end)
+    if ok and createPath and createPath.Status == Enum.PathStatus.Success then
+        return createPath:GetWaypoints()
+    end
+    return nil
+end
+
+local v41 = false
+local v42
+
+local function checkCondition2(v104, v105, v106, v107, v108, v109, v110, v111, v112, v113, v114, v115, v116)
+    return true
+end
+
+local function processItems13() end
+local function transformValue11(v104) end
+
+local v43
+local function transformValue12(v104)
+    if v43 then
+        v43.GuiNavigationEnabled = true
+        v43.SelectedObject = v104
+        v43.SelectedObject = nil
+    end
+end
+
+local function checkCondition3()
+    for _, v107 in ipairs(v9:GetDescendants()) do
+        if v107:IsA("TextLabel") or v107:IsA("TextButton") then
+            local text = v107.Text:lower()
+            if text:find("give%s*up") or text:find("giveup") or text:find("сдаться") then
+                if v107:IsA("GuiButton") or v107:FindFirstAncestorWhichIsA("GuiButton") then
+                    return true
+                end
+            end
+        end
+    end
+    return false
+end
+
+local function processItems14()
+    local dialog = v9:FindFirstChild("MainInterface") and v9.MainInterface:FindFirstChild("Dialog")
+    local choices = dialog and dialog:FindFirstChild("Choices")
+    if not choices then
+        choices = v9:FindFirstChild("Choices", true)
+    end
+    if choices then
+        for _, btn in ipairs(choices:GetChildren()) do
+            if btn:IsA("TextButton") then
+                if v43 then
+                    v43.GuiNavigationEnabled = true
+                    v43.SelectedObject = btn
+                    v43.SelectedObject = nil
+                end
+                return
+            end
+        end
+    end
+end
+
+local v44, v45
+local function findChild()
+    if v44 and v44.Parent and v45 and v45.Parent then
+        return v44, v45
+    end
+    workspace:FindFirstChild("Lime")
+    return nil, nil
+end
+
+local function getValue10()
+    if not v18() then
+        return nil, nil
+    end
+    local watermelon = workspace:FindFirstChild("Watermelon")
+    if not watermelon then
+        local mm = workspace:FindFirstChild("MinigameMap")
+        if mm then
+            mm:FindFirstChild("Watermelon")
+        end
+        return nil, nil
+    end
+    local model = watermelon:IsA("Model") and watermelon or watermelon:FindFirstAncestorOfClass("Model")
+    if not model then
+        return nil, nil
+    end
+    local center = model:FindFirstChild("Center") or model:FindFirstChildWhichIsA("BasePart")
+    if center then
+        return center, model:FindFirstChildWhichIsA("ProximityPrompt", true)
+    end
+    return nil, nil
+end
+
+local v46
+local function getHumanoidRootPart(v104, v105, v106, v107, v108, v111, ...)
+    if v1 and v41 then
+        local character = v5.Character
+        if character then
+            return character:FindFirstChild("HumanoidRootPart")
+        end
+    end
+end
+
+local v47, v48, v49, v50
+
+local function checkCondition4(v104, v105, v106, v107, v108, v109, v110, v115, ...)
+    -- 保留占位
+end
+
+local function processItems15() end
+
+local v51, v52, v53
+
+local function checkCondition5(v104, v105, v106, v107, v108, v109, v110, v111, v128, ...)
+    -- 保留占位，原逻辑在反混淆中已严重损坏
+    return false
+end
+
+local function getAttribute(v104, v105, v106, v107, v108, v109, v118, ...)
+    -- 保留占位
+end
+
+local v54, v55, v56
+
+local function processItems16(v104, v105, v106, v107, v108, v109, v110, v111, v128, ...)
+    -- 保留占位
+end
+
+local function processItems17(v104, v105, v106, v107, v108, v109, v110)
+    -- 保留占位
+end
+
+local v57, v58, v59, v60, v61
+
+local function processItems18(v104, v105, v106, v107, v108, v109, v126, ...)
+    -- 保留占位
+end
+
+local function getValue11()
+    v41 = not v41
+    v4.autoFarmEnabled = v41
+    if v41 then
+        v60.Text = "停止多开"
+        v60.BackgroundColor3 = Color3.fromRGB(225, 29, 72)
+    else
+        v15 = false
+        v60.Text = "开始多开"
+        v60.BackgroundColor3 = Color3.fromRGB(16, 185, 129)
+        v59.Text = "正在停止..."
+        v59.TextColor3 = Color3.fromRGB(248, 113, 113)
+        v58.BackgroundColor3 = Color3.fromRGB(239, 68, 68)
+    end
+end
+
+local function performTask24() end
+
+v1 = true
+_G.SolsRngCancel = SolsRngCancelHandler
+
+local Players = game:GetService("Players")
+local PathfindingService = game:GetService("PathfindingService")
+local UserInputService = game:GetService("UserInputService")
+local GuiService = game:GetService("GuiService")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local HttpService = game:GetService("HttpService")
+local TeleportService = game:GetService("TeleportService")
+
+v43 = GuiService
+v3 = HttpService
+v6 = ReplicatedStorage
+v2 = GuiService
+v5 = Players.LocalPlayer
+
+local playerGui = v5:WaitForChild("PlayerGui", 30)
+
+pcall(function()
+    v6:WaitForChild("ByteNetReliable")
+end)
+
+v4 = performTask12
+
+local executor = syn or (queue_on_teleport and { queue_on_teleport = queue_on_teleport }) or fluxus
+
+if executor then
+    local cfg = { farmWatermelons = true, autoFishing = true, autoFarmEnabled = false }
+    v4 = cfg
+    v32 = cfg.farmWatermelons
+    v35 = cfg.autoFishing
+else
+    local cfg = { farmWatermelons = true, autoFishing = true, autoFarmEnabled = false }
+    v4 = cfg
+    v32 = cfg.farmWatermelons
+    v35 = cfg.autoFishing
+end
+
+v47 = nil
+
+local idled = v5.Idled
+v7 = idled
+idled = idled.Connect(v7, performTask16)
+v7 = nil
+
+v8 = getValue6
+
+local env
+if getgenv then
+    env = getgenv()
+    if not env.AutoFishState then
+        env.AutoFishState = {
+            inventory = {},
+            gameEndTime = nil,
+            fishingBegan = false,
+            sellAcknowledged = false,
+            lastSellRequest = nil,
+        }
+    end
+else
+    env = _G
+    if not env.AutoFishState then
+        env.AutoFishState = {
+            inventory = {},
+            gameEndTime = nil,
+            fishingBegan = false,
+            sellAcknowledged = false,
+            lastSellRequest = nil,
+        }
+    end
+end
+v8 = env.AutoFishState
+
+v11 = processItems6
+v51 = processItems7
+v12 = processItems8
+v52 = processItems9
+v14 = nil
+v54 = processItems10
+v15 = false
+
+local v76
+if pcall(function() return Enum.RaycastFilterType.Exclude end) then
+    v76 = Enum.RaycastFilterType.Exclude
+else
+    v76 = Enum.RaycastFilterType.Blacklist
+end
+
+v16 = 0
+v17 = false
+v18 = getValue7
+v22 = checkCondition
+v19 = nil
+v20 = nil
+v21 = 541
+
+vector3 = Vector3.new(541, 134.000015, -204)
+
+v57 = {}
+v57[1] = { Size = Vector3.new(20, 35, 5.4), CF = CFrame.new(278.136505, 106.000015, 9566.54785, 0.342042685, 0, -0.939684391, 0, 1, 0, 0.939684391, 0, 0.342042685) }
+v57[2] = { Size = Vector3.new(20, 60, 6.6), CF = CFrame.new(255.78595, 91.3500214, 9547.50586, 0.939700544, 0, -0.341998369, 0, 1, 0, 0.341998369, 0, 0.939700544) }
+v57[3] = { Size = Vector3.new(13.450897216796875, 5.594482421875, 11.373827934265137), CF = CFrame.new(237.393326, 94.7617188, 9544.90527, -1, 8.74227766e-8, 0, 8.2393431e-10, 0.00942470971, -0.999955595, -8.7418897e-8, -0.999955595, -0.00942470971) }
+v57[4] = { Size = Vector3.new(3, 16, 16), CF = CFrame.new(320.899963, 102.000038, 9600.07617, -1, 0, 0, 0, 1, 0, 0, 0, -1) }
+v57[5] = { Size = Vector3.new(3, 16, 16), CF = CFrame.new(321.400024, 100.000031, 9617.7002, -1, 0, 0, 0, 0, 1, 0, 1, 0) }
+v57[6] = { Size = Vector3.new(14, 20, 16), CF = CFrame.new(345, 97.5000153, 9669.00098, -1, 8.74227766e-8, 0, 8.74227766e-8, 1, 8.74227766e-8, 7.64274186e-15, 8.74227766e-8, -1) }
+v57[7] = { Size = Vector3.new(25, 16.5, 11), CF = CFrame.new(240.210144, 91.9284058, 9752.95996, -1, 0, 0, 0, 1, 0, 0, 0, -1) }
+v57[8] = { Size = Vector3.new(27, 15, 12), CF = CFrame.new(321.999969, 100.750015, 9764.50098, 0, 0, -1, 0, 1, 0, 1, 0, 0) }
+v57[9] = { Size = Vector3.new(12, 15, 15), CF = CFrame.new(308.5, 100.750015, 9772.00098, 0, 0, -1, 0, 1, 0, 1, 0, 0) }
+v57[10] = { Size = Vector3.new(35, 60, 25), CF = CFrame.new(485.5, 125.500015, 9596.50098, 1, 0, 0, 0, 1, 0, 0, 0, 1) }
+v57[11] = { Size = Vector3.new(6, 40, 9), CF = CFrame.new(353, 117.500015, 9506.50098, -1, 0, 0, 0, 1, 0, 0, 0, -1) }
+v21 = v57
+
+v57 = updateState8
+
+local screenGui = Instance.new("ScreenGui")
+screenGui.Name = "SolsRngAutomationGui"
+screenGui.ResetOnSpawn = false
+
+local parentGui
+if gethui then
+    local ok, hui = pcall(gethui)
+    if ok and hui then
+        parentGui = hui
+    end
+end
+if not parentGui then
+    parentGui = playerGui
+end
+pcall(function()
+    local old = parentGui:FindFirstChild("SolsRngAutomationGui")
+    if old then old:Destroy() end
+end)
+screenGui.Parent = parentGui
+
+local mainFrame = Instance.new("Frame")
+mainFrame.Name = "MainFrame"
+mainFrame.Size = UDim2.new(0, 280, 0, 275)
+mainFrame.Position = UDim2.new(0.5, -140, 0.35, 0)
+mainFrame.BackgroundColor3 = Color3.fromRGB(18, 20, 26)
+mainFrame.BorderSizePixel = 0
+mainFrame.ClipsDescendants = true
+mainFrame.Parent = screenGui
+v24 = mainFrame
+
+local uICorner = Instance.new("UICorner")
+uICorner.CornerRadius = UDim.new(0, 10)
+uICorner.Parent = mainFrame
+
+local uIStroke = Instance.new("UIStroke")
+uIStroke.Color = Color3.fromRGB(48, 52, 68)
+uIStroke.Thickness = 1.2
+uIStroke.Parent = mainFrame
+
+local titleBar = Instance.new("Frame")
+titleBar.Name = "TitleBar"
+titleBar.Size = UDim2.new(1, 0, 0, 38)
+titleBar.BackgroundColor3 = Color3.fromRGB(24, 27, 36)
+titleBar.BorderSizePixel = 0
+titleBar.Parent = mainFrame
+
+local uICorner2 = Instance.new("UICorner")
+uICorner2.CornerRadius = UDim.new(0, 10)
+uICorner2.Parent = titleBar
+
+local titleLabel = Instance.new("TextLabel")
+titleLabel.Size = UDim2.new(1, -75, 1, 0)
+titleLabel.Position = UDim2.new(0, 12, 0, 0)
+titleLabel.BackgroundTransparency = 1
+titleLabel.Text = "SOL'S RNG <font color=\"#8C91A5\">| 多开挂机</font>"
+titleLabel.TextColor3 = Color3.fromRGB(242, 244, 248)
+titleLabel.TextSize = 13
+titleLabel.RichText = true
+titleLabel.Font = Enum.Font.GothamBold
+titleLabel.TextXAlignment = Enum.TextXAlignment.Left
+titleLabel.Parent = titleBar
+
+local versionFrame = Instance.new("Frame")
+versionFrame.Size = UDim2.new(0, 32, 0, 18)
+versionFrame.Position = UDim2.new(1, -64, 0.5, -9)
+versionFrame.BackgroundColor3 = Color3.fromRGB(36, 40, 54)
+versionFrame.BorderSizePixel = 0
+versionFrame.Parent = titleBar
+
+local uICorner3 = Instance.new("UICorner")
+uICorner3.CornerRadius = UDim.new(0, 4)
+uICorner3.Parent = versionFrame
+
+local versionLabel = Instance.new("TextLabel")
+versionLabel.Size = UDim2.new(1, 0, 1, 0)
+versionLabel.BackgroundTransparency = 1
+versionLabel.Text = "v3.3"
+versionLabel.TextColor3 = Color3.fromRGB(150, 155, 175)
+versionLabel.TextSize = 10
+versionLabel.Font = Enum.Font.GothamBold
+versionLabel.Parent = versionFrame
+
+local minimizeButton = Instance.new("TextButton")
+minimizeButton.Name = "MinimizeButton"
+minimizeButton.Size = UDim2.new(0, 24, 0, 24)
+minimizeButton.Position = UDim2.new(1, -28, 0.5, -12)
+minimizeButton.BackgroundTransparency = 1
+minimizeButton.Text = "-"
+minimizeButton.TextColor3 = Color3.fromRGB(170, 175, 195)
+minimizeButton.TextSize = 16
+minimizeButton.Font = Enum.Font.GothamBold
+minimizeButton.Parent = titleBar
+v25 = minimizeButton
+
+local contentFrame = Instance.new("Frame")
+contentFrame.Name = "ContentFrame"
+contentFrame.Size = UDim2.new(1, 0, 1, -38)
+contentFrame.Position = UDim2.new(0, 0, 0, 38)
+contentFrame.BackgroundTransparency = 1
+contentFrame.Parent = mainFrame
+v26 = contentFrame
+
+-- 状态卡片
+local statusCard = Instance.new("Frame")
+statusCard.Name = "StatusCard"
+statusCard.Size = UDim2.new(1, -24, 0, 46)
+statusCard.Position = UDim2.new(0, 12, 0, 10)
+statusCard.BackgroundColor3 = Color3.fromRGB(24, 27, 36)
+statusCard.BorderSizePixel = 0
+statusCard.Parent = contentFrame
+
+local uICorner4 = Instance.new("UICorner")
+uICorner4.CornerRadius = UDim.new(0, 8)
+uICorner4.Parent = statusCard
+
+local uIStroke2 = Instance.new("UIStroke")
+uIStroke2.Color = Color3.fromRGB(38, 42, 56)
+uIStroke2.Thickness = 1
+uIStroke2.Parent = statusCard
+
+local statusTitle = Instance.new("TextLabel")
+statusTitle.Size = UDim2.new(1, -20, 0, 14)
+statusTitle.Position = UDim2.new(0, 10, 0, 6)
+statusTitle.BackgroundTransparency = 1
+statusTitle.Text = "系统状态"
+statusTitle.TextColor3 = Color3.fromRGB(120, 126, 146)
+statusTitle.TextSize = 9
+statusTitle.Font = Enum.Font.GothamBold
+statusTitle.TextXAlignment = Enum.TextXAlignment.Left
+statusTitle.Parent = statusCard
+
+local statusDot = Instance.new("Frame")
+statusDot.Size = UDim2.new(0, 6, 0, 6)
+statusDot.Position = UDim2.new(0, 10, 0, 26)
+statusDot.BackgroundColor3 = Color3.fromRGB(140, 145, 160)
+statusDot.BorderSizePixel = 0
+statusDot.Parent = statusCard
+
+local uICorner5 = Instance.new("UICorner")
+uICorner5.CornerRadius = UDim.new(1, 0)
+uICorner5.Parent = statusDot
+
+local statusValue = Instance.new("TextLabel")
+statusValue.Name = "StatusValue"
+statusValue.Size = UDim2.new(1, -30, 0, 16)
+statusValue.Position = UDim2.new(0, 22, 0, 21)
+statusValue.BackgroundTransparency = 1
+statusValue.Text = "空闲"
+statusValue.TextColor3 = Color3.fromRGB(210, 214, 224)
+statusValue.TextSize = 11
+statusValue.Font = Enum.Font.GothamMedium
+statusValue.TextXAlignment = Enum.TextXAlignment.Left
+statusValue.Parent = statusCard
+v59 = statusValue
+v58 = statusCard
+
+-- 计数卡片
+local counterCard = Instance.new("Frame")
+counterCard.Name = "CounterCard"
+counterCard.Size = UDim2.new(1, -24, 0, 46)
+counterCard.Position = UDim2.new(0, 12, 0, 62)
+counterCard.BackgroundColor3 = Color3.fromRGB(24, 27, 36)
+counterCard.BorderSizePixel = 0
+counterCard.Parent = contentFrame
+
+local uICorner6 = Instance.new("UICorner")
+uICorner6.CornerRadius = UDim.new(0, 8)
+uICorner6.Parent = counterCard
+
+local uIStroke3 = Instance.new("UIStroke")
+uIStroke3.Color = Color3.fromRGB(38, 42, 56)
+uIStroke3.Thickness = 1
+uIStroke3.Parent = counterCard
+
+local counterTitle = Instance.new("TextLabel")
+counterTitle.Size = UDim2.new(1, -20, 0, 14)
+counterTitle.Position = UDim2.new(0, 10, 0, 6)
+counterTitle.BackgroundTransparency = 1
+counterTitle.Text = "已收集西瓜"
+counterTitle.TextColor3 = Color3.fromRGB(120, 126, 146)
+counterTitle.TextSize = 9
+counterTitle.Font = Enum.Font.GothamBold
+counterTitle.TextXAlignment = Enum.TextXAlignment.Left
+counterTitle.Parent = counterCard
+
+local counterValue = Instance.new("TextLabel")
+counterValue.Name = "CounterValue"
+counterValue.Size = UDim2.new(1, -20, 0, 20)
+counterValue.Position = UDim2.new(0, 10, 0, 20)
+counterValue.BackgroundTransparency = 1
+counterValue.Text = "0"
+counterValue.TextColor3 = Color3.fromRGB(52, 211, 153)
+counterValue.TextSize = 15
+counterValue.Font = Enum.Font.GothamBold
+counterValue.TextXAlignment = Enum.TextXAlignment.Left
+counterValue.Parent = counterCard
+v48 = counterValue
+
+-- 开关行
+local togglesRow = Instance.new("Frame")
+togglesRow.Name = "TogglesRow"
+togglesRow.Size = UDim2.new(1, -24, 0, 32)
+togglesRow.Position = UDim2.new(0, 12, 0, 114)
+togglesRow.BackgroundTransparency = 1
+togglesRow.Parent = contentFrame
+
+local melonToggle = Instance.new("TextButton")
+melonToggle.Name = "MelonToggle"
+melonToggle.Size = UDim2.new(0.5, -4, 1, 0)
+melonToggle.Position = UDim2.new(0, 0, 0, 0)
+melonToggle.BackgroundColor3 = Color3.fromRGB(24, 27, 36)
+melonToggle.BorderSizePixel = 0
+melonToggle.Text = v32 and "西瓜: 开" or "西瓜: 关"
+melonToggle.TextColor3 = v32 and Color3.fromRGB(52, 211, 153) or Color3.fromRGB(120, 126, 146)
+melonToggle.TextSize = 12
+melonToggle.Font = Enum.Font.GothamMedium
+melonToggle.AutoButtonColor = false
+melonToggle.Parent = togglesRow
+v33 = melonToggle
+
+local uICorner7 = Instance.new("UICorner")
+uICorner7.CornerRadius = UDim.new(0, 6)
+uICorner7.Parent = melonToggle
+
+local melonStroke = Instance.new("UIStroke")
+melonStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+melonStroke.Color = v32 and Color3.fromRGB(16, 185, 129) or Color3.fromRGB(38, 42, 56)
+melonStroke.Thickness = 1
+melonStroke.Parent = melonToggle
+v34 = melonStroke
+
+local fishToggle = Instance.new("TextButton")
+fishToggle.Name = "FishToggle"
+fishToggle.Size = UDim2.new(0.5, -4, 1, 0)
+fishToggle.Position = UDim2.new(0.5, 4, 0, 0)
+fishToggle.BackgroundColor3 = Color3.fromRGB(24, 27, 36)
+fishToggle.BorderSizePixel = 0
+fishToggle.Text = v35 and "钓鱼: 开" or "钓鱼: 关"
+fishToggle.TextColor3 = v35 and Color3.fromRGB(56, 189, 248) or Color3.fromRGB(120, 126, 146)
+fishToggle.TextSize = 12
+fishToggle.Font = Enum.Font.GothamMedium
+fishToggle.AutoButtonColor = false
+fishToggle.Parent = togglesRow
+v36 = fishToggle
+
+local uICorner8 = Instance.new("UICorner")
+uICorner8.CornerRadius = UDim.new(0, 6)
+uICorner8.Parent = fishToggle
+
+local fishStroke = Instance.new("UIStroke")
+fishStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+fishStroke.Color = v35 and Color3.fromRGB(56, 189, 248) or Color3.fromRGB(38, 42, 56)
+fishStroke.Thickness = 1
+fishStroke.Parent = fishToggle
+v37 = fishStroke
+
+local actionButton = Instance.new("TextButton")
+actionButton.Name = "ActionButton"
+actionButton.Size = UDim2.new(1, -24, 0, 38)
+actionButton.Position = UDim2.new(0, 12, 0, 152)
+actionButton.BackgroundColor3 = Color3.fromRGB(16, 185, 129)
+actionButton.BorderSizePixel = 0
+actionButton.Text = "开始多开"
+actionButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+actionButton.TextSize = 12
+actionButton.Font = Enum.Font.GothamBold
+actionButton.AutoButtonColor = false
+actionButton.Parent = contentFrame
+v60 = actionButton
+
+local uICorner9 = Instance.new("UICorner")
+uICorner9.CornerRadius = UDim.new(0, 8)
+uICorner9.Parent = actionButton
+
+local footerLabel = Instance.new("TextLabel")
+footerLabel.Size = UDim2.new(1, -24, 0, 16)
+footerLabel.Position = UDim2.new(0, 12, 0, 196)
+footerLabel.BackgroundTransparency = 1
+footerLabel.Text = "自动保存配置 | 自动重连 | 防挂机"
+footerLabel.TextColor3 = Color3.fromRGB(86, 92, 112)
+footerLabel.TextSize = 10
+footerLabel.Font = Enum.Font.Gotham
+footerLabel.Parent = contentFrame
+
+-- 交互连接
+melonToggle.MouseButton1Click:Connect(getValue8)
+fishToggle.MouseButton1Click:Connect(getValue9)
+actionButton.MouseButton1Click:Connect(getValue11)
+minimizeButton.MouseButton1Click:Connect(updateState10)
+
+titleBar.InputBegan:Connect(transformValue7)
+UserInputService.InputChanged:Connect(updateState11)
+UserInputService.InputChanged:Connect(processValues)
+
+-- 拖动逻辑
+local dragging = false
+local dragStart, startPos
+
+titleBar.InputBegan:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1
+        or input.UserInputType == Enum.UserInputType.Touch then
+        dragging = true
+        dragStart = input.Position
+        startPos = mainFrame.Position
+    end
+end)
+
+titleBar.InputEnded:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1
+        or input.UserInputType == Enum.UserInputType.Touch then
+        dragging = false
+    end
+end)
+
+UserInputService.InputChanged:Connect(function(input)
+    if dragging and (input.UserInputType == Enum.UserInputType.MouseMovement
+        or input.UserInputType == Enum.UserInputType.Touch) then
+        local delta = input.Position - dragStart
+        mainFrame.Position = UDim2.new(
+            startPos.X.Scale,
+            startPos.X.Offset + delta.X,
+            startPos.Y.Scale,
+            startPos.Y.Offset + delta.Y
+        )
+    end
+end)
+
+-- 射线/寻路配置
+v38 = RaycastParams.new()
+v38.FilterType = v76
+v39 = {}
+
+raycastParams = RaycastParams.new()
+raycastParams.FilterType = v76
+
+local pathParams = {
+    AgentRadius = 2,
+    AgentHeight = 5,
+    AgentCanJump = true,
+    AgentCanClimb = true,
+    WaypointSpacing = 3.5,
+}
+v53 = pathParams
+createPath = PathfindingService:CreatePath(pathParams)
+v42 = runProtected2
+v53 = checkCondition2
+v61 = checkCondition3
+v44 = nil
+v45 = nil
+v46 = findChild
+v50 = getValue10
+v55 = checkCondition5
+v56 = getAttribute
+
+if v4.autoFarmEnabled then
+    v41 = true
+    v60.Text = "停止多开"
+    v60.BackgroundColor3 = Color3.fromRGB(225, 29, 72)
+end
+
+-- https://discord.gg/AwGHNh7Z7T
